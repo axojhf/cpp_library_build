@@ -61,7 +61,7 @@ jobs:
           # $env:Path = "C:\mingw64\bin;C:\ninja;C:\ffmpeg\include;C:\ffmpeg\lib;C:\ffmpeg\bin;$env:Path"
           # $env:Path = "C:\openssl-1.1\x64\lib;C:\openssl-1.1\x64\include;C:\mingw64\bin;C:\ninja;C:\ffmpeg\include;C:\ffmpeg\lib;C:\ffmpeg\bin;C:\Strawberry\perl\bin;C:\hostedtoolcache\windows\Python\3.7.9\x64;C:\Program Files\PowerShell\7;C:\Program Files\CMake\bin;C:\Windows\System32\WindowsPowerShell\v1.0"
           $env:Path = "C:\mingw64\bin;C:\ninja;$env:Path"
-          vcpkg install libogg:x64-mingw64-static libvorbis:x64-mingw64-static libflac:x64-mingw64-static libopus:x64-mingw64-static libmpcdec:x64-mingw64-static
+          vcpkg install libogg:x64-mingw-static libvorbis:x64-mingw-static libflac:x64-mingw-static libopus:x64-mingw-static libmpcdec:x64-mingw-static
           cd C:\libsndfile-1.1.0
           mkdir build
           cd build
