@@ -27,7 +27,7 @@ jobs:
           msystem: mingw64
       - shell: msys2 {0}
         run: |
-          # pacman -S --noconfirm git ninja
+          pacman -S --noconfirm make
           export PATH="/c/mingw64/bin:/c/ninja:$PATH"
           cd /c/fftw-3.3.10
           ls
@@ -95,7 +95,7 @@ jobs:
           cd C:\vcpkg
           git pull
           ./bootstrap-vcpkg.bat
-          vcpkg install libsndfile[external-libs, mpeg]:x64-mingw-static
+          vcpkg install libsndfile['external-libs', mpeg]:x64-mingw-static
       - name: Package Directories
         run: |
           7z a libsndfile_MinGW64_Static.7z C:\libsndfile
