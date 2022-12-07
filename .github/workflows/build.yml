@@ -99,7 +99,7 @@ jobs:
           ninja install
       - name: Package Directories
         run: |
-          7z a libsndfile_MinGW64_Static.7z C:\libsndfile
+          7z a libsndfile_MinGW64_Static.7z C:\libsndfile C:\vcpkg\installed\x64-mingw-static\lib C:\vcpkg\installed\x64-mingw-static\include
       - uses: actions/upload-artifact@v3
         with:
           name: libsndfile_MinGW64_Static
