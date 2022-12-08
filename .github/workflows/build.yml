@@ -27,7 +27,7 @@ jobs:
           mkdir build
           cd build
           git clone --depth=1 https://github.com/LukasBanana/GaussianLib.git
-          cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DLLGL_BUILD_RENDERER_OPENGL=ON -DLLGL_BUILD_RENDERER_DIRECT3D11=ON -DLLGL_BUILD_RENDERER_DIRECT3D12=ON -DGaussLib_INCLUDE_DIR:STRING=C:\LLGL\build\GaussianLib\include -DCMAKE_INSTALL_PREFIX=C:\llgl_mingw64
+          cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DLLGL_BUILD_STATIC_LIB=ON -DLLGL_BUILD_RENDERER_OPENGL=ON -DLLGL_BUILD_RENDERER_DIRECT3D11=ON -DLLGL_BUILD_RENDERER_DIRECT3D12=ON -DGaussLib_INCLUDE_DIR:STRING=C:\LLGL\build\GaussianLib\include -DCMAKE_INSTALL_PREFIX=C:\llgl_mingw64
           ninja
           ninja install
       - name: Package Directories
