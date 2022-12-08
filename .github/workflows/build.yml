@@ -32,10 +32,10 @@ jobs:
           git clone --depth=1 https://github.com/LukasBanana/GaussianLib.git
           cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DLLGL_BUILD_STATIC_LIB=ON -DLLGL_BUILD_RENDERER_OPENGL=ON -DLLGL_BUILD_RENDERER_DIRECT3D11=ON -DLLGL_BUILD_RENDERER_DIRECT3D12=ON -DGaussLib_INCLUDE_DIR:STRING=C:\LLGL\build\GaussianLib\include -DCMAKE_INSTALL_PREFIX=C:\llgl_msvc
           ninja
-          ninja install
+          ls
       - name: Package Directories
         run: |
-          7z a LLGL_MSVC_Static.7z C:\llgl_msvc
+          7z a LLGL_MSVC_Static.7z C:\LLGL\build
       - uses: actions/upload-artifact@v3
         with:
           name: LLGL_MSVC_Static
@@ -65,10 +65,10 @@ jobs:
           git clone --depth=1 https://github.com/LukasBanana/GaussianLib.git
           cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DLLGL_BUILD_RENDERER_OPENGL=ON -DLLGL_BUILD_RENDERER_DIRECT3D11=ON -DLLGL_BUILD_RENDERER_DIRECT3D12=ON -DGaussLib_INCLUDE_DIR:STRING=C:\LLGL\build\GaussianLib\include -DCMAKE_INSTALL_PREFIX=C:\llgl_msvc
           ninja
-          ninja install
+          ls
       - name: Package Directories
         run: |
-          7z a LLGL_MSVC_Share.7z C:\llgl_msvc
+          7z a LLGL_MSVC_Share.7z C:\LLGL\build
       - uses: actions/upload-artifact@v3
         with:
           name: LLGL_MSVC_Share
