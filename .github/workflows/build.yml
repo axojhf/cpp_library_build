@@ -18,7 +18,7 @@ jobs:
           7z x -aoa -oC:\ninja ninja-win.zip
           rm ninja-win.zip
           cd C:/
-          git clone --depth=1 https://github.com/LukasBanana/LLGL.git
+          git clone --depth=1 https://github.com/axojhf/LLGL.git
 
       - name: Build
         run: |
