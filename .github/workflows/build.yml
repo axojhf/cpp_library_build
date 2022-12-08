@@ -35,7 +35,7 @@ jobs:
           ls
       - name: Package Directories
         run: |
-          7z a LLGL_MSVC_Static.7z C:\LLGL\build
+          7z a LLGL_MSVC_Static.7z C:\LLGL\build\build C:\LLGL\build\GaussianLib\include C:\LLGL\include
       - uses: actions/upload-artifact@v3
         with:
           name: LLGL_MSVC_Static
@@ -68,7 +68,7 @@ jobs:
           ls
       - name: Package Directories
         run: |
-          7z a LLGL_MSVC_Share.7z C:\LLGL\build
+          7z a LLGL_MSVC_Share.7z C:\LLGL\build\build C:\LLGL\build\GaussianLib\include C:\LLGL\include
       - uses: actions/upload-artifact@v3
         with:
           name: LLGL_MSVC_Share
