@@ -5,21 +5,24 @@ on:
     branches:
       - llgl
 jobs:
-  fftw-vcpkg-mingw64-build:
-    name: FFTW3 Vcpkg MinGW64 Build
+  LLGL-MSVC-build:
+    name: LLGL MSVC Build
     runs-on: windows-2019
     steps:
-      - name: Set Mingw64 Ninja
+      - name: Set Ninja
         run: |
-          (new-object System.Net.WebClient).DownloadFile('https://github.com/cristianadam/mingw-builds/releases/download/v11.2.0-rev3/x86_64-11.2.0-release-posix-seh-rt_v9-rev3.7z','mingw64.7z')
-          7z x -aoa -oC:\ mingw64.7z
-          rm mingw64.7z
+          # (new-object System.Net.WebClient).DownloadFile('https://github.com/cristianadam/mingw-builds/releases/download/v11.2.0-rev3/x86_64-11.2.0-release-posix-seh-rt_v9-rev3.7z','mingw64.7z')
+          # 7z x -aoa -oC:\ mingw64.7z
+          # rm mingw64.7z
           (new-object System.Net.WebClient).DownloadFile('https://github.com/ninja-build/ninja/releases/download/v1.11.1/ninja-win.zip','ninja-win.zip')
           7z x -aoa -oC:\ninja ninja-win.zip
           rm ninja-win.zip
           cd C:/
-          git clone --depth=1 https://github.com/axojhf/LLGL.git
-
+          git clone --depth=1 https://github.com/LukasBanana/LLGL.git
+      - uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: amd64
+          toolset: 14.2
       - name: Build
         run: |
           $env:Path = "C:\mingw64\bin;C:\ninja;$env:Path"
@@ -27,13 +30,46 @@ jobs:
           mkdir build
           cd build
           git clone --depth=1 https://github.com/LukasBanana/GaussianLib.git
-          cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DLLGL_BUILD_STATIC_LIB=ON -DLLGL_BUILD_RENDERER_OPENGL=ON -DLLGL_BUILD_RENDERER_DIRECT3D11=ON -DLLGL_BUILD_RENDERER_DIRECT3D12=ON -DGaussLib_INCLUDE_DIR:STRING=C:\LLGL\build\GaussianLib\include -DCMAKE_INSTALL_PREFIX=C:\llgl_mingw64
+          cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DLLGL_BUILD_STATIC_LIB=ON -DLLGL_BUILD_RENDERER_OPENGL=ON -DLLGL_BUILD_RENDERER_DIRECT3D11=ON -DLLGL_BUILD_RENDERER_DIRECT3D12=ON -DGaussLib_INCLUDE_DIR:STRING=C:\LLGL\build\GaussianLib\include -DCMAKE_INSTALL_PREFIX=C:\llgl_msvc
           ninja
           ninja install
       - name: Package Directories
         run: |
-          7z a LLGL_MinGW64_Static.7z C:\llgl_mingw64
+          7z a LLGL_MSVC_Static.7z C:\llgl_msvc
       - uses: actions/upload-artifact@v3
         with:
-          name: LLGL_MinGW64_Static
-          path: LLGL_MinGW64_Static.7z
+          name: LLGL_MSVC_Static
+          path: LLGL_MSVC_Static.7z
+
+  LLGL-MSVC-Dynamic-build:
+    name: LLGL MSVC Dynamic Build
+    runs-on: windows-2019
+    steps:
+      - name: Set Ninja
+        run: |
+          (new-object System.Net.WebClient).DownloadFile('https://github.com/ninja-build/ninja/releases/download/v1.11.1/ninja-win.zip','ninja-win.zip')
+          7z x -aoa -oC:\ninja ninja-win.zip
+          rm ninja-win.zip
+          cd C:/
+          git clone --depth=1 https://github.com/LukasBanana/LLGL.git
+      - uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: amd64
+          toolset: 14.2
+      - name: Build
+        run: |
+          $env:Path = "C:\mingw64\bin;C:\ninja;$env:Path"
+          cd C:\LLGL
+          mkdir build
+          cd build
+          git clone --depth=1 https://github.com/LukasBanana/GaussianLib.git
+          cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DLLGL_BUILD_RENDERER_OPENGL=ON -DLLGL_BUILD_RENDERER_DIRECT3D11=ON -DLLGL_BUILD_RENDERER_DIRECT3D12=ON -DGaussLib_INCLUDE_DIR:STRING=C:\LLGL\build\GaussianLib\include -DCMAKE_INSTALL_PREFIX=C:\llgl_msvc
+          ninja
+          ninja install
+      - name: Package Directories
+        run: |
+          7z a LLGL_MSVC_Share.7z C:\llgl_msvc
+      - uses: actions/upload-artifact@v3
+        with:
+          name: LLGL_MSVC_Share
+          path: LLGL_MSVC_Share.7z
