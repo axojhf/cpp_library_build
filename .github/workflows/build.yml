@@ -40,7 +40,7 @@ jobs:
           cmake --install . --config Release
       - name: Package Directories
         run: |
-          7z a coost_MinGW64_Static.7z C:\vcpkg\installed\x64-mingw-static\lib C:\vcpkg\installed\x64-mingw-static\include
+          7z a coost_MinGW64_Static.7z C:\vcpkg\installed\x64-mingw-static\lib C:\vcpkg\installed\x64-mingw-static\include C:\coost\install
       - uses: actions/upload-artifact@v3
         with:
           name: coost_vcpkg_MinGW64_Static
