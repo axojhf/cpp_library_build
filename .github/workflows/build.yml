@@ -1,11 +1,11 @@
-name: FFTW3 Build
+name: Libhv Build
 
 on:
   push:
     branches:
-      - main
+      - libhv
 jobs:
-  BuildStatic:
+  BuildMinGW64Static:
     runs-on: windows-2019
     steps:
       - name: Set Mingw64
