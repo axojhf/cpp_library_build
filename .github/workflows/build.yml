@@ -59,7 +59,7 @@ jobs:
           cd C:\vcpkg
           git pull
           ./bootstrap-vcpkg.bat
-          vcpkg install zstd:x64-mingw-static zlib:x64-mingw-static brotli:x64-mingw-static nghttp2:x64-mingw-static
+          vcpkg install zstd:x64-mingw-static zlib:x64-mingw-static brotli:x64-mingw-static nghttp2:x64-mingw-static libssh2:x64-mingw-static
           cd C:/curl-7.87.0
           mkdir build
           cd build
