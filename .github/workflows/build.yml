@@ -77,6 +77,9 @@ jobs:
           (new-object System.Net.WebClient).DownloadFile('https://github.com/ninja-build/ninja/releases/download/v1.11.1/ninja-win.zip','ninja-win.zip')
           7z x -aoa -oC:\ninja ninja-win.zip
           rm ninja-win.zip
+          (new-object System.Net.WebClient).DownloadFile('https://boostorg.jfrog.io/artifactory/main/release/1.81.0/source/boost_1_81_0_rc1.7z','boost.7z')
+          7z x -aoa -oC:\ boost.7z
+          rm boost.7z
       - uses: ilammy/msvc-dev-cmd@v1
         with:
           arch: amd64
@@ -104,6 +107,9 @@ jobs:
           (new-object System.Net.WebClient).DownloadFile('https://github.com/ninja-build/ninja/releases/download/v1.11.1/ninja-win.zip','ninja-win.zip')
           7z x -aoa -oC:\ninja ninja-win.zip
           rm ninja-win.zip
+          (new-object System.Net.WebClient).DownloadFile('https://boostorg.jfrog.io/artifactory/main/release/1.81.0/source/boost_1_81_0_rc1.7z','boost.7z')
+          7z x -aoa -oC:\ boost.7z
+          rm boost.7z
       - uses: ilammy/msvc-dev-cmd@v1
         with:
           arch: amd64
