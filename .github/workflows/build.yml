@@ -5,48 +5,10 @@ on:
     branches:
       - main
 jobs:
-  # fftw-mingw64-build:
-  #   name: FFTW3 MinGW64 Build
-  #   runs-on: windows-2019
-  #   steps:
-  #     - name: Set Mingw64 Ninja
-  #       run: |
-  #         (new-object System.Net.WebClient).DownloadFile('https://github.com/cristianadam/mingw-builds/releases/download/v11.2.0-rev3/x86_64-11.2.0-release-posix-seh-rt_v9-rev3.7z','mingw64.7z')
-  #         7z x -aoa -oC:\ mingw64.7z
-  #         del mingw64.7z
-  #         (new-object System.Net.WebClient).DownloadFile('https://github.com/ninja-build/ninja/releases/download/v1.11.1/ninja-win.zip','ninja-win.zip')
-  #         7z x -aoa -oC:\ninja ninja-win.zip
-  #         del ninja-win.zip
-  #         (new-object System.Net.WebClient).DownloadFile('https://www.fftw.org/fftw-3.3.10.tar.gz','fftw-3.3.10.tar.gz')
-  #         7z x -aoa fftw-3.3.10.tar.gz
-  #         7z x -aoa -oC:\ fftw-3.3.10.tar
-  #         del fftw-3.3.10.tar.gz
-  #         del fftw-3.3.10.tar
-  #     - uses: msys2/setup-msys2@v2
-  #       with:
-  #         msystem: mingw64
-  #     - shell: msys2 {0}
-  #       run: |
-  #         pacman -S --noconfirm make
-  #         export PATH="/c/mingw64/bin:/c/ninja:$PATH"
-  #         cd /c/fftw-3.3.10
-  #         ls
-  #         ./configure --prefix=/c/FFTW --enable-shared=no --enable-static=yes --enable-threads --enable-sse2 --enable-avx --enable-avx2
-  #         mingw32-make -j
-  #         mingw32-make install
-  #     - name: Package Directories
-  #       run: |
-  #         7z a FFTW_MinGW64_Static.7z C:\FFTW
-  #     - uses: actions/upload-artifact@v3
-  #       with:
-  #         name: FFTW_MinGW64_Static
-  #         path: FFTW_MinGW64_Static.7z
-
-  fftw-vcpkg-mingw64-build:
-    name: FFTW3 Vcpkg MinGW64 Build
+  BuildStatic:
     runs-on: windows-2019
     steps:
-      - name: Set Mingw64 Ninja
+      - name: Set Mingw64
         run: |
           (new-object System.Net.WebClient).DownloadFile('https://github.com/cristianadam/mingw-builds/releases/download/v11.2.0-rev3/x86_64-11.2.0-release-posix-seh-rt_v9-rev3.7z','mingw64.7z')
           7z x -aoa -oC:\ mingw64.7z
@@ -54,80 +16,52 @@ jobs:
           (new-object System.Net.WebClient).DownloadFile('https://github.com/ninja-build/ninja/releases/download/v1.11.1/ninja-win.zip','ninja-win.zip')
           7z x -aoa -oC:\ninja ninja-win.zip
           rm ninja-win.zip
-      - name: Build
+          (new-object System.Net.WebClient).DownloadFile('https://github.com/axojhf/build_openssl/releases/download/build/openssl3_mingw_static.7z','openssl3.7z')
+          7z x -aoa -oC:\ openssl3.7z
+          rm openssl3.7z
+          # 将C:\openssl3\lib64改名为C:\openssl3\lib
+          mv C:\openssl3\lib64 C:\openssl3\lib
+          (new-object System.Net.WebClient).DownloadFile('https://github.com/nghttp2/nghttp2/releases/download/v1.51.0/nghttp2-1.51.0.tar.gz','nghttp2.tar.gz')
+          7z x -aoa nghttp2.tar.gz
+          7z x -aoa -oC:\ nghttp2.tar
+          rm nghttp2.tar.gz
+          rm nghttp2.tar
+          (new-object System.Net.WebClient).DownloadFile('https://github.com/madler/zlib/releases/download/v1.2.13/zlib1213.zip','zlib.zip')
+          7z x -aoa -oC:\ zlib.zip
+          rm zlib.zip
+          cd C:\
+          git clone --depth=1 https://github.com/ithewei/libhv.git
+      - shell: powershell
         run: |
-          $env:Path = "C:\mingw64\bin;C:\ninja;$env:Path"
-          cd C:\vcpkg
-          git pull
-          ./bootstrap-vcpkg.bat
-          vcpkg install fftw3[avx2,threads]:x64-mingw-static
-      - name: Package Directories
-        run: |
-          7z a FFTW_MinGW64_Static.7z C:\vcpkg\installed\x64-mingw-static\lib C:\vcpkg\installed\x64-mingw-static\include
-      - uses: actions/upload-artifact@v3
-        with:
-          name: FFTW_vcpkg_MinGW64_Static
-          path: FFTW_MinGW64_Static.7z
+          $env:PATH = "C:\mingw64\bin;C:\ninja;C:\openssl3\lib;C:\openssl3\include;C:\openssl3\bin;C:\Program Files\PowerShell\7;C:\Program Files\CMake\bin;C:\Windows\System32\WindowsPowerShell\v1.0"
+          cd c:\zlib-1.2.13
+          cmake -G Ninja -DCMAKE_INSTALL_PREFIX=C:/zlib -DZLIB_COMPAT=ON -DBUILD_SHARED_LIBS=OFF
+          cmake --build . --config Release
+          cmake --install . --config Release
+          rm C:/zlib/lib/libzlib.dll.a
+          cp C:/zlib/lib/libzlibstatic.a C:/zlib/lib/libz.a
 
-  libsndfile-mingw64-build:
-    name: libsndfile MinGW64 Build
-    runs-on: windows-2019
-    steps:
-      - name: Set Mingw64 Ninja
-        run: |
-          (new-object System.Net.WebClient).DownloadFile('https://github.com/cristianadam/mingw-builds/releases/download/v11.2.0-rev3/x86_64-11.2.0-release-posix-seh-rt_v9-rev3.7z','mingw64.7z')
-          7z x -aoa -oC:\ mingw64.7z
-          rm mingw64.7z
-          (new-object System.Net.WebClient).DownloadFile('https://github.com/ninja-build/ninja/releases/download/v1.11.1/ninja-win.zip','ninja-win.zip')
-          7z x -aoa -oC:\ninja ninja-win.zip
-          rm ninja-win.zip
-          (new-object System.Net.WebClient).DownloadFile('https://github.com/libsndfile/libsndfile/archive/refs/tags/1.1.0.zip','libsndfile-1.1.0.zip')
-          7z x -aoa -oC:\ libsndfile-1.1.0.zip
-          rm libsndfile-1.1.0.zip
-      - name: Build
-        run: |
-          # $env:Path = "C:\mingw64\bin;C:\ninja;C:\ffmpeg\include;C:\ffmpeg\lib;C:\ffmpeg\bin;$env:Path"
-          # $env:Path = "C:\openssl-1.1\x64\lib;C:\openssl-1.1\x64\include;C:\mingw64\bin;C:\ninja;C:\ffmpeg\include;C:\ffmpeg\lib;C:\ffmpeg\bin;C:\Strawberry\perl\bin;C:\hostedtoolcache\windows\Python\3.7.9\x64;C:\Program Files\PowerShell\7;C:\Program Files\CMake\bin;C:\Windows\System32\WindowsPowerShell\v1.0"
-          $env:Path = "C:\mingw64\bin;C:\ninja;C:\vcpkg\installed\x64-mingw-static\lib;C:\vcpkg\installed\x64-mingw-static\include;$env:Path"
-          vcpkg install libogg:x64-mingw-static libvorbis:x64-mingw-static libflac:x64-mingw-static opus:x64-mingw-static mp3lame:x64-mingw-static mpg123:x64-mingw-static
-          $env:CMAKE_TOOLCHAIN_FILE="C:/vcpkg/scripts/buildsystems/vcpkg.cmake"
-          cd C:\libsndfile-1.1.0
-          mkdir build
-          cd build
-          cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=C:\libsndfile -DBUILD_EXAMPLES=OFF
-          ninja
-          ninja install
+          $env:PATH = "C:\zlib\include;C:\zlib\lib;$env:PATH"
+
+          cd c:\nghttp2-1.51.0
+          cmake -G Ninja -DCMAKE_INSTALL_PREFIX=C:/nghttp2 -DENABLE_STATIC_LIB=ON -DENABLE_SHARED_LIB=OFF -DENABLE_EXAMPLES=OFF
+          cmake --build . --config Release
+          cmake --install . --config Release
+
+          cd c:\libhv
+          mkdir 3rd
+          # powershell复制C:/openssl3到C:\libhv\3rd
+          cp -r C:/openssl3 C:\libhv\3rd
+          cp -r C:/nghttp2 C:\libhv\3rd
+          cp -r C:/zlib C:\libhv\3rd
+          cmake -G Ninja -DCMAKE_INSTALL_PREFIX=C:/libhv/install -DENABLE_STATIC_LIB=ON -DENABLE_SHARED_LIB=OFF -DENABLE_EXAMPLES=OFF -DENABLE_TESTS=OFF -DENABLE_OPENSSL=ON -DENABLE_ZLIB=ON -DENABLE_NGHTTP2=ON
+          cmake --build . --config Release
+          cmake --install . --config Release
       - name: Package Directories
         run: |
-          7z a libsndfile_MinGW64_Static.7z C:\libsndfile C:\vcpkg\installed\x64-mingw-static\lib C:\vcpkg\installed\x64-mingw-static\include
+          #使用7z将C:\libhv\install目录打包为libhv.7z
+          7z a libhv.7z C:\libhv\install
       - uses: actions/upload-artifact@v3
         with:
-          name: libsndfile_MinGW64_Static
-          path: libsndfile_MinGW64_Static.7z
-  
-  # libsndfile-vcpkg-mingw64-build:
-  #   name: libsndfile Vcpkg MinGW64 Build
-  #   runs-on: windows-2019
-  #   steps:
-  #     - name: Set Mingw64 Ninja
-  #       run: |
-  #         (new-object System.Net.WebClient).DownloadFile('https://github.com/cristianadam/mingw-builds/releases/download/v11.2.0-rev3/x86_64-11.2.0-release-posix-seh-rt_v9-rev3.7z','mingw64.7z')
-  #         7z x -aoa -oC:\ mingw64.7z
-  #         rm mingw64.7z
-  #         (new-object System.Net.WebClient).DownloadFile('https://github.com/ninja-build/ninja/releases/download/v1.11.1/ninja-win.zip','ninja-win.zip')
-  #         7z x -aoa -oC:\ninja ninja-win.zip
-  #         rm ninja-win.zip
-  #     - name: Build
-  #       run: |
-  #         $env:Path = "C:\mingw64\bin;C:\ninja;$env:Path"
-  #         cd C:\vcpkg
-  #         git pull
-  #         ./bootstrap-vcpkg.bat
-  #         vcpkg install libsndfile:x64-mingw-static
-  #     - name: Package Directories
-  #       run: |
-  #         7z a libsndfile_MinGW64_Static.7z C:\vcpkg\installed\x64-mingw-static\lib C:\vcpkg\installed\x64-mingw-static\include
-  #     - uses: actions/upload-artifact@v3
-  #       with:
-  #         name: libsndfile_vcpkg_MinGW64_Static
-  #         path: libsndfile_MinGW64_Static.7z
+          name: Libhv MinGW64
+          path: libhv.7z
