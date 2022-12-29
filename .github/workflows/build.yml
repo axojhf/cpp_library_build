@@ -5,7 +5,7 @@ on:
     branches:
       - boost
 jobs:
-  coost-mingw64-build:
+  boost-mingw64-build:
     name: Boost MinGW64 Static Build
     runs-on: windows-2019
     steps:
@@ -39,7 +39,7 @@ jobs:
           name: boost_MinGW64_Static
           path: boost_MinGW64_Static.7z
 
-  coost-mingw64-dyn-build:
+  boost-mingw64-dyn-build:
     name: Boost MinGW64 Dynamic Build
     runs-on: windows-2019
     steps:
@@ -68,7 +68,7 @@ jobs:
           name: protobuf_MinGW64_Dynamic
           path: protobuf_MinGW64_Dynamic.7z
 
-  coost-vc143-build:
+  boost-vc143-build:
     name: Boost VC143 Static Build
     runs-on: windows-2022
     steps:
@@ -98,8 +98,8 @@ jobs:
           name: boost_VC143_Static
           path: boost_VC143_Static.7z
 
-  coost-vc143-dyn-build:
-    name: Coost Vcpkg vc143 Dynamic Build
+  boost-vc143-dyn-build:
+    name: Boost Vcpkg vc143 Dynamic Build
     runs-on: windows-2022
     steps:
       - name: Set Mingw64 Ninja
