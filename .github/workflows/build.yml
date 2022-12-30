@@ -113,21 +113,16 @@ jobs:
           (new-object System.Net.WebClient).DownloadFile('https://github.com/axojhf/cpp_library_build/releases/download/build/curl_MinGW64_Static.7z','curl_MinGW64_Static.7z')
           7z x -aoa -oC:\ curl_MinGW64_Static.7z
           rm curl_MinGW64_Static.7z
+          cp libcurl.pc C:\curl\lib\pkgconfig -Force
       - name: Build
         run: |
-          $env:Path = "C:\mingw64\bin;C:\ninja;C:\curl;C:\curl\lib;C:\curl\lib\pkgconfig;C:\curl\include;$env:Path"
-          $env:Path = "C:\mingw64\bin;C:\ninja;$env:Path"
-          # cd C:\vcpkg
-          # git pull
-          # ./bootstrap-vcpkg.bat
-          # vcpkg install curl:x64-mingw-static
+          $env:Path = "C:\mingw64\bin;C:\ninja;C:\curl;C:\curl\lib;C:\curl\include;$env:Path"
           cd C:\
-          git clone --depth 1 https://github.com/libcpr/cpr.git
+          git clone --depth 1 https://github.com/axojhf/cpr.git -b mod
           cd C:\cpr
           mkdir build
           cd build
           $env:PKG_CONFIG_PATH="C:\curl\lib\pkgconfig"
-          # $env:Path = "C:\vcpkg\installed\x64-mingw-static\lib\pkgconfig;C:\vcpkg\installed\x64-mingw-static\lib;C:\vcpkg\installed\x64-mingw-static\include;$env:Path"
           cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DCPR_USE_SYSTEM_CURL=ON -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=C:/cpr_install -DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake
           ninja
           ninja install
