@@ -1,4 +1,4 @@
-name: Curl Build
+name: Cpp-httplib Build
 
 on:
   push:
@@ -34,8 +34,8 @@ jobs:
   #         name: cpr_MinGW64_Static
   #         path: C:\vcpkg\cpr_MinGW64_Static.7z
 
-  curl-mingw64-latest-build:
-    name: Curl Latest MinGW64 Build
+  cpp-httplib-mingw64-latest-build:
+    name: cpp-httplib Latest MinGW64 Build
     runs-on: windows-2019
     steps:
       - name: Set Mingw64 Ninja
@@ -61,7 +61,7 @@ jobs:
           git pull
           ./bootstrap-vcpkg.bat
           # libssh2:x64-mingw-static
-          vcpkg install zlib:x64-mingw-static brotli:x64-mingw-static
+          vcpkg install zlib:x64-mingw-static
 
           cd C:\
           git clone --depth 1 https://github.com/google/brotli.git
@@ -82,6 +82,8 @@ jobs:
 
       - name: Package Directories
         run: |
+          cp -r C:\openssl3\lib C:\cpp-httplib -Force
+          cp -r C:\openssl3\include C:\cpp-httplib -Force
           cp -r C:\brotli_install\lib C:\cpp-httplib -Force
           cp -r C:\brotli_install\include C:\cpp-httplib -Force
           cp -r C:\vcpkg\installed\x64-mingw-static\lib C:\cpp-httplib -Force
