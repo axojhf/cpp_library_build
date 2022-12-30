@@ -60,11 +60,12 @@ jobs:
           cd C:\vcpkg
           git pull
           ./bootstrap-vcpkg.bat
-          vcpkg install zstd:x64-mingw-static zlib:x64-mingw-static nghttp2:x64-mingw-static libssh2:x64-mingw-static
+          # libssh2:x64-mingw-static
+          vcpkg install zstd:x64-mingw-static zlib:x64-mingw-static nghttp2:x64-mingw-static
           
           cd C:/brotli
-          mkdir build
-          cd build
+          mkdir build_mingw64
+          cd build_mingw64
           cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=C:\brotli_install -DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake
           ninja
           ninja install
@@ -73,7 +74,7 @@ jobs:
           cd C:/curl-7.87.0
           mkdir build
           cd build
-          cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_CURL_EXE=ON -DBUILD_TESTING=OFF -DCURL_USE_SCHANNEL=ON -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=C:/curl -DCURL_BROTLI=ON -DCURL_ZSTD=ON -DUSE_NGHTTP2=ON -DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake
+          cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_CURL_EXE=ON -DBUILD_TESTING=OFF -DCURL_USE_SCHANNEL=ON -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=C:/curl -DCURL_USE_LIBSSH2=OFF -DCURL_BROTLI=ON -DCURL_ZSTD=ON -DUSE_NGHTTP2=ON -DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake
           ninja
           ninja install
           
