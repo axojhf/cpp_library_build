@@ -84,8 +84,8 @@ jobs:
       - name: Package Directories
         run: |
           # 复制C:\vcpkg\installed\x64-mingw-static\lib到C:\curl\lib，复制C:\vcpkg\installed\x64-mingw-static\include到C:\curl\include
-          cp -r C:\vcpkg\installed\x64-mingw-static\lib C:\curl
-          cp -r C:\vcpkg\installed\x64-mingw-static\include C:\curl
+          Copy-Item -Path 'C:\vcpkg\installed\x64-mingw-static\lib' -Destination 'C:\curl\lib' -Recurse -Force
+          Copy-Item -Path C:\vcpkg\installed\x64-mingw-static\include -Destination C:\curl\include -Recurse -Force
           7z a cpr_latest_MinGW64_Static.7z C:\curl
       - uses: actions/upload-artifact@v3
         with:
