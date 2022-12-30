@@ -53,9 +53,9 @@ jobs:
           (new-object System.Net.WebClient).DownloadFile('https://curl.se/download/curl-7.87.0.zip','curl.zip')
           7z x -aoa -oC:\ curl.zip
           rm curl.zip
-          (new-object System.Net.WebClient).DownloadFile('https://github.com/google/brotli/archive/refs/tags/v1.0.9.zip','brotli.zip')
-          7z x -aoa -oC:\ brotli.zip
-          rm brotli.zip
+          # (new-object System.Net.WebClient).DownloadFile('https://github.com/google/brotli/archive/refs/tags/v1.0.9.zip','brotli.zip')
+          # 7z x -aoa -oC:\ brotli.zip
+          # rm brotli.zip
 
       - name: Build
         run: |
@@ -66,24 +66,24 @@ jobs:
           # libssh2:x64-mingw-static
           vcpkg install zstd:x64-mingw-static zlib:x64-mingw-static nghttp2:x64-mingw-static
           
-          cd C:/brotli-1.0.9
-          mkdir build_mingw64
-          cd build_mingw64
-          cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=C:\brotli_install -DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake
-          ninja
-          ninja install
+          # cd C:/brotli-1.0.9
+          # mkdir build_mingw64
+          # cd build_mingw64
+          # cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=C:\brotli_install -DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake
+          # ninja
+          # ninja install
           
-          $env:Path = "C:\brotli_install\include;C:\brotli_install\lib;C:\vcpkg\installed\x64-mingw-static\lib;C:\vcpkg\installed\x64-mingw-static\include;$env:Path"
+          $env:Path = "C:\vcpkg\installed\x64-mingw-static\lib;C:\vcpkg\installed\x64-mingw-static\include;$env:Path"
           cd C:/curl-7.87.0
           mkdir build
           cd build
-          cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_CURL_EXE=OFF -DBUILD_TESTING=OFF -DCURL_USE_SCHANNEL=ON -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=C:/curl -DCURL_USE_LIBSSH2=OFF -DCURL_BROTLI=ON -DCURL_ZSTD=ON -DUSE_NGHTTP2=ON -DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake
+          cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_CURL_EXE=OFF -DBUILD_TESTING=OFF -DCURL_USE_SCHANNEL=ON -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=C:/curl -DCURL_USE_LIBSSH2=OFF -DCURL_BROTLI=OFF -DCURL_ZSTD=ON -DUSE_NGHTTP2=ON -DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake
           ninja
           ninja install
 
       - name: Package Directories
         run: |
-          7z a cpr_latest_MinGW64_Static.7z C:\curl C:\brotli_install C:\vcpkg\installed\x64-mingw-static\lib C:\vcpkg\installed\x64-mingw-static\include
+          7z a cpr_latest_MinGW64_Static.7z C:\curl C:\vcpkg\installed\x64-mingw-static\lib C:\vcpkg\installed\x64-mingw-static\include
       - uses: actions/upload-artifact@v3
         with:
           name: cpr_latest_MinGW64_Static
