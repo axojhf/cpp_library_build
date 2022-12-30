@@ -126,6 +126,7 @@ jobs:
           cd C:\cpr
           mkdir build
           cd build
+          $env:PKG_CONFIG_PATH="C:\curl\lib\pkgconfig"
           # $env:Path = "C:\vcpkg\installed\x64-mingw-static\lib\pkgconfig;C:\vcpkg\installed\x64-mingw-static\lib;C:\vcpkg\installed\x64-mingw-static\include;$env:Path"
           cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DCPR_USE_SYSTEM_CURL=ON -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=C:/cpr_install -DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake
           ninja
