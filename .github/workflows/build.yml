@@ -62,8 +62,17 @@ jobs:
           ./bootstrap-vcpkg.bat
           # libssh2:x64-mingw-static
           vcpkg install zlib:x64-mingw-static brotli:x64-mingw-static
+
+          cd C:\
+          git clone --depth 1 https://github.com/google/brotli.git
+          cd brotli
+          mkdir build_mingw64
+          cd build_mingw64
+          cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=C:\brotli_install -DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake
+          ninja
+          ninja install
           
-          $env:Path = "C:\openssl3\lib;C:\openssl3\include;C:\vcpkg\installed\x64-mingw-static\lib;C:\vcpkg\installed\x64-mingw-static\include;$env:Path"
+          $env:Path = "C:\brotli_install\lib;C:\brotli_install\include;C:\openssl3\lib;C:\openssl3\include;C:\vcpkg\installed\x64-mingw-static\lib;C:\vcpkg\installed\x64-mingw-static\include;$env:Path"
           cd C:\cpp-httplib-0.11.3
           mkdir build
           cd build
@@ -73,6 +82,8 @@ jobs:
 
       - name: Package Directories
         run: |
+          cp -r C:\brotli_install\lib C:\cpp-httplib -Force
+          cp -r C:\brotli_install\include C:\cpp-httplib -Force
           cp -r C:\vcpkg\installed\x64-mingw-static\lib C:\cpp-httplib -Force
           cp -r C:\vcpkg\installed\x64-mingw-static\include C:\cpp-httplib -Force
           7z a cpp-httplib_MinGW64_Static.7z C:\cpp-httplib
