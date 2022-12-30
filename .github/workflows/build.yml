@@ -86,7 +86,7 @@ jobs:
           mkdir build
           cd build
           $env:Path = "C:\curl;C:\curl\lib;C:\curl\include;$env:Path"
-          cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DCPR_USE_SYSTEM_CURL=ON -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=C:/cpr_install -DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake
+          cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DCPR_USE_SYSTEM_CURL=ON -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=C:/cpr_install -DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake -DCURL_LIBRARY=C:/curl/lib/libcurl.a -DCURL_INCLUDE_DIR=C:/curl/include
           ninja
           ninja install
 
