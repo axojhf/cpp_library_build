@@ -54,7 +54,7 @@ jobs:
           7z x -aoa -oC:\ curl.zip
           rm curl.zip
           cd C:/
-          git clone --depth 1 https://github.dev/axojhf/cpr.git -b mod
+          git clone --depth 1 https://github.com/axojhf/cpr.git -b mod
           git clone --depth 1 https://github.com/google/brotli.git
       - name: Build
         run: |
