@@ -23,7 +23,7 @@ jobs:
           cd C:\vcpkg
           git pull
           ./bootstrap-vcpkg.bat
-          vcpkg install cpr:x64-mingw-static
+          vcpkg install curl[non-http,ssl,brotli,http2,schannel] cpr:x64-mingw-static
       - name: Package Directories
         run: |
           7z a cpr_MinGW64_Static.7z C:\vcpkg\installed\x64-mingw-static\lib C:\vcpkg\installed\x64-mingw-static\include
