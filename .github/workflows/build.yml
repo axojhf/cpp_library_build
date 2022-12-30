@@ -115,18 +115,18 @@ jobs:
           rm curl_MinGW64_Static.7z
       - name: Build
         run: |
-          # $env:Path = "C:\mingw64\bin;C:\ninja;C:\curl;C:\curl\lib;C:\curl\include;$env:Path"
+          $env:Path = "C:\mingw64\bin;C:\ninja;C:\curl;C:\curl\lib;C:\curl\lib\pkgconfig;C:\curl\include;$env:Path"
           $env:Path = "C:\mingw64\bin;C:\ninja;$env:Path"
-          cd C:\vcpkg
-          git pull
-          ./bootstrap-vcpkg.bat
-          vcpkg install curl:x64-mingw-static
+          # cd C:\vcpkg
+          # git pull
+          # ./bootstrap-vcpkg.bat
+          # vcpkg install curl:x64-mingw-static
           cd C:\
           git clone --depth 1 https://github.com/libcpr/cpr.git
           cd C:\cpr
           mkdir build
           cd build
-          $env:Path = "C:\vcpkg\installed\x64-mingw-static\lib;C:\vcpkg\installed\x64-mingw-static\include;$env:Path"
+          # $env:Path = "C:\vcpkg\installed\x64-mingw-static\lib\pkgconfig;C:\vcpkg\installed\x64-mingw-static\lib;C:\vcpkg\installed\x64-mingw-static\include;$env:Path"
           cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DCPR_USE_SYSTEM_CURL=ON -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=C:/cpr_install -DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake
           ninja
           ninja install
