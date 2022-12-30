@@ -116,8 +116,9 @@ jobs:
       - name: Build
         run: |
           $env:Path = "C:\mingw64\bin;C:\ninja;C:\curl;C:\curl\lib;C:\curl\include;$env:Path"
+          cd C:\
           git clone --depth 1 https://github.com/libcpr/cpr.git
-          cd C:/cpr
+          cd C:\cpr
           mkdir build
           cd build
           cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DCPR_USE_SYSTEM_CURL=ON -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=C:/cpr_install -DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake -DCURL_LIBRARY=C:/curl/lib/libcurl.a -DCURL_INCLUDE_DIR=C:/curl/include
