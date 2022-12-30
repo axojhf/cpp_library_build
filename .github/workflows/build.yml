@@ -32,7 +32,7 @@ jobs:
       - uses: actions/upload-artifact@v3
         with:
           name: cpr_MinGW64_Static
-          path: cpr_MinGW64_Static.7z
+          path: C:\vcpkg\cpr_MinGW64_Static.7z
 
   coost-mingw64-latest-build:
     name: Cpr Latest MinGW64 Build
