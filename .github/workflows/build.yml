@@ -80,7 +80,7 @@ jobs:
           cd C:/cpr
           mkdir build
           cd build
-          $env:Path = "C:\curl\lib;C:\curl\include;$env:Path"
+          $env:Path = "C:\curl;C:\curl\lib;C:\curl\include;$env:Path"
           cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DCPR_USE_SYSTEM_CURL=ON -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=C:/cpr_install -DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake
           ninja
           ninja install
