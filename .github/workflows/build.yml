@@ -5,34 +5,34 @@ on:
     branches:
       - cpr
 jobs:
-  cpr-mingw64-build:
-    name: Cpr Vcpkg MinGW64 Build
-    runs-on: windows-2019
-    steps:
-      - name: Set Mingw64 Ninja
-        run: |
-          (new-object System.Net.WebClient).DownloadFile('https://github.com/cristianadam/mingw-builds/releases/download/v11.2.0-rev3/x86_64-11.2.0-release-posix-seh-rt_v9-rev3.7z','mingw64.7z')
-          7z x -aoa -oC:\ mingw64.7z
-          rm mingw64.7z
-          (new-object System.Net.WebClient).DownloadFile('https://github.com/ninja-build/ninja/releases/download/v1.11.1/ninja-win.zip','ninja-win.zip')
-          7z x -aoa -oC:\ninja ninja-win.zip
-          rm ninja-win.zip
-      - name: Build
-        run: |
-          $env:Path = "C:\mingw64\bin;C:\ninja;$env:Path"
-          cd C:\vcpkg
-          git pull
-          ./bootstrap-vcpkg.bat
-          vcpkg install curl[non-http,ssl,http2,schannel]:x64-mingw-static cpr:x64-mingw-static
-      - name: Package Directories
-        run: |
-          # 7z a cpr_MinGW64_Static.7z C:\vcpkg\installed\x64-mingw-static\lib C:\vcpkg\installed\x64-mingw-static\include
-          vcpkg export curl:x64-mingw-static cpr:x64-mingw-static nghttp2:x64-mingw-static zlib:x64-mingw-static --7zip --output=cpr_MinGW64_Static
-          ls
-      - uses: actions/upload-artifact@v3
-        with:
-          name: cpr_MinGW64_Static
-          path: C:\vcpkg\cpr_MinGW64_Static.7z
+  # cpr-mingw64-build:
+  #   name: Cpr Vcpkg MinGW64 Build
+  #   runs-on: windows-2019
+  #   steps:
+  #     - name: Set Mingw64 Ninja
+  #       run: |
+  #         (new-object System.Net.WebClient).DownloadFile('https://github.com/cristianadam/mingw-builds/releases/download/v11.2.0-rev3/x86_64-11.2.0-release-posix-seh-rt_v9-rev3.7z','mingw64.7z')
+  #         7z x -aoa -oC:\ mingw64.7z
+  #         rm mingw64.7z
+  #         (new-object System.Net.WebClient).DownloadFile('https://github.com/ninja-build/ninja/releases/download/v1.11.1/ninja-win.zip','ninja-win.zip')
+  #         7z x -aoa -oC:\ninja ninja-win.zip
+  #         rm ninja-win.zip
+  #     - name: Build
+  #       run: |
+  #         $env:Path = "C:\mingw64\bin;C:\ninja;$env:Path"
+  #         cd C:\vcpkg
+  #         git pull
+  #         ./bootstrap-vcpkg.bat
+  #         vcpkg install curl[non-http,ssl,http2,schannel]:x64-mingw-static cpr:x64-mingw-static
+  #     - name: Package Directories
+  #       run: |
+  #         # 7z a cpr_MinGW64_Static.7z C:\vcpkg\installed\x64-mingw-static\lib C:\vcpkg\installed\x64-mingw-static\include
+  #         vcpkg export curl:x64-mingw-static cpr:x64-mingw-static nghttp2:x64-mingw-static zlib:x64-mingw-static --7zip --output=cpr_MinGW64_Static
+  #         ls
+  #     - uses: actions/upload-artifact@v3
+  #       with:
+  #         name: cpr_MinGW64_Static
+  #         path: C:\vcpkg\cpr_MinGW64_Static.7z
 
   coost-mingw64-latest-build:
     name: Cpr Latest MinGW64 Build
@@ -75,6 +75,7 @@ jobs:
           ninja install
 
           cd C:/msh3
+          git submodule update --init --recursive
           mkdir build_mingw64
           cd build_mingw64
           cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DQUIC_BUILD_SHARED=OFF -DCMAKE_INSTALL_PREFIX=C:\msh3_install
