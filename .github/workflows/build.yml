@@ -50,12 +50,9 @@ jobs:
           7z x -aoa -oC:\ openssl3.7z
           rm openssl3.7z
           mv C:\openssl3\lib64 C:\openssl3\lib
-          (new-object System.Net.WebClient).DownloadFile('https://curl.se/download/curl-7.87.0.zip','curl.zip')
-          7z x -aoa -oC:\ curl.zip
-          rm curl.zip
-          # (new-object System.Net.WebClient).DownloadFile('https://github.com/google/brotli/archive/refs/tags/v1.0.9.zip','brotli.zip')
-          # 7z x -aoa -oC:\ brotli.zip
-          # rm brotli.zip
+          (new-object System.Net.WebClient).DownloadFile('https://github.com/yhirose/cpp-httplib/archive/refs/tags/v0.11.3.zip','cpp-httplib.zip')
+          7z x -aoa -oC:\ cpp-httplib.zip
+          rm cpp-httplib.zip
 
       - name: Build
         run: |
@@ -64,33 +61,25 @@ jobs:
           git pull
           ./bootstrap-vcpkg.bat
           # libssh2:x64-mingw-static
-          vcpkg install zstd:x64-mingw-static zlib:x64-mingw-static nghttp2:x64-mingw-static c-ares:x64-mingw-static
+          vcpkg install zlib:x64-mingw-static brotli:x64-mingw-static
           
-          # cd C:/brotli-1.0.9
-          # mkdir build_mingw64
-          # cd build_mingw64
-          # cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=C:\brotli_install -DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake
-          # ninja
-          # ninja install
-          
-          $env:Path = "C:\vcpkg\installed\x64-mingw-static\lib;C:\vcpkg\installed\x64-mingw-static\include;$env:Path"
-          cd C:/curl-7.87.0
+          $env:Path = "C:\openssl3\lib;C:\openssl3\include;C:\vcpkg\installed\x64-mingw-static\lib;C:\vcpkg\installed\x64-mingw-static\include;$env:Path"
+          cd C:\cpp-httplib-0.11.3
           mkdir build
           cd build
-          cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_CURL_EXE=OFF -DBUILD_TESTING=OFF -DCURL_USE_SCHANNEL=ON -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=C:/curl -DCURL_USE_LIBSSH2=OFF -DCURL_BROTLI=OFF -DCURL_ZSTD=ON -DUSE_NGHTTP2=ON -DENABLE_ARES=ON -DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake
+          cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=C:\vcpkg\scripts\buildsystems\vcpkg.cmake -DCMAKE_INSTALL_PREFIX=C:\cpp-httplib -DBUILD_SHARED_LIBS=OFF -DHTTPLIB_REQUIRE_OPENSSL=ON -DHTTPLIB_REQUIRE_ZLIB=ON -DHTTPLIB_COMPILE=ON -DHTTPLIB_REQUIRE_BROTLI=ON
           ninja
           ninja install
 
       - name: Package Directories
         run: |
-          # 复制C:\vcpkg\installed\x64-mingw-static\lib到C:\curl\lib，复制C:\vcpkg\installed\x64-mingw-static\include到C:\curl\include
-          Copy-Item -Path 'C:\vcpkg\installed\x64-mingw-static\lib' -Destination 'C:\curl' -Recurse -Force
-          Copy-Item -Path C:\vcpkg\installed\x64-mingw-static\include -Destination C:\curl -Recurse -Force
-          7z a curl_MinGW64_Static.7z C:\curl
+          cp -r C:\vcpkg\installed\x64-mingw-static\lib C:\cpp-httplib -Force
+          cp -r C:\vcpkg\installed\x64-mingw-static\include C:\cpp-httplib -Force
+          7z a cpp-httplib_MinGW64_Static.7z C:\cpp-httplib
       - uses: actions/upload-artifact@v3
         with:
-          name: curl_MinGW64_Static
-          path: curl_MinGW64_Static.7z
+          name: cpp-httplib_MinGW64_Static
+          path: cpp-httplib_MinGW64_Static.7z
 
   # coost-vc143-build:
   #   name: Coost Vcpkg vc143 Build
