@@ -23,10 +23,12 @@ jobs:
           cd C:\vcpkg
           git pull
           ./bootstrap-vcpkg.bat
-          vcpkg install curl[non-http,ssl,brotli,http2,schannel]:x64-mingw-static cpr:x64-mingw-static
+          vcpkg install curl[non-http,ssl,http2,schannel]:x64-mingw-static cpr:x64-mingw-static
       - name: Package Directories
         run: |
-          7z a cpr_MinGW64_Static.7z C:\vcpkg\installed\x64-mingw-static\lib C:\vcpkg\installed\x64-mingw-static\include
+          # 7z a cpr_MinGW64_Static.7z C:\vcpkg\installed\x64-mingw-static\lib C:\vcpkg\installed\x64-mingw-static\include
+          vcpkg export curl[non-http,ssl,http2,schannel]:x64-mingw-static cpr:x64-mingw-static --7zip --output=cpr_MinGW64_Static
+          ls
       - uses: actions/upload-artifact@v3
         with:
           name: cpr_MinGW64_Static
