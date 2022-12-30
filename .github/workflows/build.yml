@@ -35,7 +35,7 @@ jobs:
   #         path: C:\vcpkg\cpr_MinGW64_Static.7z
 
   curl-mingw64-latest-build:
-    name: Cpr Latest MinGW64 Build
+    name: Curl Latest MinGW64 Build
     runs-on: windows-2019
     steps:
       - name: Set Mingw64 Ninja
@@ -54,10 +54,7 @@ jobs:
           7z x -aoa -oC:\ curl.zip
           rm curl.zip
           cd C:/
-          # git clone --depth 1 https://github.com/axojhf/cpr.git -b mod
-          git clone --depth 1 https://github.com/libcpr/cpr.git
           git clone --depth 1 https://github.com/google/brotli.git
-          git clone --depth 1 https://github.com/nibanks/msh3.git
       - name: Build
         run: |
           $env:Path = "C:\mingw64\bin;C:\ninja;$env:Path"
@@ -73,35 +70,18 @@ jobs:
           cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=C:\brotli_install -DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake
           ninja
           ninja install
-
-          cd C:/msh3
-          git submodule update --init --recursive
-          mkdir build_mingw64
-          cd build_mingw64
-          cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DQUIC_BUILD_SHARED=OFF -DCMAKE_INSTALL_PREFIX=C:\msh3_install
-          ninja
-          ninja install
-          ls C:\msh3_install\lib
           
-          $env:Path = "C:\msh3_install;C:\msh3_install\include;C:\msh3_install\lib;C:\brotli_install\include;C:\brotli_install\lib;C:\vcpkg\installed\x64-mingw-static\lib;C:\vcpkg\installed\x64-mingw-static\include;$env:Path"
+          $env:Path = "C:\brotli_install\include;C:\brotli_install\lib;C:\vcpkg\installed\x64-mingw-static\lib;C:\vcpkg\installed\x64-mingw-static\include;$env:Path"
           cd C:/curl-7.87.0
           mkdir build
           cd build
-          cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_CURL_EXE=OFF -DBUILD_TESTING=OFF -DCURL_USE_SCHANNEL=ON -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=C:/curl -DCURL_USE_LIBSSH2=OFF -DCURL_BROTLI=ON -DCURL_ZSTD=ON -DUSE_NGHTTP2=ON -DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake -DUSE_MSH3=ON -DMSH3_INCLUDE_DIRS=C:/msh3_install/include
-          ninja
-          ninja install
-          
-          cd C:/cpr
-          mkdir build
-          cd build
-          $env:Path = "C:\curl;C:\curl\lib;C:\curl\include;$env:Path"
-          cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DCPR_USE_SYSTEM_CURL=ON -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=C:/cpr_install -DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake
+          cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_CURL_EXE=OFF -DBUILD_TESTING=OFF -DCURL_USE_SCHANNEL=ON -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=C:/curl -DCURL_USE_LIBSSH2=OFF -DCURL_BROTLI=ON -DCURL_ZSTD=ON -DUSE_NGHTTP2=ON -DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake
           ninja
           ninja install
 
       - name: Package Directories
         run: |
-          7z a cpr_latest_MinGW64_Static.7z C:\curl C:\cpr_install C:\brotli_install
+          7z a cpr_latest_MinGW64_Static.7z C:\curl
       - uses: actions/upload-artifact@v3
         with:
           name: cpr_latest_MinGW64_Static
