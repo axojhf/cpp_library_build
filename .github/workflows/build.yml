@@ -1,9 +1,9 @@
-name: Cpr Build
+name: Curl Build
 
 on:
   push:
     branches:
-      - cpr
+      - curl
 jobs:
   # cpr-mingw64-build:
   #   name: Cpr Vcpkg MinGW64 Build
@@ -34,7 +34,7 @@ jobs:
   #         name: cpr_MinGW64_Static
   #         path: C:\vcpkg\cpr_MinGW64_Static.7z
 
-  coost-mingw64-latest-build:
+  curl-mingw64-latest-build:
     name: Cpr Latest MinGW64 Build
     runs-on: windows-2019
     steps:
