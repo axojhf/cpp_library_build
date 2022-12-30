@@ -3,7 +3,7 @@ name: Curl Build
 on:
   push:
     branches:
-      - curl
+      - httplib
 jobs:
   # cpr-mingw64-build:
   #   name: Cpr Vcpkg MinGW64 Build
