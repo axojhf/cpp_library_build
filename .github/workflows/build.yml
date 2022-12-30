@@ -129,6 +129,7 @@ jobs:
           ninja install
       - name: Package Directories
         run: |
+          cp -r C:\curl C:\cpr_install -Force
           7z a cpr_test_MinGW64_Static.7z C:\cpr_install
       - uses: actions/upload-artifact@v3
         with:
