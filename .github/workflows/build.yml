@@ -30,7 +30,7 @@ jobs:
           cd C:\vcpkg
           git pull
           ./bootstrap-vcpkg.bat
-          vcpkg install curl[core,non-http,ssl,winssl,http2,brotli]:x64-mingw-static
+          vcpkg install curl[core,non-http,ssl,winssl,http2,brotli,websockets]:x64-mingw-static
           $env:Path = "C:\vcpkg\installed\x64-mingw-static\lib;C:\vcpkg\installed\x64-mingw-static\include;$env:Path"
           cd C:\coost
           mkdir build
@@ -101,7 +101,7 @@ jobs:
           cd C:\vcpkg
           git pull
           ./bootstrap-vcpkg.bat
-          vcpkg install curl[core,non-http,ssl,winssl,http2,brotli]:x64-windows-static
+          vcpkg install curl[core,non-http,ssl,winssl,http2,brotli,websockets]:x64-windows-static
           $env:Path = "C:\vcpkg\installed\x64-windows-static\lib;C:\vcpkg\installed\x64-windows-static\include;$env:Path"
           cd C:\coost
           mkdir build
