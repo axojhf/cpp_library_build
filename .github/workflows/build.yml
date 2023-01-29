@@ -23,7 +23,7 @@ jobs:
         run: |
           $env:Path = "C:\mingw64\bin;C:\ninja;$env:Path"
           cd C:/librf ; mkdir build ; cd build
-          cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=C:\librf_install
+          cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DLIBRF_DYNAMIC_LIBRARY=OFF -DCMAKE_INSTALL_PREFIX=C:\librf_install
           ninja ; ninja install
       - name: Package Directories
         run: |
@@ -52,7 +52,7 @@ jobs:
         run: |
           $env:Path = "C:\ninja;$env:Path"
           cd C:/librf ; mkdir build ; cd build
-          cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=C:\librf_install
+          cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DLIBRF_DYNAMIC_LIBRARY=OFF -DCMAKE_INSTALL_PREFIX=C:\librf_install
           ninja ; ninja install
       - name: Package Directories
         run: |
