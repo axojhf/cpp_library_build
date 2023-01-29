@@ -23,7 +23,7 @@ jobs:
         run: |
           $env:Path = "C:\mingw64\bin;C:\ninja;$env:Path"
           cd C:/async_simple ; mkdir build ; cd build
-          cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DASYNC_SIMPLE_ENABLE_TESTS=OFF -DASYNC_SIMPLE_DISABLE_AIO=ON -DCMAKE_INSTALL_PREFIX=C:\async_simple_install
+          cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DASYNC_SIMPLE_ENABLE_TESTS=OFF -DASYNC_SIMPLE_DISABLE_AIO=ON -DASYNC_SIMPLE_BUILD_DEMO_EXAMPLE=OFF -DCMAKE_INSTALL_PREFIX=C:\async_simple_install
           ninja ; ninja install
       - name: Package Directories
         run: |
@@ -52,7 +52,7 @@ jobs:
         run: |
           $env:Path = "C:\ninja;$env:Path"
           cd C:/async_simple ; mkdir build ; cd build
-          cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DASYNC_SIMPLE_ENABLE_TESTS=OFF -DASYNC_SIMPLE_DISABLE_AIO=ON -DCMAKE_INSTALL_PREFIX=C:\async_simple_install
+          cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DASYNC_SIMPLE_ENABLE_TESTS=OFF -DASYNC_SIMPLE_DISABLE_AIO=ON -DASYNC_SIMPLE_BUILD_DEMO_EXAMPLE=OFF -DCMAKE_INSTALL_PREFIX=C:\async_simple_install
           ninja ; ninja install
       - name: Package Directories
         run: |
