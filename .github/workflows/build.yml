@@ -43,7 +43,7 @@ jobs:
           7z x -aoa -oC:\ninja ninja-win.zip
           rm ninja-win.zip
           cd C:/
-          git clone --depth 1 https://github.com/owent/kelcoro.git -b v2
+          git clone --depth 1 https://github.com/kelbon/kelcoro.git
       - uses: ilammy/msvc-dev-cmd@v1
         with:
           arch: amd64
