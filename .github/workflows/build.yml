@@ -1,12 +1,12 @@
-name: async_simple Build
+name: librf Build
 
 on:
   push:
     branches:
-      - async_simple
+      - librf
 jobs:
-  async_simple-mingw64-build:
-    name: async_simple MinGW64 Build
+  librf-mingw64-build:
+    name: librf MinGW64 Build
     runs-on: windows-latest
     steps:
       - name: Set Mingw64 Ninja
@@ -18,23 +18,23 @@ jobs:
           7z x -aoa -oC:\ninja ninja-win.zip
           rm ninja-win.zip
           cd C:/
-          git clone --depth 1 https://github.com/alibaba/async_simple.git
+          git clone --depth 1 https://github.com/tearshark/librf.git -b 3.0.0
       - name: Build
         run: |
           $env:Path = "C:\mingw64\bin;C:\ninja;$env:Path"
-          cd C:/async_simple ; mkdir build ; cd build
-          cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DASYNC_SIMPLE_ENABLE_TESTS=OFF -DASYNC_SIMPLE_DISABLE_AIO=ON -DCMAKE_INSTALL_PREFIX=C:\async_simple_install
+          cd C:/librf ; mkdir build ; cd build
+          cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=C:\librf_install
           ninja ; ninja install
       - name: Package Directories
         run: |
-          7z a async_simple_MinGW64_Static.7z C:\async_simple_install
+          7z a librf_MinGW64_Static.7z C:\librf_install
       - uses: actions/upload-artifact@v3
         with:
-          name: async_simple_MinGW64_Static
-          path: async_simple_MinGW64_Static.7z
+          name: librf_MinGW64_Static
+          path: librf_MinGW64_Static.7z
 
-  async_simple-vc143-build:
-    name: async_simple vc143 Build
+  librf-vc143-build:
+    name: librf vc143 Build
     runs-on: windows-latest
     steps:
       - name: Set Ninja
@@ -43,7 +43,7 @@ jobs:
           7z x -aoa -oC:\ninja ninja-win.zip
           rm ninja-win.zip
           cd C:/
-          git clone --depth 1 https://github.com/alibaba/async_simple.git
+          git clone --depth 1 https://github.com/tearshark/librf.git -b 3.0.0
       - uses: ilammy/msvc-dev-cmd@v1
         with:
           arch: amd64
@@ -51,13 +51,13 @@ jobs:
       - name: Build
         run: |
           $env:Path = "C:\ninja;$env:Path"
-          cd C:/async_simple ; mkdir build ; cd build
-          cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DASYNC_SIMPLE_ENABLE_TESTS=OFF -DASYNC_SIMPLE_DISABLE_AIO=ON -DCMAKE_INSTALL_PREFIX=C:\async_simple_install
+          cd C:/librf ; mkdir build ; cd build
+          cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=C:\librf_install
           ninja ; ninja install
       - name: Package Directories
         run: |
-          7z a async_simple_VC143_Static.7z C:\async_simple_install
+          7z a librf_VC143_Static.7z C:\librf_install
       - uses: actions/upload-artifact@v3
         with:
-          name: async_simple_VC143_Static
-          path: async_simple_VC143_Static.7z
+          name: librf_VC143_Static
+          path: librf_VC143_Static.7z
