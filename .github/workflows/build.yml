@@ -30,7 +30,7 @@ jobs:
           ninja ; ninja install
       - name: Package Directories
         run: |
-          7z a librf_MinGW64_Static.7z C:\librf_install
+          7z a librf_MinGW64_Static.7z C:\librf_install C:\vcpkg\installed\x64-mingw-static
       - uses: actions/upload-artifact@v3
         with:
           name: librf_MinGW64_Static
@@ -62,7 +62,7 @@ jobs:
           ninja ; ninja install
       - name: Package Directories
         run: |
-          7z a librf_VC143_Static.7z C:\librf_install
+          7z a librf_VC143_Static.7z C:\librf_install C:\vcpkg\installed\x64-windows-static
       - uses: actions/upload-artifact@v3
         with:
           name: librf_VC143_Static
