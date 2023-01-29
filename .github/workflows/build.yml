@@ -19,11 +19,14 @@ jobs:
           rm ninja-win.zip
           cd C:/
           git clone --depth 1 https://github.com/tearshark/librf.git -b 3.0.0
+          cd librf
+          git submodule update --init --recursive
       - name: Build
         run: |
           $env:Path = "C:\mingw64\bin;C:\ninja;$env:Path"
+          cd C:\vcpkg ; git pull ; ./bootstrap-vcpkg.bat ; ./vcpkg.exe install mimalloc[asm,override,secure]:x64-mingw-static
           cd C:/librf ; mkdir build ; cd build
-          cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DLIBRF_DYNAMIC_LIBRARY=OFF -DCMAKE_INSTALL_PREFIX=C:\librf_install
+          cmake .. -G Ninja -DLIBRF_USE_MIMALLOC=ON -DCMAKE_BUILD_TYPE=Release -DLIBRF_DYNAMIC_LIBRARY=OFF -DCMAKE_INSTALL_PREFIX=C:\librf_install -DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake
           ninja ; ninja install
       - name: Package Directories
         run: |
@@ -44,6 +47,8 @@ jobs:
           rm ninja-win.zip
           cd C:/
           git clone --depth 1 https://github.com/tearshark/librf.git -b 3.0.0
+          cd librf
+          git submodule update --init --recursive
       - uses: ilammy/msvc-dev-cmd@v1
         with:
           arch: amd64
@@ -51,6 +56,7 @@ jobs:
       - name: Build
         run: |
           $env:Path = "C:\ninja;$env:Path"
+          cd C:\vcpkg ; git pull ; ./bootstrap-vcpkg.bat ; ./vcpkg.exe install mimalloc[asm,override,secure]:x64-windows-static
           cd C:/librf ; mkdir build ; cd build
           cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DLIBRF_DYNAMIC_LIBRARY=OFF -DCMAKE_INSTALL_PREFIX=C:\librf_install
           ninja ; ninja install
