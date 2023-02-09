@@ -20,7 +20,7 @@ jobs:
       - name: Build
         run: |
           $env:Path = "C:\mingw64\bin;C:\ninja;$env:Path"
-          cd C:/vcpkg ; ./bootstrap-vcpkg.bat ; git pull ;./vcpkg.exe install opencv[eigen,ade,cuda,cudnn,freetype,nonfree,opengl,openmp,world]:x64-mingw-static
+          cd C:/vcpkg ; ./bootstrap-vcpkg.bat ; git pull ;./vcpkg.exe install opencv[eigen,cuda,cudnn,freetype,nonfree,opengl,openmp,world]:x64-mingw-static
           # cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=C:\libcopp_install
           # ninja ; ninja install
       - name: Package Directories
