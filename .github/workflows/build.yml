@@ -46,10 +46,10 @@ jobs:
           (new-object System.Net.WebClient).DownloadFile('https://github.com/ninja-build/ninja/releases/download/v1.11.1/ninja-win.zip','ninja-win.zip')
           7z x -aoa -oC:\ninja ninja-win.zip
           rm ninja-win.zip
-          (new-object System.Net.WebClient).DownloadFile('https://github.com/axojhf/build_openssl/releases/download/build/openssl3_mingw_static.7z','openssl3.7z')
-          7z x -aoa -oC:\ openssl3.7z
-          rm openssl3.7z
-          mv C:\openssl3\lib64 C:\openssl3\lib
+          # (new-object System.Net.WebClient).DownloadFile('https://github.com/axojhf/build_openssl/releases/download/build/openssl3_mingw_static.7z','openssl3.7z')
+          # 7z x -aoa -oC:\ openssl3.7z
+          # rm openssl3.7z
+          # mv C:\openssl3\lib64 C:\openssl3\lib
           (new-object System.Net.WebClient).DownloadFile('https://curl.se/download/curl-7.88.1.zip','curl.zip')
           7z x -aoa -oC:\ curl.zip
           rm curl.zip
