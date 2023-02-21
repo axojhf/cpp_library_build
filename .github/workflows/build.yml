@@ -139,6 +139,7 @@ jobs:
     name: Cpr vc143 Static Build
     runs-on: windows-2022
     steps:
+      - uses: actions/checkout@v3
       - name: Set Ninja
         run: |
           (new-object System.Net.WebClient).DownloadFile('https://github.com/ninja-build/ninja/releases/download/v1.11.1/ninja-win.zip','ninja-win.zip')
@@ -147,6 +148,7 @@ jobs:
           (new-object System.Net.WebClient).DownloadFile('https://github.com/axojhf/cpp_library_build/releases/download/curl-build/curl_VC143_Static.7z','curl.7z')
           7z x -aoa -oC:\ curl.7z
           rm curl.7z
+          cp libcurl.pc C:\curl\lib\pkgconfig -Force
       - uses: ilammy/msvc-dev-cmd@v1
         with:
           arch: amd64
@@ -175,6 +177,7 @@ jobs:
     name: Cpr vc143 Dynamic Build
     runs-on: windows-2022
     steps:
+      - uses: actions/checkout@v3
       - name: Set Ninja
         run: |
           (new-object System.Net.WebClient).DownloadFile('https://github.com/ninja-build/ninja/releases/download/v1.11.1/ninja-win.zip','ninja-win.zip')
@@ -183,6 +186,7 @@ jobs:
           (new-object System.Net.WebClient).DownloadFile('https://github.com/axojhf/cpp_library_build/releases/download/curl-build/curl_VC143_Dyn.7z','curl.7z')
           7z x -aoa -oC:\ curl.7z
           rm curl.7z
+          cp libcurl.pc C:\curl\lib\pkgconfig -Force
       - uses: ilammy/msvc-dev-cmd@v1
         with:
           arch: amd64
