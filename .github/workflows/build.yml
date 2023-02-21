@@ -204,7 +204,7 @@ jobs:
           cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DQUIC_BUILD_SHARED=OFF -DCMAKE_INSTALL_PREFIX=C:/msh3_install
           ninja ; ninja install
 
-          Copy-Item -Path C:\msquic_install -Destination C:\vcpkg\installed\x64-windows-static -Recurse -Force
+          Copy-Item -Path C:\msh3_install -Destination C:\vcpkg\installed\x64-windows-static -Recurse -Force
           $env:Path = "C:\ninja;C:\msh3_install\include;C:\msh3_install\lib;C:\vcpkg\installed\x64-windows-static\lib;C:\vcpkg\installed\x64-windows-static\include;$env:Path"
           cd C:/curl-7.88.1 ; mkdir build ; cd build
           cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_CURL_EXE=OFF -DBUILD_TESTING=OFF -DCURL_USE_SCHANNEL=ON -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=C:/curl -DCURL_USE_LIBSSH2=OFF -DCURL_BROTLI=OFF -DCURL_ZSTD=ON -DUSE_NGHTTP2=ON -DUSE_WEBSOCKETS=ON -DUSE_MSH3=ON -DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake
@@ -251,7 +251,7 @@ jobs:
           cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DQUIC_BUILD_SHARED=ON -DCMAKE_INSTALL_PREFIX=C:/msh3_install
           ninja ; ninja install
 
-          Copy-Item -Path C:\msquic_install -Destination C:\vcpkg\installed\x64-windows -Recurse -Force
+          Copy-Item -Path C:\msh3_install -Destination C:\vcpkg\installed\x64-windows -Recurse -Force
           $env:Path = "C:\ninja;C:\msh3_install\include;C:\msh3_install\lib;C:\vcpkg\installed\x64-windows-static\lib;C:\vcpkg\installed\x64-windows-static\include;$env:Path"
           cd C:/curl-7.88.1 ; mkdir build ; cd build
           cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=ON -DBUILD_CURL_EXE=OFF -DBUILD_TESTING=OFF -DCURL_USE_SCHANNEL=ON -DCMAKE_INSTALL_PREFIX=C:/curl -DCURL_USE_LIBSSH2=OFF -DCURL_BROTLI=OFF -DCURL_ZSTD=ON -DUSE_NGHTTP2=ON -DUSE_WEBSOCKETS=ON -DUSE_MSH3=ON -DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake
