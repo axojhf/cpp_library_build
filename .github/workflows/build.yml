@@ -185,9 +185,10 @@ jobs:
           (new-object System.Net.WebClient).DownloadFile('https://curl.se/download/curl-7.88.1.zip','curl.zip')
           7z x -aoa -oC:\ curl.zip
           rm curl.zip
-          (new-object System.Net.WebClient).DownloadFile('https://github.com/axojhf/cpp_library_build/releases/download/msquic-build/MsQuic_VC143_Static.7z','msquic.7z')
-          7z x -aoa -oC:\ msquic.7z
-          rm msquic.7z
+          # (new-object System.Net.WebClient).DownloadFile('https://github.com/axojhf/cpp_library_build/releases/download/msquic-build/MsQuic_VC143_Static.7z','msquic.7z')
+          # 7z x -aoa -oC:\ msquic.7z
+          # rm msquic.7z
+          cd C:\ ; git clone --depth=1 https://github.com/nibanks/msh3.git
       - uses: ilammy/msvc-dev-cmd@v1
         with:
           arch: amd64
@@ -199,13 +200,14 @@ jobs:
           ./bootstrap-vcpkg.bat
           vcpkg install zstd:x64-windows-static zlib:x64-windows-static nghttp2:x64-windows-static
 
-          $env:Path = "C:\ninja;C:\msquic_install\include;C:\msquic_install\lib;C:\vcpkg\installed\x64-windows-static\lib;C:\vcpkg\installed\x64-windows-static\include;$env:Path"
-          cd C:/curl-7.88.1
-          mkdir build
-          cd build
+          cd C:\msh3 ; git submodule update --init --recursive ; mkdir build
+          cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DQUIC_BUILD_SHARED=OFF -DCMAKE_INSTALL_PREFIX=C:/msh3_install
+          ninja ; ninja install
+
+          $env:Path = "C:\ninja;C:\msh3_install\include;C:\msh3_install\lib;C:\vcpkg\installed\x64-windows-static\lib;C:\vcpkg\installed\x64-windows-static\include;$env:Path"
+          cd C:/curl-7.88.1 ; mkdir build ; cd build
           cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_CURL_EXE=OFF -DBUILD_TESTING=OFF -DCURL_USE_SCHANNEL=ON -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=C:/curl -DCURL_USE_LIBSSH2=OFF -DCURL_BROTLI=OFF -DCURL_ZSTD=ON -DUSE_NGHTTP2=ON -DUSE_WEBSOCKETS=ON -DUSE_MSH3=ON -DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake
-          ninja
-          ninja install
+          ninja ; ninja install
       - name: Package Directories
         run: |
           Copy-Item -Path 'C:\vcpkg\installed\x64-windows-static\lib' -Destination 'C:\curl' -Recurse -Force
@@ -229,9 +231,10 @@ jobs:
           (new-object System.Net.WebClient).DownloadFile('https://curl.se/download/curl-7.88.1.zip','curl.zip')
           7z x -aoa -oC:\ curl.zip
           rm curl.zip
-           (new-object System.Net.WebClient).DownloadFile('https://github.com/axojhf/cpp_library_build/releases/download/msquic-build/MsQuic_VC143_Static.7z','msquic.7z')
-          7z x -aoa -oC:\ msquic.7z
-          rm msquic.7z
+          #  (new-object System.Net.WebClient).DownloadFile('https://github.com/axojhf/cpp_library_build/releases/download/msquic-build/MsQuic_VC143_Static.7z','msquic.7z')
+          # 7z x -aoa -oC:\ msquic.7z
+          # rm msquic.7z
+          cd C:\ ; git clone --depth=1 https://github.com/nibanks/msh3.git
       - uses: ilammy/msvc-dev-cmd@v1
         with:
           arch: amd64
@@ -243,13 +246,14 @@ jobs:
           ./bootstrap-vcpkg.bat
           vcpkg install zstd:x64-windows zlib:x64-windows nghttp2:x64-windows
 
-          $env:Path = "C:\ninja;C:\msquic_install\include;C:\msquic_install\lib;C:\vcpkg\installed\x64-windows-static\lib;C:\vcpkg\installed\x64-windows-static\include;$env:Path"
-          cd C:/curl-7.88.1
-          mkdir build
-          cd build
+          cd C:\msh3 ; git submodule update --init --recursive ; mkdir build
+          cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DQUIC_BUILD_SHARED=OFF -DCMAKE_INSTALL_PREFIX=C:/msh3_install
+          ninja ; ninja install
+
+          $env:Path = "C:\ninja;C:\msh3_install\include;C:\msh3_install\lib;C:\vcpkg\installed\x64-windows-static\lib;C:\vcpkg\installed\x64-windows-static\include;$env:Path"
+          cd C:/curl-7.88.1 ; mkdir build ; cd build
           cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=ON -DBUILD_CURL_EXE=OFF -DBUILD_TESTING=OFF -DCURL_USE_SCHANNEL=ON -DCMAKE_INSTALL_PREFIX=C:/curl -DCURL_USE_LIBSSH2=OFF -DCURL_BROTLI=OFF -DCURL_ZSTD=ON -DUSE_NGHTTP2=ON -DUSE_WEBSOCKETS=ON -DUSE_MSH3=ON -DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake
-          ninja
-          ninja install
+          ninja ; ninja install
       - name: Package Directories
         run: |
           Copy-Item -Path C:\vcpkg\installed\x64-windows\lib -Destination C:\curl -Recurse -Force
