@@ -144,7 +144,7 @@ jobs:
           (new-object System.Net.WebClient).DownloadFile('https://github.com/ninja-build/ninja/releases/download/v1.11.1/ninja-win.zip','ninja-win.zip')
           7z x -aoa -oC:\ninja ninja-win.zip
           rm ninja-win.zip
-          (new-object System.Net.WebClient).DownloadFile('https://github.com/axojhf/cpp_library_build/releases/download/curl-build/curl_MinGW64_Static.7z','curl.7z')
+          (new-object System.Net.WebClient).DownloadFile('https://github.com/axojhf/cpp_library_build/releases/download/curl-build/curl_VC143_Static.7z','curl.7z')
           7z x -aoa -oC:\ curl.7z
           rm curl.7z
       - uses: ilammy/msvc-dev-cmd@v1
@@ -180,7 +180,7 @@ jobs:
           (new-object System.Net.WebClient).DownloadFile('https://github.com/ninja-build/ninja/releases/download/v1.11.1/ninja-win.zip','ninja-win.zip')
           7z x -aoa -oC:\ninja ninja-win.zip
           rm ninja-win.zip
-          (new-object System.Net.WebClient).DownloadFile('https://github.com/axojhf/cpp_library_build/releases/download/curl-build/curl_MinGW64_Static.7z','curl.7z')
+          (new-object System.Net.WebClient).DownloadFile('https://github.com/axojhf/cpp_library_build/releases/download/curl-build/curl_VC143_Dyn.7z','curl.7z')
           7z x -aoa -oC:\ curl.7z
           rm curl.7z
       - uses: ilammy/msvc-dev-cmd@v1
