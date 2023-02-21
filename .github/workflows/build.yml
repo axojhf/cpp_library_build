@@ -200,7 +200,7 @@ jobs:
           ./bootstrap-vcpkg.bat
           vcpkg install zstd:x64-windows-static zlib:x64-windows-static nghttp2:x64-windows-static
 
-          cd C:\msh3 ; git submodule update --init --recursive ; mkdir build
+          cd C:\msh3 ; git submodule update --init --recursive ; mkdir build ; cd build
           cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DQUIC_BUILD_SHARED=OFF -DCMAKE_INSTALL_PREFIX=C:/msh3_install
           ninja ; ninja install
 
@@ -246,7 +246,7 @@ jobs:
           ./bootstrap-vcpkg.bat
           vcpkg install zstd:x64-windows zlib:x64-windows nghttp2:x64-windows
 
-          cd C:\msh3 ; git submodule update --init --recursive ; mkdir build
+          cd C:\msh3 ; git submodule update --init --recursive ; mkdir build ; cd build
           cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DQUIC_BUILD_SHARED=ON -DCMAKE_INSTALL_PREFIX=C:/msh3_install
           ninja ; ninja install
 
