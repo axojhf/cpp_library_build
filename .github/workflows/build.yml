@@ -64,7 +64,7 @@ jobs:
           git pull
           ./bootstrap-vcpkg.bat
           # libssh2:x64-mingw-static
-          vcpkg install zstd:x64-mingw-static zlib:x64-mingw-static nghttp2:x64-mingw-static c-ares:x64-mingw-static
+          vcpkg install zstd:x64-mingw-static zlib:x64-mingw-static nghttp2:x64-mingw-static
           
           # cd C:/brotli-1.0.9
           # mkdir build_mingw64
@@ -77,7 +77,7 @@ jobs:
           cd C:/curl-7.88.1
           mkdir build
           cd build
-          cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_CURL_EXE=OFF -DBUILD_TESTING=OFF -DCURL_USE_SCHANNEL=ON -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=C:/curl -DCURL_USE_LIBSSH2=OFF -DCURL_BROTLI=OFF -DCURL_ZSTD=ON -DUSE_NGHTTP2=ON -DENABLE_ARES=ON -DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake
+          cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_CURL_EXE=OFF -DBUILD_TESTING=OFF -DCURL_USE_SCHANNEL=ON -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=C:/curl -DCURL_USE_LIBSSH2=OFF -DCURL_BROTLI=OFF -DCURL_ZSTD=ON -DUSE_NGHTTP2=ON -ENABLE_WEBSOCKETS=ON -DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake
           ninja
           ninja install
 
@@ -113,13 +113,13 @@ jobs:
           cd C:\vcpkg
           git pull
           ./bootstrap-vcpkg.bat
-          vcpkg install zstd:x64-windows-static zlib:x64-windows-static nghttp2:x64-windows-static c-ares:x64-windows-static
+          vcpkg install zstd:x64-windows-static zlib:x64-windows-static nghttp2:x64-windows-static
 
           $env:Path = "C:\vcpkg\installed\x64-windows-static\lib;C:\vcpkg\installed\x64-windows-static\include;$env:Path"
           cd C:/curl-7.88.1
           mkdir build
           cd build
-          cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_CURL_EXE=OFF -DBUILD_TESTING=OFF -DCURL_USE_SCHANNEL=ON -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=C:/curl -DCURL_USE_LIBSSH2=OFF -DCURL_BROTLI=OFF -DCURL_ZSTD=ON -DUSE_NGHTTP2=ON -DENABLE_ARES=ON -DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake
+          cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_CURL_EXE=OFF -DBUILD_TESTING=OFF -DCURL_USE_SCHANNEL=ON -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=C:/curl -DCURL_USE_LIBSSH2=OFF -DCURL_BROTLI=OFF -DCURL_ZSTD=ON -DUSE_NGHTTP2=ON -ENABLE_WEBSOCKETS=ON -DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake
           ninja
           ninja install
       - name: Package Directories
@@ -153,13 +153,13 @@ jobs:
           cd C:\vcpkg
           git pull
           ./bootstrap-vcpkg.bat
-          vcpkg install zstd:x64-windows zlib:x64-windows nghttp2:x64-windows c-ares:x64-windows
+          vcpkg install zstd:x64-windows zlib:x64-windows nghttp2:x64-windows
 
           $env:Path = "C:\vcpkg\installed\x64-windows-static\lib;C:\vcpkg\installed\x64-windows-static\include;$env:Path"
           cd C:/curl-7.88.1
           mkdir build
           cd build
-          cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=ON -DBUILD_CURL_EXE=OFF -DBUILD_TESTING=OFF -DCURL_USE_SCHANNEL=ON -DCMAKE_INSTALL_PREFIX=C:/curl -DCURL_USE_LIBSSH2=OFF -DCURL_BROTLI=OFF -DCURL_ZSTD=ON -DUSE_NGHTTP2=ON -DENABLE_ARES=ON -DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake
+          cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=ON -DBUILD_CURL_EXE=OFF -DBUILD_TESTING=OFF -DCURL_USE_SCHANNEL=ON -DCMAKE_INSTALL_PREFIX=C:/curl -DCURL_USE_LIBSSH2=OFF -DCURL_BROTLI=OFF -DCURL_ZSTD=ON -DUSE_NGHTTP2=ON -ENABLE_WEBSOCKETS=ON -DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake
           ninja
           ninja install
       - name: Package Directories
