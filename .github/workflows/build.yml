@@ -216,11 +216,11 @@ jobs:
           Copy-Item -Path 'C:\vcpkg\installed\x64-windows-static\lib' -Destination 'C:\curl' -Recurse -Force
           Copy-Item -Path C:\vcpkg\installed\x64-windows-static\include -Destination C:\curl -Recurse -Force
           # Copy-Item -Path C:\msquic_install -Destination C:\curl -Recurse -Force
-          7z a curl_VC143_Static.7z C:\curl
+          7z a curl_VC143_Static_msh3.7z C:\curl
       - uses: actions/upload-artifact@v3
         with:
-          name: curl_VC143_Static
-          path: curl_VC143_Static.7z
+          name: curl_VC143_Static_msh3
+          path: curl_VC143_Static_msh3.7z
 
   curl-vc143-dyn-build-msquic:
     name: Curl vc143 Dyn Build With MsQuic
@@ -265,8 +265,8 @@ jobs:
           Copy-Item -Path C:\vcpkg\installed\x64-windows\lib -Destination C:\curl -Recurse -Force
           Copy-Item -Path C:\vcpkg\installed\x64-windows\include -Destination C:\curl -Recurse -Force
           Copy-Item -Path C:\vcpkg\installed\x64-windows\bin -Destination C:\curl -Recurse -Force
-          7z a curl_VC143_Dyn.7z C:\curl
+          7z a curl_VC143_Dyn_msh3.7z C:\curl
       - uses: actions/upload-artifact@v3
         with:
-          name: curl_VC143_Dyn
-          path: curl_VC143_Dyn.7z
+          name: curl_VC143_Dyn_msh3
+          path: curl_VC143_Dyn_msh3.7z
