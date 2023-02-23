@@ -9,7 +9,7 @@ jobs:
     name: fmt MinGW64 Build
     runs-on: windows-2019
     steps:
-      - uses: actions/checkout@v3
+      # - uses: actions/checkout@v3
       - name: Set Mingw64 Ninja
         run: |
           (new-object System.Net.WebClient).DownloadFile('https://github.com/cristianadam/mingw-builds/releases/download/v11.2.0-rev3/x86_64-11.2.0-release-posix-seh-rt_v9-rev3.7z','mingw64.7z')
@@ -21,7 +21,7 @@ jobs:
         run: |
           $env:Path = "C:\mingw64\bin;C:\ninja;$env:Path"
           cd C:\fmt ; mkdir build ; cd build
-          cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DQUIC_BUILD_SHARED=OFF -DCMAKE_INSTALL_PREFIX=C:/fmt_install
+          cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=C:/fmt_install
           ninja ; ninja install
       - name: Package Directories
         run: |
@@ -35,7 +35,7 @@ jobs:
     name: MsQuic vc143 Static Build
     runs-on: windows-2022
     steps:
-      - uses: actions/checkout@v3
+      # - uses: actions/checkout@v3
       - name: Set Ninja
         run: |
           (new-object System.Net.WebClient).DownloadFile('https://github.com/ninja-build/ninja/releases/download/v1.11.1/ninja-win.zip','ninja-win.zip')
@@ -49,7 +49,7 @@ jobs:
         run: |
           $env:Path = "C:\ninja;$env:Path"
           cd C:\fmt ; mkdir build ; cd build
-          cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DQUIC_BUILD_SHARED=OFF -DCMAKE_INSTALL_PREFIX=C:/fmt_install
+          cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=C:/fmt_install
           ninja ; ninja install
       - name: Package Directories
         run: |
@@ -63,7 +63,7 @@ jobs:
     name: fmt vc143 Dynamic Build
     runs-on: windows-2022
     steps:
-      - uses: actions/checkout@v3
+      # - uses: actions/checkout@v3
       - name: Set Ninja
         run: |
           (new-object System.Net.WebClient).DownloadFile('https://github.com/ninja-build/ninja/releases/download/v1.11.1/ninja-win.zip','ninja-win.zip')
@@ -77,7 +77,7 @@ jobs:
         run: |
           $env:Path = "C:\ninja;$env:Path"
           cd C:\fmt ; mkdir build ; cd build
-          cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DQUIC_BUILD_SHARED=ON -DCMAKE_INSTALL_PREFIX=C:/fmt_install
+          cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=ON -DCMAKE_INSTALL_PREFIX=C:/fmt_install
           ninja ; ninja install
       - name: Package Directories
         run: |
