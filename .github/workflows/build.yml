@@ -21,7 +21,7 @@ jobs:
         run: |
           $env:Path = "C:\mingw64\bin;C:\ninja;$env:Path"
           cd C:\fmt ; mkdir build ; cd build
-          cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=C:/fmt_install
+          cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DFMT_TEST=OFF -DCMAKE_INSTALL_PREFIX=C:/fmt_install
           ninja ; ninja install
       - name: Package Directories
         run: |
@@ -49,7 +49,7 @@ jobs:
         run: |
           $env:Path = "C:\ninja;$env:Path"
           cd C:\fmt ; mkdir build ; cd build
-          cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=C:/fmt_install
+          cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DFMT_TEST=OFF -DCMAKE_INSTALL_PREFIX=C:/fmt_install
           ninja ; ninja install
       - name: Package Directories
         run: |
@@ -77,7 +77,7 @@ jobs:
         run: |
           $env:Path = "C:\ninja;$env:Path"
           cd C:\fmt ; mkdir build ; cd build
-          cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=ON -DCMAKE_INSTALL_PREFIX=C:/fmt_install
+          cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=ON -DFMT_TEST=OFF -DCMAKE_INSTALL_PREFIX=C:/fmt_install
           ninja ; ninja install
       - name: Package Directories
         run: |
