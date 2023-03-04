@@ -102,7 +102,7 @@ jobs:
         run: |
           (new-object System.Net.WebClient).DownloadFile('https://github.com/ninja-build/ninja/releases/download/v1.11.1/ninja-win.zip','ninja-win.zip')
           7z x -aoa -oC:\ninja ninja-win.zip ; rm ninja-win.zip
-          cd C:\ ; git clone --depth=1 https://github.com/protocolbuffers/protobuf.git -b v22.0
+          cd C:\ ; git clone --depth=1 https://github.com/protocolbuffers/protobuf.git -b v22.0 ; cd protobuf ; git submodule update --init --recursive
       - uses: ilammy/msvc-dev-cmd@v1
         with:
           arch: amd64
