@@ -41,7 +41,7 @@ jobs:
           New-Item -ItemType SymbolicLink -Path C:\quiche\quiche\deps\boringssl\src\lib\libcrypto.a -Target (Get-ChildItem -Path C:\quiche\target\release -Filter libcrypto.a -Recurse | Select-Object -First 1).FullName -Force
           New-Item -ItemType SymbolicLink -Path C:\quiche\quiche\deps\boringssl\src\lib\libssl.a -Target (Get-ChildItem -Path C:\quiche\target\release -Filter libssl.a -Recurse | Select-Object -First 1).FullName -Force
 
-
+          ls C:\quiche\quiche\deps\boringssl\src
           $env:Path = "C:\quiche\quiche\deps\boringssl\src\lib;C:\quiche\quiche\deps\boringssl\src\include;C:\quiche\quiche\include;C:\quiche\target\release;C:\brotli_install\lib;C:\brotli_install\include;C:\vcpkg\installed\x64-mingw-static\lib;C:\vcpkg\installed\x64-mingw-static\include;$env:Path"
           cd C:\curl ; mkdir build ; cd build
           cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_CURL_EXE=OFF -DBUILD_TESTING=OFF -DCURL_USE_SCHANNEL=ON -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=C:/curl_install -DCURL_USE_LIBSSH2=OFF -DCURL_BROTLI=ON -DCURL_ZSTD=ON -DUSE_NGHTTP2=ON -DUSE_WEBSOCKETS=ON -DUSE_QUICHE=ON -DOPENSSL_ROOT_DIR=C:\quiche\quiche\deps\boringssl\src -DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake
