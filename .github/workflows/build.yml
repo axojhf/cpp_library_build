@@ -127,13 +127,13 @@ jobs:
         run: |
           (new-object System.Net.WebClient).DownloadFile('https://github.com/ninja-build/ninja/releases/download/v1.11.1/ninja-win.zip','ninja-win.zip')
           7z x -aoa -oC:\ninja ninja-win.zip ; rm ninja-win.zip
+          (new-object System.Net.WebClient).DownloadFile('https://raw.githubusercontent.com/axojhf/cpp_library_build/curl-cpr-quic-huge/fix_libcurl_pc.ps1','fix_libcurl_pc.ps1')
+          mv fix_libcurl_pc.ps1 C:\fix_libcurl_pc.ps1
           cd C:\ ; git clone --depth=1 https://github.com/curl/curl.git -b curl-7_88_1
           git clone --depth=1 https://github.com/google/brotli.git
           git clone --depth=1 https://github.com/nibanks/msh3.git
           git clone --depth 1 https://github.com/axojhf/cpr.git -b mod
-          (new-object System.Net.WebClient).DownloadFile('https://raw.githubusercontent.com/axojhf/cpp_library_build/curl-cpr-quic-huge/fix_libcurl_pc.ps1','fix_libcurl_pc.ps1')
-          ls
-          mv fix_libcurl_pc.ps1 C:\fix_libcurl_pc.ps1
+
       - uses: ilammy/msvc-dev-cmd@v1
         with:
           arch: amd64
@@ -191,13 +191,14 @@ jobs:
         run: |
           (new-object System.Net.WebClient).DownloadFile('https://github.com/ninja-build/ninja/releases/download/v1.11.1/ninja-win.zip','ninja-win.zip')
           7z x -aoa -oC:\ninja ninja-win.zip ; rm ninja-win.zip
+          (new-object System.Net.WebClient).DownloadFile('https://raw.githubusercontent.com/axojhf/cpp_library_build/curl-cpr-quic-huge/fix_libcurl_pc.ps1','fix_libcurl_pc.ps1')
+          mv fix_libcurl_pc.ps1 C:\fix_libcurl_pc.ps1
           cd C:\ ; git clone --depth=1 https://github.com/curl/curl.git -b curl-7_88_1
           git clone --depth=1 https://github.com/google/brotli.git
           git clone --depth=1 https://github.com/nibanks/msh3.git
           # git clone --depth 1 --recursive https://github.com/cloudflare/quiche
           git clone --depth 1 https://github.com/axojhf/cpr.git -b mod
-          (new-object System.Net.WebClient).DownloadFile('https://raw.githubusercontent.com/axojhf/cpp_library_build/curl-cpr-quic-huge/fix_libcurl_pc.ps1','fix_libcurl_pc.ps1')
-          mv fix_libcurl_pc.ps1 C:\fix_libcurl_pc.ps1
+          ls
       - uses: ilammy/msvc-dev-cmd@v1
         with:
           arch: amd64
