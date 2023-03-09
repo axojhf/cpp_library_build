@@ -7,7 +7,7 @@ foreach ($line in $content) {
         $features = $line.Substring(19) -replace '\s+', ';'
         $line = "supported_features=$features"
     }
-    else if ($line.StartsWith("supported_protocols=")) {
+    if ($line.StartsWith("supported_protocols=")) {
         $features = $line.Substring(20) -replace '\s+', ';'
         $line = "supported_protocols=$features"
     }
