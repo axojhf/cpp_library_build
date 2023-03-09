@@ -9,7 +9,6 @@ jobs:
     name: Cpr Curl Huge MinGW64 Static Build
     runs-on: windows-2019
     steps:
-      - uses: actions/checkout@v3
       - name: Set Mingw64 Ninja
         run: |
           (new-object System.Net.WebClient).DownloadFile('https://github.com/cristianadam/mingw-builds/releases/download/v11.2.0-rev3/x86_64-11.2.0-release-posix-seh-rt_v9-rev3.7z','mingw64.7z')
@@ -18,6 +17,7 @@ jobs:
           7z x -aoa -oC:\ninja ninja-win.zip ; rm ninja-win.zip
           (new-object System.Net.WebClient).DownloadFile('https://www.nasm.us/pub/nasm/releasebuilds/2.16.01/win64/nasm-2.16.01-win64.zip','nasm.zip')
           7z x -aoa -oC:\ nasm.zip ; rm nasm.zip
+          (new-object System.Net.WebClient).DownloadFile('https://raw.githubusercontent.com/axojhf/cpp_library_build/curl-cpr-quic-huge/fix_libcurl_pc.ps1','fix_libcurl_pc.ps1')
           mv fix_libcurl_pc.ps1 C:\fix_libcurl_pc.ps1
           cd C:\ ; git clone --depth=1 https://github.com/curl/curl.git -b curl-7_88_1
           git clone --depth=1 https://github.com/google/brotli.git
@@ -36,7 +36,7 @@ jobs:
           ninja ; ninja install
           
           rustup target add x86_64-pc-windows-gnu ; rustup default stable-gnu
-          cd C:\quiche ; cargo build --package quiche --release --features ffi,pkg-config-meta,qlog --profile release -Zconfig-profile -- 'debug = false'
+          cd C:\quiche ; cargo build --package quiche --release --features ffi,pkg-config-meta,qlog
           rm C:\quiche\target\release\libquiche.dll.a ; rm C:\quiche\target\release\libquiche.rlib
 
           $env:Path = "C:\quiche\target\release;C:\brotli_install\lib;C:\brotli_install\include;C:\vcpkg\installed\x64-mingw-static\lib;C:\vcpkg\installed\x64-mingw-static\include;$env:Path"
