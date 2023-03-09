@@ -28,8 +28,8 @@ jobs:
           cd C:\vcpkg ; git pull ; ./bootstrap-vcpkg.bat
           vcpkg install zstd:x64-mingw-static zlib:x64-mingw-static nghttp2:x64-mingw-static
           
-          cd C:\brotli ; mkdir build ; cd build
-          cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=C:\brotli_install -DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake
+          cd C:\brotli ; cd build
+          cmake -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=C:\brotli_install -DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake
           ninja ; ninja install
           
           cd C:\msh3 ; git submodule update --init --recursive ; mkdir build ; cd build
@@ -89,8 +89,8 @@ jobs:
           cd C:\vcpkg ; git pull ; ./bootstrap-vcpkg.bat
           vcpkg install zstd:x64-mingw-static zlib:x64-mingw-static nghttp2:x64-mingw-static
           
-          cd C:\brotli ; mkdir build ; cd build
-          cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=C:\brotli_install -DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake
+          cd C:\brotli ; cd build
+          cmake -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=C:\brotli_install -DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake
           ninja ; ninja install
           
           cd C:\msh3 ; git submodule update --init --recursive ; mkdir build ; cd build
@@ -152,8 +152,8 @@ jobs:
           cd C:\vcpkg ; git pull ; ./bootstrap-vcpkg.bat
           vcpkg install zstd:x64-windows-static zlib:x64-windows-static nghttp2:x64-windows-static
 
-          cd C:\brotli ; mkdir build ; cd build
-          cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=C:\brotli_install -DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake
+          cd C:\brotli ; cd build
+          cmake -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=C:\brotli_install -DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake
           ninja ; ninja install
 
           cd C:\msh3 ; git submodule update --init --recursive ; mkdir build ; cd build
@@ -191,7 +191,7 @@ jobs:
           path: cpr_VC143_Static.7z
 
   curl-cpr-quic-huge-vc143-dynamic:
-    name: Curl vc143 Dyn Build
+    name: Cpr Curl Huge vc143 Share Build
     runs-on: windows-2022
     steps:
       - uses: actions/checkout@v3
@@ -215,8 +215,8 @@ jobs:
           cd C:\vcpkg ; git pull ; ./bootstrap-vcpkg.bat
           vcpkg install zstd:x64-windows zlib:x64-windows nghttp2:x64-windows
 
-          cd C:\brotli ; mkdir build ; cd build
-          cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=ON -DCMAKE_INSTALL_PREFIX=C:\brotli_install -DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake
+          cd C:\brotli ; cd build
+          cmake -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=ON -DCMAKE_INSTALL_PREFIX=C:\brotli_install -DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake
           ninja ; ninja install
 
           cd C:\msh3 ; git submodule update --init --recursive ; mkdir build ; cd build
