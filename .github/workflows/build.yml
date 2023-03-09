@@ -132,6 +132,8 @@ jobs:
           git clone --depth=1 https://github.com/nibanks/msh3.git
           git clone --depth 1 https://github.com/axojhf/cpr.git -b mod
           (new-object System.Net.WebClient).DownloadFile('https://raw.githubusercontent.com/axojhf/cpp_library_build/curl-cpr-quic-huge/fix_libcurl_pc.ps1','fix_libcurl_pc.ps1')
+          ls
+          mv fix_libcurl_pc.ps1 C:\fix_libcurl_pc.ps1
       - uses: ilammy/msvc-dev-cmd@v1
         with:
           arch: amd64
@@ -195,6 +197,7 @@ jobs:
           # git clone --depth 1 --recursive https://github.com/cloudflare/quiche
           git clone --depth 1 https://github.com/axojhf/cpr.git -b mod
           (new-object System.Net.WebClient).DownloadFile('https://raw.githubusercontent.com/axojhf/cpp_library_build/curl-cpr-quic-huge/fix_libcurl_pc.ps1','fix_libcurl_pc.ps1')
+          mv fix_libcurl_pc.ps1 C:\fix_libcurl_pc.ps1
       - uses: ilammy/msvc-dev-cmd@v1
         with:
           arch: amd64
