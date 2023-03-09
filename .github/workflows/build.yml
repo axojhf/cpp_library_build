@@ -28,7 +28,7 @@ jobs:
           cd C:\vcpkg ; git pull ; ./bootstrap-vcpkg.bat
           vcpkg install zstd:x64-mingw-static zlib:x64-mingw-static nghttp2:x64-mingw-static
           
-          cd C:\brotli ; cd build
+          cd C:\brotli
           cmake -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=C:\brotli_install -DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake
           ninja ; ninja install
           
@@ -89,7 +89,7 @@ jobs:
           cd C:\vcpkg ; git pull ; ./bootstrap-vcpkg.bat
           vcpkg install zstd:x64-mingw-static zlib:x64-mingw-static nghttp2:x64-mingw-static
           
-          cd C:\brotli ; cd build
+          cd C:\brotli
           cmake -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=C:\brotli_install -DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake
           ninja ; ninja install
           
@@ -152,7 +152,7 @@ jobs:
           cd C:\vcpkg ; git pull ; ./bootstrap-vcpkg.bat
           vcpkg install zstd:x64-windows-static zlib:x64-windows-static nghttp2:x64-windows-static
 
-          cd C:\brotli ; cd build
+          cd C:\brotli
           cmake -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=C:\brotli_install -DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake
           ninja ; ninja install
 
@@ -215,7 +215,7 @@ jobs:
           cd C:\vcpkg ; git pull ; ./bootstrap-vcpkg.bat
           vcpkg install zstd:x64-windows zlib:x64-windows nghttp2:x64-windows
 
-          cd C:\brotli ; cd build
+          cd C:\brotli
           cmake -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=ON -DCMAKE_INSTALL_PREFIX=C:\brotli_install -DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake
           ninja ; ninja install
 
