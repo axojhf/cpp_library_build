@@ -38,13 +38,14 @@ jobs:
           rustup target add x86_64-pc-windows-gnu ; rustup default stable-gnu
           cd C:\quiche ; cargo build --package quiche --release --features ffi,pkg-config-meta,qlog
           rm C:\quiche\target\release\libquiche.dll.a ; rm C:\quiche\target\release\libquiche.rlib
+          New-Item -ItemType SymbolicLink -Path C:\quiche\quiche\deps\boringssl\src\lib\libcrypto.a -Target (Get-ChildItem -Path C:\quiche\target\release -Filter libcrypto.a -Recurse | Select-Object -First 1).FullName -Force
+          New-Item -ItemType SymbolicLink -Path C:\quiche\quiche\deps\boringssl\src\lib\libssl.a -Target (Get-ChildItem -Path C:\quiche\target\release -Filter libssl.a -Recurse | Select-Object -First 1).FullName -Force
 
-          $env:Path = "C:\quiche\quiche\include;C:\quiche\target\release;C:\brotli_install\lib;C:\brotli_install\include;C:\vcpkg\installed\x64-mingw-static\lib;C:\vcpkg\installed\x64-mingw-static\include;$env:Path"
+
+          $env:Path = "C:\quiche\quiche\deps\boringssl\src;C:\quiche\quiche\include;C:\quiche\target\release;C:\brotli_install\lib;C:\brotli_install\include;C:\vcpkg\installed\x64-mingw-static\lib;C:\vcpkg\installed\x64-mingw-static\include;$env:Path"
           cd C:\curl ; mkdir build ; cd build
           cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_CURL_EXE=OFF -DBUILD_TESTING=OFF -DCURL_USE_SCHANNEL=ON -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=C:/curl_install -DCURL_USE_LIBSSH2=OFF -DCURL_BROTLI=ON -DCURL_ZSTD=ON -DUSE_NGHTTP2=ON -DUSE_WEBSOCKETS=ON -DUSE_QUICHE=ON -DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake
           ninja ; ninja install
-          New-Item -ItemType SymbolicLink -Path C:\quiche\quiche\deps\boringssl\src\lib\libcrypto.a -Target (Get-ChildItem -Path C:\quiche\target\release -Filter libcrypto.a -Recurse | Select-Object -First 1).FullName -Force
-          New-Item -ItemType SymbolicLink -Path C:\quiche\quiche\deps\boringssl\src\lib\libssl.a -Target (Get-ChildItem -Path C:\quiche\target\release -Filter libssl.a -Recurse | Select-Object -First 1).FullName -Force
 
           C:\fix_libcurl_pc.ps1
           $env:Path = "C:\curl_install\lib;C:\curl_install\include;$env:Path"
