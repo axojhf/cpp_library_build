@@ -43,6 +43,8 @@ jobs:
           cd C:\curl ; mkdir build ; cd build
           cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_CURL_EXE=OFF -DBUILD_TESTING=OFF -DCURL_USE_SCHANNEL=ON -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=C:/curl_install -DCURL_USE_LIBSSH2=OFF -DCURL_BROTLI=ON -DCURL_ZSTD=ON -DUSE_NGHTTP2=ON -DUSE_WEBSOCKETS=ON -DUSE_QUICHE=ON -DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake
           ninja ; ninja install
+          New-Item -ItemType SymbolicLink -Path C:\quiche\quiche\deps\boringssl\src\lib\libcrypto.a -Target (Get-ChildItem -Path C:\quiche\target\release -Filter libcrypto.a -Recurse | Select-Object -First 1).FullName -Force
+          New-Item -ItemType SymbolicLink -Path C:\quiche\quiche\deps\boringssl\src\lib\libssl.a -Target (Get-ChildItem -Path C:\quiche\target\release -Filter libssl.a -Recurse | Select-Object -First 1).FullName -Force
 
           C:\fix_libcurl_pc.ps1
           $env:Path = "C:\curl_install\lib;C:\curl_install\include;$env:Path"
@@ -188,72 +190,72 @@ jobs:
           name: cpr_VC143_Static
           path: cpr_VC143_Static.7z
 
-  curl-cpr-quic-huge-vc143-dynamic:
-    name: Cpr Curl Huge vc143 Share Build
-    runs-on: windows-2022
-    steps:
-      - name: Set Ninja
-        run: |
-          (new-object System.Net.WebClient).DownloadFile('https://github.com/ninja-build/ninja/releases/download/v1.11.1/ninja-win.zip','ninja-win.zip')
-          7z x -aoa -oC:\ninja ninja-win.zip ; rm ninja-win.zip
-          (new-object System.Net.WebClient).DownloadFile('https://raw.githubusercontent.com/axojhf/cpp_library_build/curl-cpr-quic-huge/fix_libcurl_pc.ps1','fix_libcurl_pc.ps1')
-          mv fix_libcurl_pc.ps1 C:\fix_libcurl_pc.ps1
-          # cd C:\ ; git clone --depth=1 https://github.com/curl/curl.git -b curl-7_88_1
-          (new-object System.Net.WebClient).DownloadFile('https://curl.se/download/curl-7.88.1.zip','curl.zip')
-          7z x -aoa -oC:\ curl.zip ; rm curl.zip
-          mv C:\curl-7.88.1 C:\curl
-          cd C:\ ; git clone --depth=1 https://github.com/google/brotli.git
-          git clone --depth=1 https://github.com/nibanks/msh3.git
-          # git clone --depth 1 --recursive https://github.com/cloudflare/quiche
-          git clone --depth 1 https://github.com/axojhf/cpr.git -b mod
-          ls
-      - uses: ilammy/msvc-dev-cmd@v1
-        with:
-          arch: amd64
-          toolset: 14.3
-      - name: Build
-        run: |
-          $env:Path = "C:\ninja;$env:Path"
+  # curl-cpr-quic-huge-vc143-dynamic:
+  #   name: Cpr Curl Huge vc143 Share Build
+  #   runs-on: windows-2022
+  #   steps:
+  #     - name: Set Ninja
+  #       run: |
+  #         (new-object System.Net.WebClient).DownloadFile('https://github.com/ninja-build/ninja/releases/download/v1.11.1/ninja-win.zip','ninja-win.zip')
+  #         7z x -aoa -oC:\ninja ninja-win.zip ; rm ninja-win.zip
+  #         (new-object System.Net.WebClient).DownloadFile('https://raw.githubusercontent.com/axojhf/cpp_library_build/curl-cpr-quic-huge/fix_libcurl_pc.ps1','fix_libcurl_pc.ps1')
+  #         mv fix_libcurl_pc.ps1 C:\fix_libcurl_pc.ps1
+  #         # cd C:\ ; git clone --depth=1 https://github.com/curl/curl.git -b curl-7_88_1
+  #         (new-object System.Net.WebClient).DownloadFile('https://curl.se/download/curl-7.88.1.zip','curl.zip')
+  #         7z x -aoa -oC:\ curl.zip ; rm curl.zip
+  #         mv C:\curl-7.88.1 C:\curl
+  #         cd C:\ ; git clone --depth=1 https://github.com/google/brotli.git
+  #         git clone --depth=1 https://github.com/nibanks/msh3.git
+  #         # git clone --depth 1 --recursive https://github.com/cloudflare/quiche
+  #         git clone --depth 1 https://github.com/axojhf/cpr.git -b mod
+  #         ls
+  #     - uses: ilammy/msvc-dev-cmd@v1
+  #       with:
+  #         arch: amd64
+  #         toolset: 14.3
+  #     - name: Build
+  #       run: |
+  #         $env:Path = "C:\ninja;$env:Path"
 
-          cd C:\vcpkg ; git pull ; ./bootstrap-vcpkg.bat
-          vcpkg install zstd:x64-windows zlib:x64-windows nghttp2:x64-windows
+  #         cd C:\vcpkg ; git pull ; ./bootstrap-vcpkg.bat
+  #         vcpkg install zstd:x64-windows zlib:x64-windows nghttp2:x64-windows
 
-          cd C:\brotli
-          cmake -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=ON -DCMAKE_INSTALL_PREFIX=C:\brotli_install -DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake
-          ninja ; ninja install
+  #         cd C:\brotli
+  #         cmake -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=ON -DCMAKE_INSTALL_PREFIX=C:\brotli_install -DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake
+  #         ninja ; ninja install
 
-          cd C:\msh3 ; git submodule update --init --recursive ; mkdir build ; cd build
-          cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DQUIC_BUILD_SHARED=ON -DCMAKE_INSTALL_PREFIX=C:/msh3_install
-          ninja ; ninja install
-          Copy-Item -Path C:\msh3_install\include -Destination C:\vcpkg\installed\x64-windows -Recurse -Force
-          Copy-Item -Path C:\msh3_install\lib -Destination C:\vcpkg\installed\x64-windows -Recurse -Force
-          Copy-Item -Path C:\msh3_install\share -Destination C:\vcpkg\installed\x64-windows -Recurse -Force
+  #         cd C:\msh3 ; git submodule update --init --recursive ; mkdir build ; cd build
+  #         cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DQUIC_BUILD_SHARED=ON -DCMAKE_INSTALL_PREFIX=C:/msh3_install
+  #         ninja ; ninja install
+  #         Copy-Item -Path C:\msh3_install\include -Destination C:\vcpkg\installed\x64-windows -Recurse -Force
+  #         Copy-Item -Path C:\msh3_install\lib -Destination C:\vcpkg\installed\x64-windows -Recurse -Force
+  #         Copy-Item -Path C:\msh3_install\share -Destination C:\vcpkg\installed\x64-windows -Recurse -Force
 
-          $env:Path = "C:\msh3_install\include;C:\msh3_install\lib;C:\brotli_install\lib;C:\brotli_install\include;$env:Path"
-          cd C:\curl ; mkdir build ; cd build
-          cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_CURL_EXE=OFF -DBUILD_TESTING=OFF -DCURL_USE_SCHANNEL=ON -DBUILD_SHARED_LIBS=ON -DCMAKE_INSTALL_PREFIX=C:/curl_install -DCURL_USE_LIBSSH2=OFF -DCURL_BROTLI=ON -DCURL_ZSTD=ON -DUSE_NGHTTP2=ON -DUSE_WEBSOCKETS=ON -DUSE_MSH3=ON -DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake
-          ninja ; ninja install
+  #         $env:Path = "C:\msh3_install\include;C:\msh3_install\lib;C:\brotli_install\lib;C:\brotli_install\include;$env:Path"
+  #         cd C:\curl ; mkdir build ; cd build
+  #         cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_CURL_EXE=OFF -DBUILD_TESTING=OFF -DCURL_USE_SCHANNEL=ON -DBUILD_SHARED_LIBS=ON -DCMAKE_INSTALL_PREFIX=C:/curl_install -DCURL_USE_LIBSSH2=OFF -DCURL_BROTLI=ON -DCURL_ZSTD=ON -DUSE_NGHTTP2=ON -DUSE_WEBSOCKETS=ON -DUSE_MSH3=ON -DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake
+  #         ninja ; ninja install
 
-          C:\fix_libcurl_pc.ps1
-          $env:Path = "C:\curl_install\lib;C:\curl_install\include;$env:Path"
-          $env:PKG_CONFIG_PATH="C:\curl_install\lib\pkgconfig"
-          cd C:\cpr ; mkdir build ; cd build
-          cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DCPR_USE_SYSTEM_CURL=ON -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=C:/cpr_install -DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake
-          ninja ; ninja install
+  #         C:\fix_libcurl_pc.ps1
+  #         $env:Path = "C:\curl_install\lib;C:\curl_install\include;$env:Path"
+  #         $env:PKG_CONFIG_PATH="C:\curl_install\lib\pkgconfig"
+  #         cd C:\cpr ; mkdir build ; cd build
+  #         cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DCPR_USE_SYSTEM_CURL=ON -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=C:/cpr_install -DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake
+  #         ninja ; ninja install
 
-      - name: Package Directories
-        run: |
-          cp -r C:\vcpkg\installed\x64-windows\lib C:\cpr_install -Force
-          cp -r C:\vcpkg\installed\x64-windows\include C:\cpr_install -Force
-          cp -r C:\vcpkg\installed\x64-windows\bin C:\cpr_install -Force
-          cp -r C:\brotli_install\lib C:\cpr_install -Force
-          cp -r C:\brotli_install\include C:\cpr_install -Force
-          cp -r C:\brotli_install\bin C:\cpr_install -Force
-          cp -r C:\curl_install\bin C:\cpr_install -Force
-          cp -r C:\curl_install\lib C:\cpr_install -Force
-          cp -r C:\curl_install\include C:\cpr_install -Force
-          7z a cpr_VC143_Share.7z C:\cpr_install
-      - uses: actions/upload-artifact@v3
-        with:
-          name: cpr_VC143_Share
-          path: cpr_VC143_Share.7z
+  #     - name: Package Directories
+  #       run: |
+  #         cp -r C:\vcpkg\installed\x64-windows\lib C:\cpr_install -Force
+  #         cp -r C:\vcpkg\installed\x64-windows\include C:\cpr_install -Force
+  #         cp -r C:\vcpkg\installed\x64-windows\bin C:\cpr_install -Force
+  #         cp -r C:\brotli_install\lib C:\cpr_install -Force
+  #         cp -r C:\brotli_install\include C:\cpr_install -Force
+  #         cp -r C:\brotli_install\bin C:\cpr_install -Force
+  #         cp -r C:\curl_install\bin C:\cpr_install -Force
+  #         cp -r C:\curl_install\lib C:\cpr_install -Force
+  #         cp -r C:\curl_install\include C:\cpr_install -Force
+  #         7z a cpr_VC143_Share.7z C:\cpr_install
+  #     - uses: actions/upload-artifact@v3
+  #       with:
+  #         name: cpr_VC143_Share
+  #         path: cpr_VC143_Share.7z
