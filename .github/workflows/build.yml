@@ -189,7 +189,6 @@ jobs:
         run: |
           (new-object System.Net.WebClient).DownloadFile('https://github.com/ninja-build/ninja/releases/download/v1.11.1/ninja-win.zip','ninja-win.zip')
           7z x -aoa -oC:\ninja ninja-win.zip ; rm ninja-win.zip
-          mv fix_libcurl_pc.ps1 C:\fix_libcurl_pc.ps1
           cd C:\ ; git clone --depth=1 https://github.com/curl/curl.git -b curl-7_88_1
           git clone --depth=1 https://github.com/google/brotli.git
           git clone --depth=1 https://github.com/nibanks/msh3.git
@@ -223,7 +222,7 @@ jobs:
           cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_CURL_EXE=OFF -DBUILD_TESTING=OFF -DCURL_USE_SCHANNEL=ON -DBUILD_SHARED_LIBS=ON -DCMAKE_INSTALL_PREFIX=C:/curl_install -DCURL_USE_LIBSSH2=OFF -DCURL_BROTLI=ON -DCURL_ZSTD=ON -DUSE_NGHTTP2=ON -DUSE_WEBSOCKETS=ON -DUSE_MSH3=ON -DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake
           ninja ; ninja install
 
-          pwsh C:\fix_libcurl_pc.ps1
+          C:\fix_libcurl_pc.ps1
           $env:Path = "C:\curl_install\lib;C:\curl_install\include;$env:Path"
           $env:PKG_CONFIG_PATH="C:\curl_install\lib\pkgconfig"
           cd C:\cpr ; mkdir build ; cd build
