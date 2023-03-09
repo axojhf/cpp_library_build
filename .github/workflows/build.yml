@@ -194,7 +194,8 @@ jobs:
           mv fix_libcurl_pc.ps1 C:\fix_libcurl_pc.ps1
           cd C:\ ; git clone --depth=1 https://github.com/curl/curl.git -b curl-7_88_1
           git clone --depth=1 https://github.com/google/brotli.git
-          git clone --depth=1 https://github.com/nibanks/msh3.git
+          # git clone --depth=1 https://github.com/nibanks/msh3.git
+          git clone --depth 1 --recursive https://github.com/cloudflare/quiche
           git clone --depth 1 https://github.com/axojhf/cpr.git -b mod
       - uses: ilammy/msvc-dev-cmd@v1
         with:
@@ -211,19 +212,14 @@ jobs:
           cmake -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=ON -DCMAKE_INSTALL_PREFIX=C:\brotli_install -DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake
           ninja ; ninja install
 
-          cd C:\msh3 ; git submodule update --init --recursive ; mkdir build ; cd build
-          cmake .. -G Ninja -DCMAKE_INSTALL_PREFIX=C:/msh3_install
-          ninja ; ninja install
+          cd C:\quiche ; cargo build --package quiche --release --features ffi,pkg-config-meta,qlog
 
-          cp -r C:\msh3_install\include C:\vcpkg\installed\x64-windows -Force
-          cp -r C:\msh3_install\lib C:\vcpkg\installed\x64-windows -Force
-          cp -r C:\msh3_install\share C:\vcpkg\installed\x64-windows -Force
-          $env:Path = "C:\brotli_install\lib;C:\brotli_install\include;C:\vcpkg\installed\x64-windows\lib;C:\vcpkg\installed\x64-windows\include;$env:Path"
+          $env:Path = "C:\quiche\target\release;C:\brotli_install\lib;C:\brotli_install\include;C:\vcpkg\installed\x64-windows\lib;C:\vcpkg\installed\x64-windows\include;$env:Path"
           cd C:\curl ; mkdir build ; cd build
-          cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_CURL_EXE=OFF -DBUILD_TESTING=OFF -DCURL_USE_SCHANNEL=ON -DBUILD_SHARED_LIBS=ON -DCMAKE_INSTALL_PREFIX=C:/curl_install -DCURL_USE_LIBSSH2=OFF -DCURL_BROTLI=ON -DCURL_ZSTD=ON -DUSE_NGHTTP2=ON -DUSE_WEBSOCKETS=ON -DUSE_MSH3=ON -DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake
+          cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_CURL_EXE=OFF -DBUILD_TESTING=OFF -DCURL_USE_SCHANNEL=ON -DBUILD_SHARED_LIBS=ON -DCMAKE_INSTALL_PREFIX=C:/curl_install -DCURL_USE_LIBSSH2=OFF -DCURL_BROTLI=ON -DCURL_ZSTD=ON -DUSE_NGHTTP2=ON -DUSE_WEBSOCKETS=ON -DUSE_QUICHE=ON -DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake
           ninja ; ninja install
 
-          C:\fix_libcurl_pc.ps1
+          pwsh C:\fix_libcurl_pc.ps1
           $env:Path = "C:\curl_install\lib;C:\curl_install\include;$env:Path"
           $env:PKG_CONFIG_PATH="C:\curl_install\lib\pkgconfig"
           cd C:\cpr ; mkdir build ; cd build
