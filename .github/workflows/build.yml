@@ -202,7 +202,7 @@ jobs:
           (new-object System.Net.WebClient).DownloadFile('https://curl.se/download/curl-7.88.1.zip','curl.zip')
           7z x -aoa -oC:\ curl.zip ; rm curl.zip
           mv C:\curl-7.88.1 C:\curl
-          git clone --depth=1 https://github.com/google/brotli.git
+          cd C:\ ; git clone --depth=1 https://github.com/google/brotli.git
           git clone --depth=1 https://github.com/nibanks/msh3.git
           # git clone --depth 1 --recursive https://github.com/cloudflare/quiche
           git clone --depth 1 https://github.com/axojhf/cpr.git -b mod
