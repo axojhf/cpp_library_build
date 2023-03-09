@@ -26,7 +26,7 @@ jobs:
           git clone --depth 1 https://github.com/axojhf/cpr.git -b mod
       - name: Build
         run: |
-          $env:Path = "C:\mingw64\bin;C:\ninja;$env:Path"
+          $env:Path = "C:\nasm-2.16.01;C:\mingw64\bin;C:\ninja;$env:Path"
 
           cd C:\vcpkg ; git pull ; ./bootstrap-vcpkg.bat
           vcpkg install zstd:x64-mingw-static zlib:x64-mingw-static nghttp2:x64-mingw-static
