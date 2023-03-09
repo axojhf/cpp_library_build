@@ -22,7 +22,7 @@ jobs:
           cd C:\ ; git clone --depth=1 https://github.com/curl/curl.git -b curl-7_88_1
           git clone --depth=1 https://github.com/google/brotli.git
           # git clone --depth=1 https://github.com/nibanks/msh3.git
-          git clone --depth 1 --recursive https://github.com/cloudflare/quiche
+          git clone --depth 1 --recursive https://github.com/axojhf/quiche
           git clone --depth 1 https://github.com/axojhf/cpr.git -b mod
       - name: Build
         run: |
