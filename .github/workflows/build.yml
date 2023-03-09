@@ -149,7 +149,7 @@ jobs:
           ninja ; ninja install
 
           cd C:\msh3 ; git submodule update --init --recursive ; mkdir build ; cd build
-          cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DQUIC_BUILD_SHARED=ON -DCMAKE_INSTALL_PREFIX=C:/msh3_install
+          cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DQUIC_BUILD_SHARED=OFF -DCMAKE_INSTALL_PREFIX=C:/msh3_install
           ninja ; ninja install
 
           cp -r C:\msh3_install\include C:\vcpkg\installed\x64-windows-static -Force
