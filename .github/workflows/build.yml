@@ -1,9 +1,9 @@
-name: Curl Build
+name: dawn Build
 
 on:
   push:
     branches:
-      - curl
+      - dawn-
 jobs:
   # cpr-mingw64-build:
   #   name: Cpr Vcpkg MinGW64 Build
@@ -23,19 +23,19 @@ jobs:
   #         cd C:\vcpkg
   #         git pull
   #         ./bootstrap-vcpkg.bat
-  #         vcpkg install curl[non-http,ssl,http2,schannel]:x64-mingw-static cpr:x64-mingw-static
+  #         vcpkg install dawn[non-http,ssl,http2,schannel]:x64-mingw-static cpr:x64-mingw-static
   #     - name: Package Directories
   #       run: |
   #         # 7z a cpr_MinGW64_Static.7z C:\vcpkg\installed\x64-mingw-static\lib C:\vcpkg\installed\x64-mingw-static\include
-  #         vcpkg export curl:x64-mingw-static cpr:x64-mingw-static nghttp2:x64-mingw-static zlib:x64-mingw-static --7zip --output=cpr_MinGW64_Static
+  #         vcpkg export dawn:x64-mingw-static cpr:x64-mingw-static nghttp2:x64-mingw-static zlib:x64-mingw-static --7zip --output=cpr_MinGW64_Static
   #         ls
   #     - uses: actions/upload-artifact@v3
   #       with:
   #         name: cpr_MinGW64_Static
   #         path: C:\vcpkg\cpr_MinGW64_Static.7z
 
-  curl-mingw64-latest-build:
-    name: Curl Latest MinGW64 Build
+  dawn-mingw64-latest-build:
+    name: dawn Latest MinGW64 Build
     runs-on: windows-2019
     steps:
       - name: Set Mingw64 Ninja
@@ -46,7 +46,7 @@ jobs:
           (new-object System.Net.WebClient).DownloadFile('https://github.com/ninja-build/ninja/releases/download/v1.11.1/ninja-win.zip','ninja-win.zip')
           7z x -aoa -oC:\ninja ninja-win.zip
           rm ninja-win.zip
-          cd C:\ ; git clone --depth=1 https://github.com/curl/curl.git -b curl-7_88_1
+          cd C:\ ; git clone --depth=1 https://github.com/dawn/dawn.git -b dawn-7_88_1
           git clone --depth=1 https://github.com/google/brotli.git
 
       - name: Build
@@ -59,25 +59,25 @@ jobs:
           ninja ; ninja install
           
           $env:Path = "C:\brotli_install\lib;C:\brotli_install\include;C:\vcpkg\installed\x64-mingw-static\lib;C:\vcpkg\installed\x64-mingw-static\include;$env:Path"
-          cd C:\curl ; mkdir build ; cd build
-          cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_CURL_EXE=OFF -DBUILD_TESTING=OFF -DCURL_USE_SCHANNEL=ON -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=C:/curl_install -DCURL_USE_LIBSSH2=OFF -DCURL_BROTLI=ON -DCURL_ZSTD=ON -DUSE_NGHTTP2=ON -DUSE_WEBSOCKETS=ON -DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake
+          cd C:\dawn ; mkdir build ; cd build
+          cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_dawn_EXE=OFF -DBUILD_TESTING=OFF -Ddawn_USE_SCHANNEL=ON -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=C:/dawn_install -Ddawn_USE_LIBSSH2=OFF -Ddawn_BROTLI=ON -Ddawn_ZSTD=ON -DUSE_NGHTTP2=ON -DUSE_WEBSOCKETS=ON -DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake
           ninja ; ninja install
 
       - name: Package Directories
         run: |
-          # 复制C:\vcpkg\installed\x64-mingw-static\lib到C:\curl_install\lib，复制C:\vcpkg\installed\x64-mingw-static\include到C:\curl_install\include
-          cp -r C:\vcpkg\installed\x64-mingw-static\lib C:\curl_install -Force
-          cp -r C:\vcpkg\installed\x64-mingw-static\include C:\curl_install -Force
-          cp -r C:\brotli_install\lib C:\curl_install -Force
-          cp -r C:\brotli_install\include C:\curl_install -Force
-          7z a curl_MinGW64_Static.7z C:\curl_install
+          # 复制C:\vcpkg\installed\x64-mingw-static\lib到C:\dawn_install\lib，复制C:\vcpkg\installed\x64-mingw-static\include到C:\dawn_install\include
+          cp -r C:\vcpkg\installed\x64-mingw-static\lib C:\dawn_install -Force
+          cp -r C:\vcpkg\installed\x64-mingw-static\include C:\dawn_install -Force
+          cp -r C:\brotli_install\lib C:\dawn_install -Force
+          cp -r C:\brotli_install\include C:\dawn_install -Force
+          7z a dawn_MinGW64_Static.7z C:\dawn_install
       - uses: actions/upload-artifact@v3
         with:
-          name: curl_MinGW64_Static
-          path: curl_MinGW64_Static.7z
+          name: dawn_MinGW64_Static
+          path: dawn_MinGW64_Static.7z
 
-  curl-vc143-build:
-    name: Curl Vcpkg vc143 Build
+  dawn-vc143-build:
+    name: dawn Vcpkg vc143 Build
     runs-on: windows-2022
     steps:
       - name: Set Mingw64 Ninja
@@ -85,7 +85,7 @@ jobs:
           (new-object System.Net.WebClient).DownloadFile('https://github.com/ninja-build/ninja/releases/download/v1.11.1/ninja-win.zip','ninja-win.zip')
           7z x -aoa -oC:\ninja ninja-win.zip
           rm ninja-win.zip
-          cd C:\ ; git clone --depth=1 https://github.com/curl/curl.git -b curl-7_88_1
+          cd C:\ ; git clone --depth=1 https://github.com/dawn/dawn.git -b dawn-7_88_1
           git clone --depth=1 https://github.com/google/brotli.git
       - uses: ilammy/msvc-dev-cmd@v1
         with:
@@ -100,23 +100,23 @@ jobs:
           ninja ; ninja install
 
           $env:Path = "C:\ninja;C:\brotli_install\lib;C:\brotli_install\include;C:\vcpkg\installed\x64-windows-static\lib;C:\vcpkg\installed\x64-windows-static\include;$env:Path"
-          cd C:\curl ; mkdir build ; cd build
-          cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_CURL_EXE=OFF -DBUILD_TESTING=OFF -DCURL_USE_SCHANNEL=ON -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=C:/curl_install -DCURL_USE_LIBSSH2=OFF -DCURL_BROTLI=ON -DCURL_ZSTD=ON -DUSE_NGHTTP2=ON -DUSE_WEBSOCKETS=ON -DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake
+          cd C:\dawn ; mkdir build ; cd build
+          cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_dawn_EXE=OFF -DBUILD_TESTING=OFF -Ddawn_USE_SCHANNEL=ON -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=C:/dawn_install -Ddawn_USE_LIBSSH2=OFF -Ddawn_BROTLI=ON -Ddawn_ZSTD=ON -DUSE_NGHTTP2=ON -DUSE_WEBSOCKETS=ON -DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake
           ninja ; ninja install
       - name: Package Directories
         run: |
-          cp -r C:\vcpkg\installed\x64-windows-static\lib C:\curl_install -Force
-          cp -r C:\vcpkg\installed\x64-windows-static\include C:\curl_install -Force
-          cp -r C:\brotli_install\lib C:\curl_install -Force
-          cp -r C:\brotli_install\include C:\curl_install -Force
-          7z a curl_VC143_Static.7z C:\curl_install
+          cp -r C:\vcpkg\installed\x64-windows-static\lib C:\dawn_install -Force
+          cp -r C:\vcpkg\installed\x64-windows-static\include C:\dawn_install -Force
+          cp -r C:\brotli_install\lib C:\dawn_install -Force
+          cp -r C:\brotli_install\include C:\dawn_install -Force
+          7z a dawn_VC143_Static.7z C:\dawn_install
       - uses: actions/upload-artifact@v3
         with:
-          name: curl_VC143_Static
-          path: curl_VC143_Static.7z
+          name: dawn_VC143_Static
+          path: dawn_VC143_Static.7z
 
-  curl-vc143-dyn-build:
-    name: Curl vc143 Dyn Build
+  dawn-vc143-dyn-build:
+    name: dawn vc143 Dyn Build
     runs-on: windows-2022
     steps:
       - name: Set Mingw64 Ninja
@@ -124,7 +124,7 @@ jobs:
           (new-object System.Net.WebClient).DownloadFile('https://github.com/ninja-build/ninja/releases/download/v1.11.1/ninja-win.zip','ninja-win.zip')
           7z x -aoa -oC:\ninja ninja-win.zip
           rm ninja-win.zip
-          cd C:\ ; git clone --depth=1 https://github.com/curl/curl.git -b curl-7_88_1
+          cd C:\ ; git clone --depth=1 https://github.com/dawn/dawn.git -b dawn-7_88_1
           git clone --depth=1 https://github.com/google/brotli.git
       - uses: ilammy/msvc-dev-cmd@v1
         with:
@@ -139,23 +139,23 @@ jobs:
           ninja ; ninja install
 
           $env:Path = "C:\ninja;C:\brotli_install\lib;C:\brotli_install\include;C:\vcpkg\installed\x64-windows\lib;C:\vcpkg\installed\x64-windows\include;$env:Path"
-          cd C:\curl ; mkdir build ; cd build
-          cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_CURL_EXE=OFF -DBUILD_TESTING=OFF -DCURL_USE_SCHANNEL=ON -DBUILD_SHARED_LIBS=ON -DCMAKE_INSTALL_PREFIX=C:/curl_install -DCURL_USE_LIBSSH2=OFF -DCURL_BROTLI=ON -DCURL_ZSTD=ON -DUSE_NGHTTP2=ON -DUSE_WEBSOCKETS=ON -DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake
+          cd C:\dawn ; mkdir build ; cd build
+          cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_dawn_EXE=OFF -DBUILD_TESTING=OFF -Ddawn_USE_SCHANNEL=ON -DBUILD_SHARED_LIBS=ON -DCMAKE_INSTALL_PREFIX=C:/dawn_install -Ddawn_USE_LIBSSH2=OFF -Ddawn_BROTLI=ON -Ddawn_ZSTD=ON -DUSE_NGHTTP2=ON -DUSE_WEBSOCKETS=ON -DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake
           ninja ; ninja install
       - name: Package Directories
         run: |
-          cp -r C:\vcpkg\installed\x64-windows\lib C:\curl_install -Force
-          cp -r C:\vcpkg\installed\x64-windows\include C:\curl_install -Force
-          cp -r C:\brotli_install\lib C:\curl_install -Force
-          cp -r C:\brotli_install\include C:\curl_install -Force
-          7z a curl_VC143_Dyn.7z C:\curl
+          cp -r C:\vcpkg\installed\x64-windows\lib C:\dawn_install -Force
+          cp -r C:\vcpkg\installed\x64-windows\include C:\dawn_install -Force
+          cp -r C:\brotli_install\lib C:\dawn_install -Force
+          cp -r C:\brotli_install\include C:\dawn_install -Force
+          7z a dawn_VC143_Dyn.7z C:\dawn
       - uses: actions/upload-artifact@v3
         with:
-          name: curl_VC143_Dyn
-          path: curl_VC143_Dyn.7z
+          name: dawn_VC143_Dyn
+          path: dawn_VC143_Dyn.7z
 
-  curl-vc143-build-msquic:
-    name: Curl vc143 Build With MsQuic
+  dawn-vc143-build-msquic:
+    name: dawn vc143 Build With MsQuic
     runs-on: windows-2022
     steps:
       - name: Set Mingw64 Ninja
@@ -163,9 +163,9 @@ jobs:
           (new-object System.Net.WebClient).DownloadFile('https://github.com/ninja-build/ninja/releases/download/v1.11.1/ninja-win.zip','ninja-win.zip')
           7z x -aoa -oC:\ninja ninja-win.zip
           rm ninja-win.zip
-          (new-object System.Net.WebClient).DownloadFile('https://curl.se/download/curl-7.88.1.zip','curl.zip')
-          7z x -aoa -oC:\ curl.zip
-          rm curl.zip
+          (new-object System.Net.WebClient).DownloadFile('https://dawn.se/download/dawn-7.88.1.zip','dawn.zip')
+          7z x -aoa -oC:\ dawn.zip
+          rm dawn.zip
           # (new-object System.Net.WebClient).DownloadFile('https://github.com/axojhf/cpp_library_build/releases/download/msquic-build/MsQuic_VC143_Static.7z','msquic.7z')
           # 7z x -aoa -oC:\ msquic.7z
           # rm msquic.7z
@@ -189,22 +189,22 @@ jobs:
           Copy-Item -Path C:\msh3_install\lib -Destination C:\vcpkg\installed\x64-windows-static -Recurse -Force
           Copy-Item -Path C:\msh3_install\share -Destination C:\vcpkg\installed\x64-windows-static -Recurse -Force
           $env:Path = "C:\ninja;C:\msh3_install\include;C:\msh3_install\lib;C:\vcpkg\installed\x64-windows-static\lib;C:\vcpkg\installed\x64-windows-static\include;$env:Path"
-          cd C:/curl-7.88.1 ; mkdir build ; cd build
-          cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_CURL_EXE=OFF -DBUILD_TESTING=OFF -DCURL_USE_SCHANNEL=ON -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=C:/curl -DCURL_USE_LIBSSH2=OFF -DCURL_BROTLI=OFF -DCURL_ZSTD=ON -DUSE_NGHTTP2=ON -DUSE_WEBSOCKETS=ON -DUSE_MSH3=ON -DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake
+          cd C:/dawn-7.88.1 ; mkdir build ; cd build
+          cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_dawn_EXE=OFF -DBUILD_TESTING=OFF -Ddawn_USE_SCHANNEL=ON -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=C:/dawn -Ddawn_USE_LIBSSH2=OFF -Ddawn_BROTLI=OFF -Ddawn_ZSTD=ON -DUSE_NGHTTP2=ON -DUSE_WEBSOCKETS=ON -DUSE_MSH3=ON -DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake
           ninja ; ninja install
       - name: Package Directories
         run: |
-          Copy-Item -Path 'C:\vcpkg\installed\x64-windows-static\lib' -Destination 'C:\curl' -Recurse -Force
-          Copy-Item -Path C:\vcpkg\installed\x64-windows-static\include -Destination C:\curl -Recurse -Force
-          # Copy-Item -Path C:\msquic_install -Destination C:\curl -Recurse -Force
-          7z a curl_VC143_Static_msh3.7z C:\curl
+          Copy-Item -Path 'C:\vcpkg\installed\x64-windows-static\lib' -Destination 'C:\dawn' -Recurse -Force
+          Copy-Item -Path C:\vcpkg\installed\x64-windows-static\include -Destination C:\dawn -Recurse -Force
+          # Copy-Item -Path C:\msquic_install -Destination C:\dawn -Recurse -Force
+          7z a dawn_VC143_Static_msh3.7z C:\dawn
       - uses: actions/upload-artifact@v3
         with:
-          name: curl_VC143_Static_msh3
-          path: curl_VC143_Static_msh3.7z
+          name: dawn_VC143_Static_msh3
+          path: dawn_VC143_Static_msh3.7z
 
-  curl-vc143-dyn-build-msquic:
-    name: Curl vc143 Dyn Build With MsQuic
+  dawn-vc143-dyn-build-msquic:
+    name: dawn vc143 Dyn Build With MsQuic
     runs-on: windows-2022
     steps:
       - name: Set Mingw64 Ninja
@@ -212,9 +212,9 @@ jobs:
           (new-object System.Net.WebClient).DownloadFile('https://github.com/ninja-build/ninja/releases/download/v1.11.1/ninja-win.zip','ninja-win.zip')
           7z x -aoa -oC:\ninja ninja-win.zip
           rm ninja-win.zip
-          (new-object System.Net.WebClient).DownloadFile('https://curl.se/download/curl-7.88.1.zip','curl.zip')
-          7z x -aoa -oC:\ curl.zip
-          rm curl.zip
+          (new-object System.Net.WebClient).DownloadFile('https://dawn.se/download/dawn-7.88.1.zip','dawn.zip')
+          7z x -aoa -oC:\ dawn.zip
+          rm dawn.zip
           #  (new-object System.Net.WebClient).DownloadFile('https://github.com/axojhf/cpp_library_build/releases/download/msquic-build/MsQuic_VC143_Static.7z','msquic.7z')
           # 7z x -aoa -oC:\ msquic.7z
           # rm msquic.7z
@@ -238,16 +238,16 @@ jobs:
           Copy-Item -Path C:\msh3_install\lib -Destination C:\vcpkg\installed\x64-windows -Recurse -Force
           Copy-Item -Path C:\msh3_install\share -Destination C:\vcpkg\installed\x64-windows -Recurse -Force
           $env:Path = "C:\ninja;C:\msh3_install\include;C:\msh3_install\lib;C:\vcpkg\installed\x64-windows-static\lib;C:\vcpkg\installed\x64-windows-static\include;$env:Path"
-          cd C:/curl-7.88.1 ; mkdir build ; cd build
-          cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DBUILD_CURL_EXE=OFF -DBUILD_TESTING=OFF -DCURL_USE_SCHANNEL=ON -DCMAKE_INSTALL_PREFIX=C:/curl -DCURL_USE_LIBSSH2=OFF -DCURL_BROTLI=OFF -DCURL_ZSTD=ON -DUSE_NGHTTP2=ON -DUSE_WEBSOCKETS=ON -DUSE_MSH3=ON -DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake
+          cd C:/dawn-7.88.1 ; mkdir build ; cd build
+          cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DBUILD_dawn_EXE=OFF -DBUILD_TESTING=OFF -Ddawn_USE_SCHANNEL=ON -DCMAKE_INSTALL_PREFIX=C:/dawn -Ddawn_USE_LIBSSH2=OFF -Ddawn_BROTLI=OFF -Ddawn_ZSTD=ON -DUSE_NGHTTP2=ON -DUSE_WEBSOCKETS=ON -DUSE_MSH3=ON -DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake
           ninja ; ninja install
       - name: Package Directories
         run: |
-          Copy-Item -Path C:\vcpkg\installed\x64-windows\lib -Destination C:\curl -Recurse -Force
-          Copy-Item -Path C:\vcpkg\installed\x64-windows\include -Destination C:\curl -Recurse -Force
-          Copy-Item -Path C:\vcpkg\installed\x64-windows\bin -Destination C:\curl -Recurse -Force
-          7z a curl_VC143_Dyn_msh3.7z C:\curl
+          Copy-Item -Path C:\vcpkg\installed\x64-windows\lib -Destination C:\dawn -Recurse -Force
+          Copy-Item -Path C:\vcpkg\installed\x64-windows\include -Destination C:\dawn -Recurse -Force
+          Copy-Item -Path C:\vcpkg\installed\x64-windows\bin -Destination C:\dawn -Recurse -Force
+          7z a dawn_VC143_Dyn_msh3.7z C:\dawn
       - uses: actions/upload-artifact@v3
         with:
-          name: curl_VC143_Dyn_msh3
-          path: curl_VC143_Dyn_msh3.7z
+          name: dawn_VC143_Dyn_msh3
+          path: dawn_VC143_Dyn_msh3.7z
