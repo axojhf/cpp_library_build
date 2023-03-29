@@ -116,18 +116,18 @@ jobs:
           .\fix_libcurl_pc.ps1 ; rm fix_libcurl_pc.ps1
       - name: Build
         run: |
-          $env:Path = "C:\mingw64\bin;C:\ninja;C:\curl;C:\curl\lib;C:\curl\include;$env:Path"
+          $env:Path = "C:\mingw64\bin;C:\ninja;C:\curl_install;C:\curl_install\lib;C:\curl_install\include;$env:Path"
           cd C:\
           git clone --depth 1 https://github.com/axojhf/cpr.git -b mod
           cd C:\cpr ; mkdir build ; cd build
-          $env:PKG_CONFIG_PATH="C:\curl\lib\pkgconfig"
+          $env:PKG_CONFIG_PATH="C:\curl_install\lib\pkgconfig"
           cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DCPR_USE_SYSTEM_CURL=ON -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=C:/cpr_install -DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake
           ninja
           ninja install
       - name: Package Directories
         run: |
-          cp -r C:\curl\lib C:\cpr_install -Force
-          cp -r C:\curl\include C:\cpr_install -Force
+          cp -r C:\curl_install\lib C:\cpr_install -Force
+          cp -r C:\curl_install\include C:\cpr_install -Force
           7z a cpr_MinGW64_Static.7z C:\cpr_install
       - uses: actions/upload-artifact@v3
         with:
@@ -154,18 +154,18 @@ jobs:
           toolset: 14.3
       - name: Build
         run: |
-          $env:Path = "C:\ninja;C:\curl;C:\curl\lib;C:\curl\include;$env:Path"
+          $env:Path = "C:\ninja;C:\curl_install;C:\curl_install\lib;C:\curl_install\include;$env:Path"
           cd C:\
           git clone --depth 1 https://github.com/axojhf/cpr.git -b mod
           cd C:\cpr ; mkdir build ; cd build
-          $env:PKG_CONFIG_PATH="C:\curl\lib\pkgconfig"
+          $env:PKG_CONFIG_PATH="C:\curl_install\lib\pkgconfig"
           cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DCPR_USE_SYSTEM_CURL=ON -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=C:/cpr_install -DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake
           ninja
           ninja install
       - name: Package Directories
         run: |
-          cp -r C:\curl\lib C:\cpr_install -Force
-          cp -r C:\curl\include C:\cpr_install -Force
+          cp -r C:\curl_install\lib C:\cpr_install -Force
+          cp -r C:\curl_install\include C:\cpr_install -Force
           7z a cpr_VC143_Static.7z C:\cpr_install
       - uses: actions/upload-artifact@v3
         with:
@@ -192,19 +192,19 @@ jobs:
           toolset: 14.3
       - name: Build
         run: |
-          $env:Path = "C:\ninja;C:\curl;C:\curl\lib;C:\curl\include;$env:Path"
+          $env:Path = "C:\ninja;C:\curl_install;C:\curl_install\lib;C:\curl_install\include;$env:Path"
           cd C:\
           git clone --depth 1 https://github.com/axojhf/cpr.git -b mod
           cd C:\cpr ; mkdir build ; cd build
-          $env:PKG_CONFIG_PATH="C:\curl\lib\pkgconfig"
+          $env:PKG_CONFIG_PATH="C:\curl_install\lib\pkgconfig"
           cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DCPR_USE_SYSTEM_CURL=ON -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=C:/cpr_install -DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake
           ninja
           ninja install
       - name: Package Directories
         run: |
-          cp -r C:\curl\bin C:\cpr_install -Force
-          cp -r C:\curl\lib C:\cpr_install -Force
-          cp -r C:\curl\include C:\cpr_install -Force
+          cp -r C:\curl_install\bin C:\cpr_install -Force
+          cp -r C:\curl_install\lib C:\cpr_install -Force
+          cp -r C:\curl_install\include C:\cpr_install -Force
           7z a cpr_VC143_Dyn.7z C:\cpr_install
       - uses: actions/upload-artifact@v3
         with:
