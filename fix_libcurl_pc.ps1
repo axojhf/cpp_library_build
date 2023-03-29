@@ -1,4 +1,4 @@
-$file = "C:/curl/lib/pkgconfig/libcurl.pc"
+$file = "C:/curl_install/lib/pkgconfig/libcurl.pc"
 $content = Get-Content $file
 $newContent = ""
 
