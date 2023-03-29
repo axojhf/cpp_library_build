@@ -29,8 +29,10 @@ jobs:
           rustup default stable-gnu
           cd C:\quiche
           cargo build --package quiche --release --features ffi,pkg-config-meta,qlog
+          ls C:\quiche\quiche\deps\boringssl
       - name: Package Directories
         run: |
+          mkdir C:\quiche_install\lib
           cp C:\quiche\target\release\libquiche.a C:\quiche_install\lib -Force
           cp -r C:\quiche\quiche\include C:\quiche_install -Force
           7z a quiche_MinGW64_Static.7z C:\quiche_install
