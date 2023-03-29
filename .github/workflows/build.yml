@@ -23,14 +23,17 @@ jobs:
       - name: Build
         run: |
           $env:Path = "C:\mingw64\bin;C:\ninja;C:\nasm-2.16.01;$env:Path"
+          cd C:\quiche\quiche\deps\boringssl
+          git pull origin master
           rustup target add x86_64-pc-windows-gnu
           rustup default stable-gnu
           cd C:\quiche
           cargo build --package quiche --release --features ffi,pkg-config-meta,qlog
-
       - name: Package Directories
         run: |
-          7z a quiche_MinGW64_Static.7z C:\quiche\target
+          cp C:\quiche\target\release\libquiche.a C:\quiche_install\lib -Force
+          cp -r C:\quiche\quiche\include C:\quiche_install -Force
+          7z a quiche_MinGW64_Static.7z C:\quiche_install
       - uses: actions/upload-artifact@v3
         with:
           name: quiche_MinGW64_Static
