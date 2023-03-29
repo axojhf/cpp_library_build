@@ -133,6 +133,12 @@ jobs:
         with:
           name: cpr_MinGW64_Static
           path: cpr_MinGW64_Static.7z
+      - name: Update Cpr Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: cpr-build
+          files: |
+            cpr_MinGW64_Static.7z
 
   cpr-vc143-static-build:
     name: Cpr vc143 Static Build
@@ -171,6 +177,12 @@ jobs:
         with:
           name: cpr_VC143_Static
           path: cpr_VC143_Static.7z
+      - name: Update Cpr Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: cpr-build
+          files: |
+            cpr_VC143_Static.7z
 
   cpr-vc143-dyn-build:
     name: Cpr vc143 Dynamic Build
@@ -210,3 +222,9 @@ jobs:
         with:
           name: cpr_VC143_Dyn
           path: cpr_VC143_Dyn.7z
+      - name: Update Cpr Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: cpr-build
+          files: |
+            cpr_VC143_Dyn.7z
