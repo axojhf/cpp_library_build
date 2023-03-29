@@ -5,7 +5,6 @@ on:
     branches:
       - quiche
 jobs:
-
   quiche-mingw64-latest-build:
     name: quiche Latest MinGW64 Build
     runs-on: windows-2019
@@ -19,12 +18,12 @@ jobs:
           (new-object System.Net.WebClient).DownloadFile('https://www.nasm.us/pub/nasm/releasebuilds/2.16.01/win64/nasm-2.16.01-win64.zip','nasm.zip')
           7z x -aoa -oC:\ nasm.zip ; rm nasm.zip
           cd C:\ ; git clone --depth=1 --recursive https://github.com/cloudflare/quiche
-
       - name: Build
         run: |
           $env:Path = "C:\mingw64\bin;C:\ninja;C:\nasm-2.16.01;$env:Path"
-          cd C:\quiche\quiche\deps\boringssl
-          git pull origin master
+          cd C:\quiche\quiche\deps
+          rm -r C:\quiche\quiche\deps\boringssl -Force
+          git clone --depth=1 https://github.com/google/boringssl
           rustup target add x86_64-pc-windows-gnu
           rustup default stable-gnu
           cd C:\quiche
@@ -35,50 +34,48 @@ jobs:
           mkdir C:\quiche_install\lib
           cp C:\quiche\target\release\libquiche.a C:\quiche_install\lib -Force
           cp -r C:\quiche\quiche\include C:\quiche_install -Force
-          7z a quiche_MinGW64_Static.7z C:\quiche_install
+          7z a quiche_MinGW64_static.7z C:\quiche_install
       - uses: actions/upload-artifact@v3
         with:
-          name: quiche_MinGW64_Static
-          path: quiche_MinGW64_Static.7z
+          name: quiche_MinGW64_static
+          path: quiche_MinGW64_static.7z
 
-  # curl-vc143-build:
-  #   name: Curl Vcpkg vc143 Build
-  #   runs-on: windows-2022
-  #   steps:
-  #     - name: Set Mingw64 Ninja
-  #       run: |
-  #         (new-object System.Net.WebClient).DownloadFile('https://github.com/ninja-build/ninja/releases/download/v1.11.1/ninja-win.zip','ninja-win.zip')
-  #         7z x -aoa -oC:\ninja ninja-win.zip
-  #         rm ninja-win.zip
-  #         cd C:\ ; git clone --depth=1 https://github.com/curl/curl.git -b curl-7_88_1
-  #         git clone --depth=1 https://github.com/google/brotli.git
-  #     - uses: ilammy/msvc-dev-cmd@v1
-  #       with:
-  #         arch: amd64
-  #         toolset: 14.3
-  #     - name: Build
-  #       run: |
-  #         cd C:\vcpkg ; git pull ; ./bootstrap-vcpkg.bat ; vcpkg install zstd:x64-windows-static zlib:x64-windows-static nghttp2:x64-windows-static
-
-  #         cd C:\brotli
-  #         cmake -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=C:\brotli_install -DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake
-  #         ninja ; ninja install
-
-  #         $env:Path = "C:\ninja;C:\brotli_install\lib;C:\brotli_install\include;C:\vcpkg\installed\x64-windows-static\lib;C:\vcpkg\installed\x64-windows-static\include;$env:Path"
-  #         cd C:\curl ; mkdir build ; cd build
-  #         cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_CURL_EXE=OFF -DBUILD_TESTING=OFF -DCURL_USE_SCHANNEL=ON -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=C:/curl_install -DCURL_USE_LIBSSH2=OFF -DCURL_BROTLI=ON -DCURL_ZSTD=ON -DUSE_NGHTTP2=ON -DUSE_WEBSOCKETS=ON -DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake
-  #         ninja ; ninja install
-  #     - name: Package Directories
-  #       run: |
-  #         cp -r C:\vcpkg\installed\x64-windows-static\lib C:\curl_install -Force
-  #         cp -r C:\vcpkg\installed\x64-windows-static\include C:\curl_install -Force
-  #         cp -r C:\brotli_install\lib C:\curl_install -Force
-  #         cp -r C:\brotli_install\include C:\curl_install -Force
-  #         7z a curl_VC143_Static.7z C:\curl_install
-  #     - uses: actions/upload-artifact@v3
-  #       with:
-  #         name: curl_VC143_Static
-  #         path: curl_VC143_Static.7z
+  quiche-vc143-static-build:
+    name: quiche vc143 static Build
+    runs-on: windows-2022
+    steps:
+      - name: Set Ninja
+        run: |
+          (new-object System.Net.WebClient).DownloadFile('https://github.com/ninja-build/ninja/releases/download/v1.11.1/ninja-win.zip','ninja-win.zip')
+          7z x -aoa -oC:\ninja ninja-win.zip ; rm ninja-win.zip
+          (new-object System.Net.WebClient).DownloadFile('https://www.nasm.us/pub/nasm/releasebuilds/2.16.01/win64/nasm-2.16.01-win64.zip','nasm.zip')
+          7z x -aoa -oC:\ nasm.zip ; rm nasm.zip
+          cd C:\ ; git clone --depth=1 --recursive https://github.com/cloudflare/quiche
+      - uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: amd64
+          toolset: 14.3
+      - name: Build
+        run: |
+          $env:Path = "C:\ninja;C:\nasm-2.16.01;$env:Path"
+          cd C:\quiche\quiche\deps
+          rm -r C:\quiche\quiche\deps\boringssl -Force
+          git clone --depth=1 https://github.com/google/boringssl
+          rustup target add x86_64-pc-windows-msvc
+          rustup default stable-msvc
+          cd C:\quiche
+          cargo build --package quiche --release --features ffi,pkg-config-meta,qlog
+          ls C:\quiche\quiche\deps\boringssl
+      - name: Package Directories
+        run: |
+          mkdir C:\quiche_install\lib
+          cp C:\quiche\target\release\libquiche.lib C:\quiche_install\lib -Force
+          cp -r C:\quiche\quiche\include C:\quiche_install -Force
+          7z a quiche_vc143_static.7z C:\quiche_install
+      - uses: actions/upload-artifact@v3
+        with:
+          name: quiche_vc143_static
+          path: quiche_vc143_static.7z
 
   # curl-vc143-dyn-build:
   #   name: Curl vc143 Dyn Build
