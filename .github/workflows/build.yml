@@ -60,7 +60,7 @@ jobs:
           
           $env:Path = "C:\brotli_install\lib;C:\brotli_install\include;C:\vcpkg\installed\x64-mingw-static\lib;C:\vcpkg\installed\x64-mingw-static\include;$env:Path"
           cd C:\curl ; mkdir build ; cd build
-          cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_CURL_EXE=OFF -DBUILD_TESTING=OFF -DCURL_USE_SCHANNEL=ON -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=C:/curl_install -DCURL_USE_LIBSSH2=OFF -DCURL_BROTLI=ON -DCURL_ZSTD=ON -DUSE_NGHTTP2=ON -DUSE_WEBSOCKETS=ON -DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake
+          cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_CURL_EXE=OFF -DBUILD_TESTING=OFF -DCURL_USE_SCHANNEL=ON -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=C:\curl_install -DCURL_USE_LIBSSH2=OFF -DCURL_BROTLI=ON -DCURL_ZSTD=ON -DUSE_NGHTTP2=ON -DUSE_WEBSOCKETS=ON -DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake
           ninja ; ninja install
 
       - name: Package Directories
@@ -107,7 +107,7 @@ jobs:
 
           $env:Path = "C:\ninja;C:\brotli_install\lib;C:\brotli_install\include;C:\vcpkg\installed\x64-windows-static\lib;C:\vcpkg\installed\x64-windows-static\include;$env:Path"
           cd C:\curl ; mkdir build ; cd build
-          cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_CURL_EXE=OFF -DBUILD_TESTING=OFF -DCURL_USE_SCHANNEL=ON -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=C:/curl_install -DCURL_USE_LIBSSH2=OFF -DCURL_BROTLI=ON -DCURL_ZSTD=ON -DUSE_NGHTTP2=ON -DUSE_WEBSOCKETS=ON -DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake
+          cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_CURL_EXE=OFF -DBUILD_TESTING=OFF -DCURL_USE_SCHANNEL=ON -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=C:\curl_install -DCURL_USE_LIBSSH2=OFF -DCURL_BROTLI=ON -DCURL_ZSTD=ON -DUSE_NGHTTP2=ON -DUSE_WEBSOCKETS=ON -DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake
           ninja ; ninja install
       - name: Package Directories
         run: |
@@ -152,7 +152,7 @@ jobs:
 
           $env:Path = "C:\ninja;C:\brotli_install\lib;C:\brotli_install\include;C:\vcpkg\installed\x64-windows\lib;C:\vcpkg\installed\x64-windows\include;$env:Path"
           cd C:\curl ; mkdir build ; cd build
-          cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_CURL_EXE=OFF -DBUILD_TESTING=OFF -DCURL_USE_SCHANNEL=ON -DBUILD_SHARED_LIBS=ON -DCMAKE_INSTALL_PREFIX=C:/curl_install -DCURL_USE_LIBSSH2=OFF -DCURL_BROTLI=ON -DCURL_ZSTD=ON -DUSE_NGHTTP2=ON -DUSE_WEBSOCKETS=ON -DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake
+          cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_CURL_EXE=OFF -DBUILD_TESTING=OFF -DCURL_USE_SCHANNEL=ON -DBUILD_SHARED_LIBS=ON -DCMAKE_INSTALL_PREFIX=C:\curl_install -DCURL_USE_LIBSSH2=OFF -DCURL_BROTLI=ON -DCURL_ZSTD=ON -DUSE_NGHTTP2=ON -DUSE_WEBSOCKETS=ON -DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake
           ninja ; ninja install
       - name: Package Directories
         run: |
@@ -160,7 +160,7 @@ jobs:
           cp -r C:\vcpkg\installed\x64-windows\include C:\curl_install -Force
           cp -r C:\brotli_install\lib C:\curl_install -Force
           cp -r C:\brotli_install\include C:\curl_install -Force
-          7z a curl_VC143_Dyn.7z C:\curl
+          7z a curl_VC143_Dyn.7z C:\curl_install
       - uses: actions/upload-artifact@v3
         with:
           name: curl_VC143_Dyn
@@ -208,14 +208,14 @@ jobs:
           Copy-Item -Path C:\msh3_install\share -Destination C:\vcpkg\installed\x64-windows-static -Recurse -Force
           $env:Path = "C:\ninja;C:\msh3_install\include;C:\msh3_install\lib;C:\vcpkg\installed\x64-windows-static\lib;C:\vcpkg\installed\x64-windows-static\include;$env:Path"
           cd C:/curl-8.0.1 ; mkdir build ; cd build
-          cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_CURL_EXE=OFF -DBUILD_TESTING=OFF -DCURL_USE_SCHANNEL=ON -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=C:/curl -DCURL_USE_LIBSSH2=OFF -DCURL_BROTLI=OFF -DCURL_ZSTD=ON -DUSE_NGHTTP2=ON -DUSE_WEBSOCKETS=ON -DUSE_MSH3=ON -DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake
+          cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_CURL_EXE=OFF -DBUILD_TESTING=OFF -DCURL_USE_SCHANNEL=ON -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=C:\curl_install -DCURL_USE_LIBSSH2=OFF -DCURL_BROTLI=OFF -DCURL_ZSTD=ON -DUSE_NGHTTP2=ON -DUSE_WEBSOCKETS=ON -DUSE_MSH3=ON -DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake
           ninja ; ninja install
       - name: Package Directories
         run: |
-          Copy-Item -Path 'C:\vcpkg\installed\x64-windows-static\lib' -Destination 'C:\curl' -Recurse -Force
-          Copy-Item -Path C:\vcpkg\installed\x64-windows-static\include -Destination C:\curl -Recurse -Force
-          # Copy-Item -Path C:\msquic_install -Destination C:\curl -Recurse -Force
-          7z a curl_VC143_Static_msh3.7z C:\curl
+          cp -r C:\vcpkg\installed\x64-windows-static\lib C:\curl_install -Force
+          cp -r C:\vcpkg\installed\x64-windows-static\include C:\curl_install -Force
+          # Copy-Item -Path C:\msquic_install -Destination C:\curl_install -Recurse -Force
+          7z a curl_VC143_Static_msh3.7z C:\curl_install
       - uses: actions/upload-artifact@v3
         with:
           name: curl_VC143_Static_msh3
@@ -263,14 +263,14 @@ jobs:
           Copy-Item -Path C:\msh3_install\share -Destination C:\vcpkg\installed\x64-windows -Recurse -Force
           $env:Path = "C:\ninja;C:\msh3_install\include;C:\msh3_install\lib;C:\vcpkg\installed\x64-windows-static\lib;C:\vcpkg\installed\x64-windows-static\include;$env:Path"
           cd C:/curl-8.0.1 ; mkdir build ; cd build
-          cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DBUILD_CURL_EXE=OFF -DBUILD_TESTING=OFF -DCURL_USE_SCHANNEL=ON -DCMAKE_INSTALL_PREFIX=C:/curl -DCURL_USE_LIBSSH2=OFF -DCURL_BROTLI=OFF -DCURL_ZSTD=ON -DUSE_NGHTTP2=ON -DUSE_WEBSOCKETS=ON -DUSE_MSH3=ON -DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake
+          cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DBUILD_CURL_EXE=OFF -DBUILD_TESTING=OFF -DCURL_USE_SCHANNEL=ON -DCMAKE_INSTALL_PREFIX=C:\curl_install -DCURL_USE_LIBSSH2=OFF -DCURL_BROTLI=OFF -DCURL_ZSTD=ON -DUSE_NGHTTP2=ON -DUSE_WEBSOCKETS=ON -DUSE_MSH3=ON -DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake
           ninja ; ninja install
       - name: Package Directories
         run: |
-          Copy-Item -Path C:\vcpkg\installed\x64-windows\lib -Destination C:\curl -Recurse -Force
-          Copy-Item -Path C:\vcpkg\installed\x64-windows\include -Destination C:\curl -Recurse -Force
-          Copy-Item -Path C:\vcpkg\installed\x64-windows\bin -Destination C:\curl -Recurse -Force
-          7z a curl_VC143_Dyn_msh3.7z C:\curl
+          cp -r C:\vcpkg\installed\x64-windows\lib C:\curl_install -Force
+          cp -r C:\vcpkg\installed\x64-windows\include C:\curl_install -Force
+          cp -r C:\vcpkg\installed\x64-windows\bin C:\curl_install -Force
+          7z a curl_VC143_Dyn_msh3.7z C:\curl_install
       - uses: actions/upload-artifact@v3
         with:
           name: curl_VC143_Dyn_msh3
