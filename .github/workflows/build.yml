@@ -75,6 +75,12 @@ jobs:
         with:
           name: curl_MinGW64_Static
           path: curl_MinGW64_Static.7z
+      - name: Update cURL Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: curl-build
+          files: |
+            curl_MinGW64_Static.7z
 
   curl-vc143-build:
     name: Curl Vcpkg vc143 Build
@@ -114,6 +120,12 @@ jobs:
         with:
           name: curl_VC143_Static
           path: curl_VC143_Static.7z
+      - name: Update cURL Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: curl-build
+          files: |
+            curl_VC143_Static.7z
 
   curl-vc143-dyn-build:
     name: Curl vc143 Dyn Build
@@ -153,6 +165,12 @@ jobs:
         with:
           name: curl_VC143_Dyn
           path: curl_VC143_Dyn.7z
+      - name: Update cURL Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: curl-build
+          files: |
+            curl_VC143_Dyn.7z
 
   curl-vc143-build-msquic:
     name: Curl vc143 Build With MsQuic
@@ -202,6 +220,12 @@ jobs:
         with:
           name: curl_VC143_Static_msh3
           path: curl_VC143_Static_msh3.7z
+      - name: Update cURL Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: curl-build
+          files: |
+            curl_VC143_Static_msh3.7z
 
   curl-vc143-dyn-build-msquic:
     name: Curl vc143 Dyn Build With MsQuic
@@ -251,3 +275,9 @@ jobs:
         with:
           name: curl_VC143_Dyn_msh3
           path: curl_VC143_Dyn_msh3.7z
+      - name: Update cURL Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: curl-build
+          files: |
+            curl_VC143_Dyn_msh3.7z
