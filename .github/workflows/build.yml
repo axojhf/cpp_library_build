@@ -112,7 +112,7 @@ jobs:
           (new-object System.Net.WebClient).DownloadFile('https://github.com/axojhf/cpp_library_build/releases/download/curl-build/curl_MinGW64_Static.7z','curl.7z')
           7z x -aoa -oC:\ curl.7z ; rm curl.7z
           # cp libcurl.pc C:\curl\lib\pkgconfig -Force
-          (new-object System.Net.WebClient).DownloadFile('https://raw.githubusercontent.com/axojhf/cpp_library_build/curl-cpr-quic-huge/fix_libcurl_pc.ps1','fix_libcurl_pc.ps1')
+          (new-object System.Net.WebClient).DownloadFile('https://raw.githubusercontent.com/axojhf/cpp_library_build/cpr/fix_libcurl_pc.ps1','fix_libcurl_pc.ps1')
           .\fix_libcurl_pc.ps1 ; rm fix_libcurl_pc.ps1
       - name: Build
         run: |
@@ -146,7 +146,7 @@ jobs:
           (new-object System.Net.WebClient).DownloadFile('https://github.com/axojhf/cpp_library_build/releases/download/curl-build/curl_VC143_Static.7z','curl.7z')
           7z x -aoa -oC:\ curl.7z ; rm curl.7z
           # cp libcurl.pc C:\curl\lib\pkgconfig -Force
-          (new-object System.Net.WebClient).DownloadFile('https://raw.githubusercontent.com/axojhf/cpp_library_build/curl-cpr-quic-huge/fix_libcurl_pc.ps1','fix_libcurl_pc.ps1')
+          (new-object System.Net.WebClient).DownloadFile('https://raw.githubusercontent.com/axojhf/cpp_library_build/cpr/fix_libcurl_pc.ps1','fix_libcurl_pc.ps1')
           .\fix_libcurl_pc.ps1 ; rm fix_libcurl_pc.ps1
       - uses: ilammy/msvc-dev-cmd@v1
         with:
@@ -184,7 +184,7 @@ jobs:
           (new-object System.Net.WebClient).DownloadFile('https://github.com/axojhf/cpp_library_build/releases/download/curl-build/curl_VC143_Dyn.7z','curl.7z')
           7z x -aoa -oC:\ curl.7z ; rm curl.7z
           # cp libcurl.pc C:\curl\lib\pkgconfig -Force
-          (new-object System.Net.WebClient).DownloadFile('https://raw.githubusercontent.com/axojhf/cpp_library_build/curl-cpr-quic-huge/fix_libcurl_pc.ps1','fix_libcurl_pc.ps1')
+          (new-object System.Net.WebClient).DownloadFile('https://raw.githubusercontent.com/axojhf/cpp_library_build/cpr/fix_libcurl_pc.ps1','fix_libcurl_pc.ps1')
           .\fix_libcurl_pc.ps1 ; rm fix_libcurl_pc.ps1
       - uses: ilammy/msvc-dev-cmd@v1
         with:
