@@ -7,7 +7,7 @@ on:
 jobs:
   cronet-latest-build:
     name: cronet Latest Build
-    runs-on: windows-2019
+    runs-on: windows-2022
     steps:
       - name: Set Mingw64 Ninja
         run: |
@@ -20,9 +20,14 @@ jobs:
           (new-object System.Net.WebClient).DownloadFile('https://storage.googleapis.com/chrome-infra/depot_tools.zip','depot_tools.zip')
           7z x -aoa -oC:\depot_tools depot_tools.zip ; rm depot_tools.zip
           # cd C:\ ; git clone --depth=1 --recursive https://github.com/cloudflare/cronet
+      - uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: amd64
+          toolset: 14.3
       - name: Build
         run: |
           $env:Path = "C:\depot_tools;C:\mingw64\bin;C:\ninja;C:\nasm-2.16.01;$env:Path"
+          $Env:DEPOT_TOOLS_WIN_TOOLCHAIN = 0
           cd C:\ ; gclient ; fetch --no-history chromium ; cd chromium/src
           gn gen out/x64.Release --args='is_official_build=true is_component_build=false is_debug=false target_cpu=\"x64\"'
           ninja -C out/x64.Release/ cronet_package
