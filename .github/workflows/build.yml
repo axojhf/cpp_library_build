@@ -35,16 +35,17 @@ jobs:
           ninja -C out/x64.Release/ cronet_package
           ls out/x64.Release/
           ls out/x64.Release/cronet
+      - name: Copy cronet library files
+        run: |
+          $version = (Get-ChildItem C:\chromium\src\out\x64.Release\ | Where-Object { $_.Name -like "cronet.*.dll" }).Name.split('.')[1,2,3,4] -join '.'
+          Copy-Item -Path C:\chromium\src\out\x64.Release\cronet.$version.dll.lib -Destination C:\chromium\src\out\x64.Release\cronet\ -Force
       - name: Package Directories
         run: |
-          # mkdir C:\cronet_install\lib
-          # cp C:\cronet\target\release\libcronet.a C:\cronet_install\lib -Force
-          # cp -r C:\cronet\cronet\include C:\cronet_install -Force
-          # 7z a cronet_MinGW64_static.7z C:\cronet_install
-      # - uses: actions/upload-artifact@v3
-      #   with:
-      #     name: cronet_MinGW64_static
-      #     path: cronet_MinGW64_static.7z
+          7z a cronet_win32_x64_dll_lib.7z C:\chromium\src\out\x64.Release\cronet\
+      - uses: actions/upload-artifact@v3
+        with:
+          name: cronet_win32_x64_dll_lib
+          path: cronet_win32_x64_dll_lib.7z
 
   # cronet-vc143-static-build:
   #   name: cronet vc143 static Build
