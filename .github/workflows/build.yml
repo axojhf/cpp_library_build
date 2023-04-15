@@ -19,6 +19,7 @@ jobs:
           # 7z x -aoa -oC:\ nasm.zip ; rm nasm.zip
           (new-object System.Net.WebClient).DownloadFile('https://storage.googleapis.com/chrome-infra/depot_tools.zip','depot_tools.zip')
           7z x -aoa -oC:\depot_tools depot_tools.zip ; rm depot_tools.zip
+          mdkir C:\chromium
           # cd C:\ ; git clone --depth=1 --recursive https://github.com/cloudflare/cronet
       - uses: ilammy/msvc-dev-cmd@v1
         with:
@@ -26,10 +27,9 @@ jobs:
           toolset: 14.3
       - name: Build
         run: |
-          $env:Path = "C:\depot_tools;C:\mingw64\bin;C:\ninja;C:\nasm-2.16.01;$env:Path"
+          $env:Path = "C:\depot_tools;$env:Path"
           $Env:DEPOT_TOOLS_WIN_TOOLCHAIN = 0
-          ls
-          cd C:\ ; gclient ; fetch --no-history chromium ; ls ; cd src
+          cd C:\chromium ; gclient ; fetch --no-history chromium ; cd src ; gclient runhooks 
           gn gen out/x64.Release --args='is_official_build=true is_component_build=false is_debug=false target_cpu=\"x64\"'
           ninja -C out/x64.Release/ cronet_package
           ls out/x64.Release/
