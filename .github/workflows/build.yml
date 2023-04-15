@@ -23,7 +23,7 @@ jobs:
       - name: Build
         run: |
           $env:Path = "C:\depot_tools;C:\mingw64\bin;C:\ninja;C:\nasm-2.16.01;$env:Path"
-          cd C:\ ; gclient ; fetch chromium --no-history ; cd chromium/src
+          cd C:\ ; gclient ; fetch --no-history chromium ; cd chromium/src
           gn gen out/x64.Release --args='is_official_build=true is_component_build=false is_debug=false target_cpu=\"x64\"'
           ninja -C out/x64.Release/ cronet_package
           ls out/x64.Release/
