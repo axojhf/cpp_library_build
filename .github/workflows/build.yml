@@ -19,7 +19,7 @@ jobs:
           # 7z x -aoa -oC:\ nasm.zip ; rm nasm.zip
           (new-object System.Net.WebClient).DownloadFile('https://storage.googleapis.com/chrome-infra/depot_tools.zip','depot_tools.zip')
           7z x -aoa -oC:\depot_tools depot_tools.zip ; rm depot_tools.zip
-          mdkir C:\chromium
+          mkdir C:\chromium
           # cd C:\ ; git clone --depth=1 --recursive https://github.com/cloudflare/cronet
       - uses: ilammy/msvc-dev-cmd@v1
         with:
