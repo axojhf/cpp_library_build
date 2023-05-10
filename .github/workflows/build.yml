@@ -1,85 +1,21 @@
-name: cronet Build
+name: skia Build
 
 on:
   push:
     branches:
-      - cronet
+      - skia
 jobs:
-  cronet-latest-build:
-    name: cronet Latest Build
+  skia-vcpkg-latest-build:
+    name: skia Latest Build
     runs-on: windows-2022
     steps:
-      - name: Set Mingw64 Ninja
-        run: |
-          # (new-object System.Net.WebClient).DownloadFile('https://github.com/cristianadam/mingw-builds/releases/download/v11.2.0-rev3/x86_64-11.2.0-release-posix-seh-rt_v9-rev3.7z','mingw64.7z')
-          # 7z x -aoa -oC:\ mingw64.7z ; rm mingw64.7z
-          # (new-object System.Net.WebClient).DownloadFile('https://github.com/ninja-build/ninja/releases/download/v1.11.1/ninja-win.zip','ninja-win.zip')
-          # 7z x -aoa -oC:\ninja ninja-win.zip ; rm ninja-win.zip
-          # (new-object System.Net.WebClient).DownloadFile('https://www.nasm.us/pub/nasm/releasebuilds/2.16.01/win64/nasm-2.16.01-win64.zip','nasm.zip')
-          # 7z x -aoa -oC:\ nasm.zip ; rm nasm.zip
-          (new-object System.Net.WebClient).DownloadFile('https://storage.googleapis.com/chrome-infra/depot_tools.zip','depot_tools.zip')
-          7z x -aoa -oC:\depot_tools depot_tools.zip ; rm depot_tools.zip
-          mkdir C:\chromium
-          # cd C:\ ; git clone --depth=1 --recursive https://github.com/cloudflare/cronet
       - uses: ilammy/msvc-dev-cmd@v1
         with:
           arch: amd64
           toolset: 14.3
       - name: Build
         run: |
-          $env:Path = "C:\depot_tools;$env:Path"
-          $Env:DEPOT_TOOLS_WIN_TOOLCHAIN = 0
-          cd C:\chromium ; gclient ; fetch --no-history chromium ; cd src ; gclient runhooks 
-          gn gen out/x64.Release --args='chrome_pgo_phase = 1 is_official_build=true is_component_build=false is_debug=false target_cpu=\"x64\"'
-          gclient runhooks
-          ninja -C out/x64.Release/ cronet_package
-          ls out/x64.Release/
-          ls out/x64.Release/cronet
-      - name: Copy cronet library files
-        run: |
-          $version = (Get-ChildItem C:\chromium\src\out\x64.Release\ | Where-Object { $_.Name -like "cronet.*.dll" }).Name.split('.')[1,2,3,4] -join '.'
-          Copy-Item -Path C:\chromium\src\out\x64.Release\cronet.$version.dll.lib -Destination C:\chromium\src\out\x64.Release\cronet\ -Force
-      - name: Package Directories
-        run: |
-          7z a cronet_win32_x64_dll_lib.7z C:\chromium\src\out\x64.Release\cronet\
-      - uses: actions/upload-artifact@v3
-        with:
-          name: cronet_win32_x64_dll_lib
-          path: cronet_win32_x64_dll_lib.7z
-
-  # cronet-vc143-static-build:
-  #   name: cronet vc143 static Build
-  #   runs-on: windows-2022
-  #   steps:
-  #     - name: Set Ninja
-  #       run: |
-  #         (new-object System.Net.WebClient).DownloadFile('https://github.com/ninja-build/ninja/releases/download/v1.11.1/ninja-win.zip','ninja-win.zip')
-  #         7z x -aoa -oC:\ninja ninja-win.zip ; rm ninja-win.zip
-  #         (new-object System.Net.WebClient).DownloadFile('https://www.nasm.us/pub/nasm/releasebuilds/2.16.01/win64/nasm-2.16.01-win64.zip','nasm.zip')
-  #         7z x -aoa -oC:\ nasm.zip ; rm nasm.zip
-  #         cd C:\ ; git clone --depth=1 --recursive https://github.com/cloudflare/cronet
-  #     - uses: ilammy/msvc-dev-cmd@v1
-  #       with:
-  #         arch: amd64
-  #         toolset: 14.3
-  #     - name: Build
-  #       run: |
-  #         $env:Path = "C:\ninja;C:\nasm-2.16.01;$env:Path"
-  #         cd C:\cronet\cronet\deps
-  #         rm -r C:\cronet\cronet\deps\boringssl -Force
-  #         git clone --depth=1 https://github.com/google/boringssl
-  #         rustup target add x86_64-pc-windows-msvc
-  #         rustup default stable-msvc
-  #         cd C:\cronet
-  #         cargo build --package cronet --release --features ffi,pkg-config-meta,qlog
-  #         ls C:\cronet\cronet\deps\boringssl
-  #     - name: Package Directories
-  #       run: |
-  #         mkdir C:\cronet_install\lib
-  #         cp C:\cronet\target\release\libcronet.lib C:\cronet_install\lib -Force
-  #         cp -r C:\cronet\cronet\include C:\cronet_install -Force
-  #         7z a cronet_vc143_static.7z C:\cronet_install
-  #     - uses: actions/upload-artifact@v3
-  #       with:
-  #         name: cronet_vc143_static
-  #         path: cronet_vc143_static.7z
+          cp portfile.cmake C:\portfile.cmake
+          cd C:\vcpkg ; git pull ; ./bootstrap-vcpkg.bat
+          cp C:\portfile.cmake C:\vcpkg\ports\skia\portfile.cmake
+          .\vcpkg install skia[direct3d,vulkan]:x64-windows
