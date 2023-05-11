@@ -19,5 +19,5 @@ jobs:
           # ls
           (new-object System.Net.WebClient).DownloadFile('https://raw.githubusercontent.com/axojhf/cpp_library_build/skia/portfile.cmake','C:\portfile.cmake')
           # ls
-          mv C:\portfile.cmake C:\vcpkg\ports\skia\portfile.cmake
+          mv C:\portfile.cmake C:\vcpkg\ports\skia\portfile.cmake -Force
           .\vcpkg install skia[direct3d,vulkan]:x64-windows
