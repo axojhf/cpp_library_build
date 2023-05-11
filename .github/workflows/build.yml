@@ -58,7 +58,7 @@ jobs:
           .\vcpkg install skia:x64-windows
 
   cache-build:
-    name: FFTW3 Vcpkg MinGW64 Build
+    name: Cache Build
     runs-on: windows-2022
     steps:
       - uses: ilammy/msvc-dev-cmd@v1
