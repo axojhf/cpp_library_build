@@ -51,21 +51,21 @@ jobs:
         # continue-on-error: true
         run: |
           cd C:\vcpkg ; git pull ; ./bootstrap-vcpkg.bat
-          # ls
           (new-object System.Net.WebClient).DownloadFile('https://raw.githubusercontent.com/axojhf/cpp_library_build/skia/portfile.cmake','C:\portfile.cmake')
-          # ls
           mv C:\portfile.cmake C:\vcpkg\ports\skia\portfile.cmake -Force
-          # .\vcpkg install skia[direct3d,vulkan]:x64-windows
-          .\vcpkg install skia:x64-windows
+          .\vcpkg install skia[direct3d,vulkan]:x64-windows
+          # .\vcpkg install skia:x64-windows
           Write-Host "output build-x64-windows-dbg-out.log\n" -ForegroundColor Green
           cat C:\vcpkg\buildtrees\skia\build-x64-windows-dbg-out.log
           Write-Host "output build-x64-windows-dbg-err.log\n" -ForegroundColor Green
           cat C:\vcpkg\buildtrees\skia\build-x64-windows-dbg-err.log
-      # - name: Cat Logs
-      #   continue-on-error: true
-      #   run: |
-      #     cat C:\vcpkg\buildtrees\skia\build-x64-windows-dbg-out.log
-      #     cat C:\vcpkg\buildtrees\skia\build-x64-windows-dbg-out.log
+      - name: Package Directories
+        run: |
+          7z a skia_vcpkg_x64_windows_latest_build.7z C:/vcpkg/installed/x64-windows
+      - uses: actions/upload-artifact@v3
+        with:
+          name: skia_vcpkg_x64_windows_latest_build
+          path: skia_vcpkg_x64_windows_latest_build.7z
 
   # cache-build:
   #   name: Cache Build
