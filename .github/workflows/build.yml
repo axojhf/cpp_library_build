@@ -49,7 +49,7 @@ jobs:
             C:/vcpkg
       - name: Build
         run: |
-          # cd C:\vcpkg ; git pull ; ./bootstrap-vcpkg.bat
+          cd C:\vcpkg ; git pull ; ./bootstrap-vcpkg.bat
           # ls
           (new-object System.Net.WebClient).DownloadFile('https://raw.githubusercontent.com/axojhf/cpp_library_build/skia/portfile.cmake','C:\portfile.cmake')
           # ls
