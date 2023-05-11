@@ -8,7 +8,7 @@ vcpkg_from_git(
         disable-msvc-env-setup.patch
         uwp.patch
         core-opengl32.patch
-        0001-fix-win_sak-path.patch
+#        0001-fix-win_sak-path.patch
 )
 
 # these following aren't available in vcpkg
