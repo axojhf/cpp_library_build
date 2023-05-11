@@ -145,6 +145,8 @@ set(required_externals
     piex
     sfntly
     zlib
+#自己添加的
+    wuffs
 )
 
 if("fontconfig" IN_LIST FEATURES)
