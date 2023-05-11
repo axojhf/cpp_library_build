@@ -48,6 +48,7 @@ jobs:
           path: |
             C:/vcpkg/installed
       - name: Build
+        # continue-on-error: true
         run: |
           cd C:\vcpkg ; git pull ; ./bootstrap-vcpkg.bat
           # ls
@@ -56,8 +57,15 @@ jobs:
           mv C:\portfile.cmake C:\vcpkg\ports\skia\portfile.cmake -Force
           # .\vcpkg install skia[direct3d,vulkan]:x64-windows
           .\vcpkg install skia:x64-windows
+          Write-Host "output build-x64-windows-dbg-out.log\n"
           cat C:\vcpkg\buildtrees\skia\build-x64-windows-dbg-out.log
-          cat C:\vcpkg\buildtrees\skia\build-x64-windows-dbg-out.log
+          Write-Host "output build-x64-windows-dbg-err.log\n"
+          cat C:\vcpkg\buildtrees\skia\build-x64-windows-dbg-err.log
+      # - name: Cat Logs
+      #   continue-on-error: true
+      #   run: |
+      #     cat C:\vcpkg\buildtrees\skia\build-x64-windows-dbg-out.log
+      #     cat C:\vcpkg\buildtrees\skia\build-x64-windows-dbg-out.log
 
   # cache-build:
   #   name: Cache Build
