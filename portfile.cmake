@@ -89,6 +89,13 @@ declare_external_from_git(vulkan-tools
     LICENSE_FILE LICENSE.txt
 )
 
+# 自己补足的部分
+declare_external_from_git(wuffs
+    URL "https://skia.googlesource.com/external/github.com/google/wuffs-mirror-release-c.git"
+    REF "a0041ac0310b3156b963e2f2bea09245f25ec073"
+    LICENSE_FILE LICENSE
+)
+
 declare_external_from_pkgconfig(expat)
 declare_external_from_pkgconfig(fontconfig PATH "third_party")
 declare_external_from_pkgconfig(freetype2)

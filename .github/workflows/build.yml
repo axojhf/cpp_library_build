@@ -57,9 +57,9 @@ jobs:
           mv C:\portfile.cmake C:\vcpkg\ports\skia\portfile.cmake -Force
           # .\vcpkg install skia[direct3d,vulkan]:x64-windows
           .\vcpkg install skia:x64-windows
-          Write-Host "output build-x64-windows-dbg-out.log\n"
+          Write-Host "output build-x64-windows-dbg-out.log\n" -ForegroundColor Green
           cat C:\vcpkg\buildtrees\skia\build-x64-windows-dbg-out.log
-          Write-Host "output build-x64-windows-dbg-err.log\n"
+          Write-Host "output build-x64-windows-dbg-err.log\n" -ForegroundColor Green
           cat C:\vcpkg\buildtrees\skia\build-x64-windows-dbg-err.log
       # - name: Cat Logs
       #   continue-on-error: true
