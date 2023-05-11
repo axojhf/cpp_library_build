@@ -46,7 +46,7 @@ jobs:
         with:
           key: skai-deps-vcpkg
           path: |
-            C:/vcpkg
+            C:/vcpkg/installed
       - name: Build
         run: |
           cd C:\vcpkg ; git pull ; ./bootstrap-vcpkg.bat
@@ -56,22 +56,24 @@ jobs:
           mv C:\portfile.cmake C:\vcpkg\ports\skia\portfile.cmake -Force
           # .\vcpkg install skia[direct3d,vulkan]:x64-windows
           .\vcpkg install skia:x64-windows
+          cat C:\vcpkg\buildtrees\skia\build-x64-windows-dbg-out.log
+          cat C:\vcpkg\buildtrees\skia\build-x64-windows-dbg-out.log
 
-  cache-build:
-    name: Cache Build
-    runs-on: windows-2022
-    steps:
-      - uses: ilammy/msvc-dev-cmd@v1
-        with:
-          arch: amd64
-          toolset: 14.3
-      - name: Cache Local64
-        uses: actions/cache@v3
-        with:
-          key: skai-deps-vcpkg
-          path: |
-            C:/vcpkg/installed
-      - name: Build
-        run: |
-          cd C:\vcpkg ; git pull ; ./bootstrap-vcpkg.bat
-          .\vcpkg install brotli[core]:x64-windows bzip2[core,tool]:x64-windows egl-registry[core]:x64-windows expat[core]:x64-windows freetype[brotli,bzip2,core,png,zlib]:x64-windows harfbuzz[core]:x64-windows icu[core,tools]:x64-windows libjpeg-turbo[core]:x64-windows libpng[core]:x64-windows libwebp[core,libwebpmux,nearlossless,simd,unicode]:x64-windows opengl[core]:x64-windows opengl-registry[core]:x64-windows pkgconf[core]:x64-windows vcpkg-cmake[core]:x64-windows vcpkg-cmake-config[core]:x64-windows vcpkg-cmake-get-vars[core]:x64-windows vcpkg-gn[core]:x64-windows vcpkg-pkgconfig-get-modules[core]:x64-windows vcpkg-tool-gn[core]:x64-windows vcpkg-tool-meson[core]:x64-windows zlib[core]:x64-windows --clean-after-build
+  # cache-build:
+  #   name: Cache Build
+  #   runs-on: windows-2022
+  #   steps:
+  #     - uses: ilammy/msvc-dev-cmd@v1
+  #       with:
+  #         arch: amd64
+  #         toolset: 14.3
+  #     - name: Cache Local64
+  #       uses: actions/cache@v3
+  #       with:
+  #         key: skai-deps-vcpkg
+  #         path: |
+  #           C:/vcpkg/installed
+  #     - name: Build
+  #       run: |
+  #         cd C:\vcpkg ; git pull ; ./bootstrap-vcpkg.bat
+  #         .\vcpkg install brotli[core]:x64-windows bzip2[core,tool]:x64-windows egl-registry[core]:x64-windows expat[core]:x64-windows freetype[brotli,bzip2,core,png,zlib]:x64-windows harfbuzz[core]:x64-windows icu[core,tools]:x64-windows libjpeg-turbo[core]:x64-windows libpng[core]:x64-windows libwebp[core,libwebpmux,nearlossless,simd,unicode]:x64-windows opengl[core]:x64-windows opengl-registry[core]:x64-windows pkgconf[core]:x64-windows vcpkg-cmake[core]:x64-windows vcpkg-cmake-config[core]:x64-windows vcpkg-cmake-get-vars[core]:x64-windows vcpkg-gn[core]:x64-windows vcpkg-pkgconfig-get-modules[core]:x64-windows vcpkg-tool-gn[core]:x64-windows vcpkg-tool-meson[core]:x64-windows zlib[core]:x64-windows --clean-after-build
