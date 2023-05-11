@@ -16,8 +16,8 @@ jobs:
       - name: Build
         run: |
           cd C:\vcpkg ; git pull ; ./bootstrap-vcpkg.bat
-          ls
-          (new-object System.Net.WebClient).DownloadFile('https://raw.githubusercontent.com/axojhf/cpp_library_build/skia/portfile.cmake','portfile.cmake')
-          ls
-          mv portfile.cmake C:\vcpkg\ports\skia\portfile.cmake
+          # ls
+          (new-object System.Net.WebClient).DownloadFile('https://raw.githubusercontent.com/axojhf/cpp_library_build/skia/portfile.cmake','C:\portfile.cmake')
+          # ls
+          mv C:\portfile.cmake C:\vcpkg\ports\skia\portfile.cmake
           .\vcpkg install skia[direct3d,vulkan]:x64-windows
