@@ -3,7 +3,7 @@ include("${CMAKE_CURRENT_LIST_DIR}/skia-functions.cmake")
 vcpkg_from_git(
     OUT_SOURCE_PATH SOURCE_PATH
     URL https://github.com/google/skia
-    REF 661b4d60fcaa3ebbd6c2b00ce4bbe93b112f5211
+    REF 933fcbb65e190af31f91214f886b7a3c8432f55d
     PATCHES
         disable-msvc-env-setup.patch
         uwp.patch
@@ -15,77 +15,77 @@ vcpkg_from_git(
 # to update, visit the DEPS file in Skia's root directory
 declare_external_from_git(abseil-cpp
     URL "https://skia.googlesource.com/external/github.com/abseil/abseil-cpp.git"
-    REF "2a3fe1b580a19ec04ed892a96f4dfdb30a4479f6"
+    REF "cb436cf0142b4cbe47aae94223443df7f82e2920"
     LICENSE_FILE LICENSE
 )
 declare_external_from_git(d3d12allocator
     URL "https://skia.googlesource.com/external/github.com/GPUOpen-LibrariesAndSDKs/D3D12MemoryAllocator.git"
-    REF "3d2f1b223ae9a31491b1cad111c0681cd6acd9f8"
+    REF "169895d529dfce00390a20e69c2f516066fe7a3b"
     LICENSE_FILE LICENSE.txt
 )
 declare_external_from_git(dawn
     URL "https://dawn.googlesource.com/dawn.git"
-    REF "d0797b07a5a6522ea38c4ffd896f51afb75fcd20"
+    REF "776a762c9a4de785184a724d9fa70c45dbd18f68"
     LICENSE_FILE LICENSE
 )
 declare_external_from_git(dng_sdk
     URL "https://android.googlesource.com/platform/external/dng_sdk.git"
-    REF "121ebb9b8ea23c8e1770d0f46064d58d0d268ad4"
+    REF "c8d0c9b1d16bfda56f15165d39e0ffa360a11123"
     LICENSE_FILE LICENSE
 )
 declare_external_from_git(jinja2
     URL "https://chromium.googlesource.com/chromium/src/third_party/jinja2"
-    REF "264c07d7e64f2874434a3b8039e101ddf1b01e7e"
+    REF "ee69aa00ee8536f61db6a451f3858745cf587de6"
     LICENSE_FILE LICENSE.rst
 )
-declare_external_from_git(libgifcodec
-    URL "https://skia.googlesource.com/libgifcodec"
-    REF "f34bdbe66f0589af466b38e8b6f65acc5e30b3a1"
-    LICENSE_FILE LICENSE.md
-)
+#declare_external_from_git(libgifcodec
+#    URL "https://skia.googlesource.com/libgifcodec"
+#    REF "f34bdbe66f0589af466b38e8b6f65acc5e30b3a1"
+#    LICENSE_FILE LICENSE.md
+#)
 declare_external_from_git(markupsafe
     URL "https://chromium.googlesource.com/chromium/src/third_party/markupsafe"
-    REF "13f4e8c9e206567eeb13bf585406ddc574005748"
+    REF "0944e71f4b2cb9a871bcbe353f95e889b64a611a"
     LICENSE_FILE LICENSE
 )
 declare_external_from_git(piex
     URL "https://android.googlesource.com/platform/external/piex.git"
-    REF "98ecd898ea61034d9f88adf50c7d82fd3ade1b2b"
+    REF "bb217acdca1cc0c16b704669dd6f91a1b509c406"
     LICENSE_FILE LICENSE
 )
 declare_external_from_git(sfntly
     URL "https://github.com/googlefonts/sfntly.git"
-    REF "a56f5782f209771aa226063757d57e6b5c948478"
+    REF "b55ff303ea2f9e26702b514cf6a3196a2e3e2974"
     LICENSE_FILE README.md
 )
 declare_external_from_git(spirv-cross
     URL "https://chromium.googlesource.com/external/github.com/KhronosGroup/SPIRV-Cross"
-    REF "89d4c2b205e28f94cb17e23ee032f799b8564f22"
+    REF "54b48a2f3afd9bbaaddc9f876f85a0fbfad9c7fa"
     LICENSE_FILE LICENSE
 )
 declare_external_from_git(spirv-headers
     URL "https://skia.googlesource.com/external/github.com/KhronosGroup/SPIRV-Headers.git"
-    REF "5cf26fb1a89c0eb3627db3a0c5b01426937830df"
+    REF "268a061764ee69f09a477a695bf6a11ffe311b8d"
     LICENSE_FILE LICENSE
 )
 declare_external_from_git(spirv-tools
     URL "https://skia.googlesource.com/external/github.com/KhronosGroup/SPIRV-Tools.git"
-    REF "f62e121b0df5374d1f043d1fbda98467406af0b1"
+    REF "51892874ba08f3ac0d9b1fcf3893c8516693a88e"
     LICENSE_FILE LICENSE
 )
-declare_external_from_git(tint
-    URL "https://dawn.googlesource.com/tint"
-    REF "f29007b756894d77eb35c87eb4475f4d897bb8ac"
-    LICENSE_FILE LICENSE
-)
+#declare_external_from_git(tint
+#    URL "https://dawn.googlesource.com/tint"
+#    REF "f29007b756894d77eb35c87eb4475f4d897bb8ac"
+#    LICENSE_FILE LICENSE
+#)
 declare_external_from_git(vulkan-headers
     URL "https://chromium.googlesource.com/external/github.com/KhronosGroup/Vulkan-Headers"
-    REF "53d493208369b4d5a75c32f8a9232b245ef21da8"
+    REF "bae9700cd9425541a0f6029957f005e5ad3ef660"
     LICENSE_FILE LICENSE.txt
 )
 declare_external_from_git(vulkan-tools
     URL "https://chromium.googlesource.com/external/github.com/KhronosGroup/Vulkan-Tools"
-    REF "b1d824efe72605141ecc8ceb992f6d720997adb1"
+    REF "fec27a3f6e3bae96a8f3e784d6d643afb41989d6"
     LICENSE_FILE LICENSE.txt
 )
 
@@ -131,7 +131,7 @@ endif()
 set(required_externals
     dng_sdk
     expat
-    libgifcodec
+#    libgifcodec
     libjpeg
     libpng
     libwebp
