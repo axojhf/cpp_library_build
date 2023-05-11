@@ -36,11 +36,11 @@ jobs:
         with:
           arch: amd64
           toolset: 14.3
-      # - name: Install Vulkan SDK
-      #   uses: humbletim/install-vulkan-sdk@v1.1.1
-      #   with:
-      #     version: latest
-      #     cache: true
+      - name: Install Vulkan SDK
+        uses: humbletim/install-vulkan-sdk@v1.1.1
+        with:
+          version: latest
+          cache: true
       - name: Cache Local64
         uses: actions/cache@v3
         with:
