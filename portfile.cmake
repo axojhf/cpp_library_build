@@ -54,7 +54,7 @@ declare_external_from_git(piex
     LICENSE_FILE LICENSE
 )
 declare_external_from_git(sfntly
-    URL "https://github.com/googlefonts/sfntly.git"
+    URL "https://chromium.googlesource.com/external/github.com/googlei18n/sfntly.git"
     REF "b55ff303ea2f9e26702b514cf6a3196a2e3e2974"
     LICENSE_FILE README.md
 )
@@ -73,11 +73,11 @@ declare_external_from_git(spirv-tools
     REF "51892874ba08f3ac0d9b1fcf3893c8516693a88e"
     LICENSE_FILE LICENSE
 )
-declare_external_from_git(tint
-    URL "https://dawn.googlesource.com/tint"
-    REF "bccf79e1efc8ac58e3de7b04e5ea1401545d3c75"
-    LICENSE_FILE LICENSE
-)
+#declare_external_from_git(tint
+#    URL "https://dawn.googlesource.com/tint"
+#    REF "bccf79e1efc8ac58e3de7b04e5ea1401545d3c75"
+#    LICENSE_FILE LICENSE
+#)
 declare_external_from_git(vulkan-headers
     URL "https://chromium.googlesource.com/external/github.com/KhronosGroup/Vulkan-Headers"
     REF "bae9700cd9425541a0f6029957f005e5ad3ef660"

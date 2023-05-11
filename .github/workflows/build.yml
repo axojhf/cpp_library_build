@@ -5,8 +5,31 @@ on:
     branches:
       - skia
 jobs:
-  skia-vcpkg-latest-build:
-    name: skia Latest Build
+  # skia-vcpkg-latest-build:
+  #   name: skia Latest Build
+  #   runs-on: windows-2022
+  #   steps:
+  #     - uses: ilammy/msvc-dev-cmd@v1
+  #       with:
+  #         arch: amd64
+  #         toolset: 14.3
+  #     # - name: Install Vulkan SDK
+  #     #   uses: humbletim/install-vulkan-sdk@v1.1.1
+  #     #   with:
+  #     #     version: latest
+  #     #     cache: true
+  #     - name: Build
+  #       run: |
+  #         cd C:\vcpkg ; git pull ; ./bootstrap-vcpkg.bat
+  #         # ls
+  #         (new-object System.Net.WebClient).DownloadFile('https://raw.githubusercontent.com/axojhf/cpp_library_build/skia/portfile.cmake','C:\portfile.cmake')
+  #         # ls
+  #         mv C:\portfile.cmake C:\vcpkg\ports\skia\portfile.cmake -Force
+  #         # .\vcpkg install skia[direct3d,vulkan]:x64-windows
+  #         .\vcpkg install skia:x64-windows
+
+  skia-vcpkg-cache-latest-build:
+    name: skia cache Latest Build
     runs-on: windows-2022
     steps:
       - uses: ilammy/msvc-dev-cmd@v1
@@ -18,9 +41,15 @@ jobs:
       #   with:
       #     version: latest
       #     cache: true
+      - name: Cache Local64
+        uses: actions/cache@v3
+        with:
+          key: skai-deps-vcpkg
+          path: |
+            C:/vcpkg
       - name: Build
         run: |
-          cd C:\vcpkg ; git pull ; ./bootstrap-vcpkg.bat
+          # cd C:\vcpkg ; git pull ; ./bootstrap-vcpkg.bat
           # ls
           (new-object System.Net.WebClient).DownloadFile('https://raw.githubusercontent.com/axojhf/cpp_library_build/skia/portfile.cmake','C:\portfile.cmake')
           # ls
