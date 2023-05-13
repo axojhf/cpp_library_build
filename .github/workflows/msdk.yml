@@ -6,7 +6,7 @@ on:
       - intel-msdk
 jobs:
     msvc-build:
-        name: libsndfile MinGW64 Build
+        name: Intel Media SDK MSVC Build
         runs-on: windows-latest
         steps:
             - uses: ilammy/msvc-dev-cmd@v1
@@ -16,7 +16,7 @@ jobs:
             - name: Build
               run: |
                 cd C:\ ; git clone --depth=1 https://github.com/Intel-Media-SDK/MediaSDK msdk ; cd msdk
-                MSBuild AllBuild.sln /p:Configuration=Release /p:Platform=x64
+                MSBuild AllBuild.sln /p:Configuration=Release /p:Platform=x64 /p:WindowsTargetPlatformVersion=10.0.22000.0
                 ls
                 tree /f ./x64
                 # mkdir build ; cd build
