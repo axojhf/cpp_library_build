@@ -16,13 +16,16 @@ jobs:
             - name: Build
               run: |
                 cd C:\ ; git clone --depth=1 https://github.com/Intel-Media-SDK/MediaSDK msdk ; cd msdk
-                mkdir build ; cd build
-                cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=C:/msdk_install
-                ninja ; ninja install
-            - name: Package Directories
-              run: |
-                7z a msdk_vs143_static.7z C:\msdk_install
-            - uses: actions/upload-artifact@v3
-              with:
-                name: msdk_vs143_static
-                path: msdk_vs143_static.7z
+                MSBuild AllBuild.sln /p:Configuration=Release /p:Platform=x64
+                ls
+                tree /f ./x64
+                # mkdir build ; cd build
+                # cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=C:/msdk_install
+                # ninja ; ninja install
+            # - name: Package Directories
+            #   run: |
+            #     7z a msdk_vs143_static.7z C:\msdk_install
+            # - uses: actions/upload-artifact@v3
+            #   with:
+            #     name: msdk_vs143_static
+            #     path: msdk_vs143_static.7z
