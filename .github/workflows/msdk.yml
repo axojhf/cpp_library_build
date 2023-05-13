@@ -17,7 +17,7 @@ jobs:
               run: |
                 cd C:\vcpkg ; git pull ; .\bootstrap-vcpkg.bat ; .\vcpkg.exe install opencl:x64-windows opencl:x64-windows-static; .\vcpkg integrate install
                 cd C:\ ; git clone --depth=1 https://github.com/axojhf/MediaSDK -b vc143 msdk ; cd msdk
-                MSBuild AllBuild.sln /p:Configuration=Release /p:Platform=x64 
+                MSBuild AllBuild.sln /p:Configuration=Release /p:Platform=x64 /t:libmfx_vs2015 /t:Tools/asg-hevc /t:Tools/bs_parser_hevc /t:Tools/hevc_fei_extractor /t:Tools/mfx-tracer /t:Tools/mfx-tracer-config /t:Tools/tracer_vs12 /t:Tools/mfx_dispatch_trace_lib
                 # /p:WindowsTargetPlatformVersion=10.0.22000.0 
                 # /t:libmfx_vs2015 /t:vpp_plugin /t:Tools /t:asg-hevc /t:bs_parser_hevc /t:hevc_fei_extractor /t:mfx-tracer /t:mfx-tracer-config /t:tracer_vs12 /t:mfx_dispatch_trace_lib
                 ls
