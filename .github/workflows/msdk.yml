@@ -15,6 +15,7 @@ jobs:
                 toolset: 14.3
             - name: Build
               run: |
+                cd C:\vcpkg ; git pull ; .\bootstrap-vcpkg.bat ; .\vcpkg.exe install opencl:x64-windows
                 cd C:\ ; git clone --depth=1 https://github.com/Intel-Media-SDK/MediaSDK msdk ; cd msdk
                 MSBuild AllBuild.sln /p:Configuration=Release /p:Platform=x64 /p:WindowsTargetPlatformVersion=10.0.22000.0
                 ls
