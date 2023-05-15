@@ -29,7 +29,7 @@ jobs:
           cmake -G "Visual Studio 17 2022" -S external\ubpf -B external\ubpf\build
           nuget restore ebpf-for-windows.sln
           msbuild /m /p:Configuration=Debug /p:Platform=x64 ebpf-for-windows.sln
-          ls
+          tree /f ./x64
       # - name: Package Directories
       #   run: |
       #     cp -r C:\curl_install\lib C:\cpr_install -Force
@@ -64,7 +64,7 @@ jobs:
           Invoke-WebRequest 'https://raw.githubusercontent.com/microsoft/ebpf-for-windows/main/scripts/Setup-DevEnv.ps1' -OutFile $env:TEMP\Setup-DeveEnv.ps1
           if ((get-filehash -Algorithm SHA256 $env:TEMP\Setup-DeveEnv.ps1).Hash -eq '9B9C4358B05DBD16EF58C0548B1ADBA4B5591FE14DFD3239FC580BB95B39988C') { &"$env:TEMP\Setup-DeveEnv.ps1" }
           cd C:\ ; git clone --depth=1 --recurse-submodules https://github.com/microsoft/ebpf-for-windows.git ; cd ebpf-for-windows
-          cmake -S ebpf-for-windows -B build -GNinja -DBUILD_SHARED_LIBS=ON -DCMAKE_INSTALL_PREFIX=C:/ebpf_win_install
+          cmake -B build -GNinja -DBUILD_SHARED_LIBS=ON -DCMAKE_INSTALL_PREFIX=C:/ebpf_win_install
           cmake --build build --config Release
       - name: Package Directories
         run: |
