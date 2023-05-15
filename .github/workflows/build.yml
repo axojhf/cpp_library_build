@@ -1,24 +1,35 @@
-name: Demo Build
+name: ebpf-win Build
 
 on:
   push:
     branches:
-      - main
+      - ebpf-win
 jobs:
-  demo-build:
-    name: Demo Build
+  ebpf-win-build:
+    name: ebpf-win Build
     runs-on: windows-2022
     steps:
-      - name: Set Mingw64 Ninja
-        run: |
-          (new-object System.Net.WebClient).DownloadFile('https://github.com/cristianadam/mingw-builds/releases/download/v11.2.0-rev3/x86_64-11.2.0-release-posix-seh-rt_v9-rev3.7z','mingw64.7z')
-          7z x -aoa -oC:\ mingw64.7z ; rm mingw64.7z
-          (new-object System.Net.WebClient).DownloadFile('https://github.com/ninja-build/ninja/releases/download/v1.11.1/ninja-win.zip','ninja-win.zip')
-          7z x -aoa -oC:\ninja ninja-win.zip ; rm ninja-win.zip
+      # - name: Set Mingw64 Ninja
+      #   run: |
+      #     (new-object System.Net.WebClient).DownloadFile('https://github.com/cristianadam/mingw-builds/releases/download/v11.2.0-rev3/x86_64-11.2.0-release-posix-seh-rt_v9-rev3.7z','mingw64.7z')
+      #     7z x -aoa -oC:\ mingw64.7z ; rm mingw64.7z
+      #     (new-object System.Net.WebClient).DownloadFile('https://github.com/ninja-build/ninja/releases/download/v1.11.1/ninja-win.zip','ninja-win.zip')
+      #     7z x -aoa -oC:\ninja ninja-win.zip ; rm ninja-win.zip
       - uses: ilammy/msvc-dev-cmd@v1
         with:
           arch: amd64
           toolset: 14.3
+      - name: Build
+        run: |
+          Invoke-WebRequest 'https://raw.githubusercontent.com/microsoft/ebpf-for-windows/main/scripts/Setup-DevEnv.ps1' -OutFile $env:TEMP\Setup-DeveEnv.ps1
+          if ((get-filehash -Algorithm SHA256 $env:TEMP\Setup-DeveEnv.ps1).Hash -eq '9B9C4358B05DBD16EF58C0548B1ADBA4B5591FE14DFD3239FC580BB95B39988C') { &"$env:TEMP\Setup-DeveEnv.ps1" }
+          cd C:\ ; git clone --depth=1 --recurse-submodules https://github.com/microsoft/ebpf-for-windows.git ; cd ebpf-for-windows
+          cmake -G "Visual Studio 17 2022" -S external\ebpf-verifier -B external\ebpf-verifier\build
+          cmake -G "Visual Studio 17 2022" -S external\catch2 -B external\catch2\build -DBUILD_TESTING=OFF
+          cmake -G "Visual Studio 17 2022" -S external\ubpf -B external\ubpf\build
+          nuget restore ebpf-for-windows.sln
+          msbuild /m /p:Configuration=Debug /p:Platform=x64 ebpf-for-windows.sln
+          ls
       # - name: Package Directories
       #   run: |
       #     cp -r C:\curl_install\lib C:\cpr_install -Force
@@ -34,4 +45,37 @@ jobs:
       #     tag_name: cpr-build
       #     files: |
       #       cpr_MinGW64_Static.7z
-
+  ebpf-win-ninja-build:
+    name: ebpf-win ninja Build
+    runs-on: windows-2022
+    steps:
+      - name: Set Mingw64 Ninja
+        run: |
+          # (new-object System.Net.WebClient).DownloadFile('https://github.com/cristianadam/mingw-builds/releases/download/v11.2.0-rev3/x86_64-11.2.0-release-posix-seh-rt_v9-rev3.7z','mingw64.7z')
+          # 7z x -aoa -oC:\ mingw64.7z ; rm mingw64.7z
+          (new-object System.Net.WebClient).DownloadFile('https://github.com/ninja-build/ninja/releases/download/v1.11.1/ninja-win.zip','ninja-win.zip')
+          7z x -aoa -oC:\ninja ninja-win.zip ; rm ninja-win.zip
+      - uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: amd64
+          toolset: 14.3
+      - name: Build
+        run: |
+          Invoke-WebRequest 'https://raw.githubusercontent.com/microsoft/ebpf-for-windows/main/scripts/Setup-DevEnv.ps1' -OutFile $env:TEMP\Setup-DeveEnv.ps1
+          if ((get-filehash -Algorithm SHA256 $env:TEMP\Setup-DeveEnv.ps1).Hash -eq '9B9C4358B05DBD16EF58C0548B1ADBA4B5591FE14DFD3239FC580BB95B39988C') { &"$env:TEMP\Setup-DeveEnv.ps1" }
+          cd C:\ ; git clone --depth=1 --recurse-submodules https://github.com/microsoft/ebpf-for-windows.git ; cd ebpf-for-windows
+          cmake -S ebpf-for-windows -B build -GNinja -DBUILD_SHARED_LIBS=ON -DCMAKE_INSTALL_PREFIX=C:/ebpf_win_install
+          cmake --build build --config Release
+      - name: Package Directories
+        run: |
+          7z a ebpf_win_Share.7z C:\ebpf_win_install
+      - uses: actions/upload-artifact@v3
+        with:
+          name: ebpf_win_Share
+          path: ebpf_win_Share.7z
+      # - name: Update Cpr Release
+      #   uses: softprops/action-gh-release@v1
+      #   with:
+      #     tag_name: cpr-build
+      #     files: |
+      #       cpr_MinGW64_Static.7z
