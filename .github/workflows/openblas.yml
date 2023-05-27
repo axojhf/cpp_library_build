@@ -1,0 +1,40 @@
+name: OpenBLAS Build
+
+on:
+  push:
+    branches:
+      - openblas
+jobs:
+  openblas-build:
+    name: OpenBLAS Build
+    runs-on: windows-2022
+    steps:
+      - name: Set Mingw64 Ninja
+        run: |
+          (new-object System.Net.WebClient).DownloadFile('https://github.com/cristianadam/mingw-builds/releases/download/v11.2.0-rev3/x86_64-11.2.0-release-posix-seh-rt_v9-rev3.7z','mingw64.7z')
+          7z x -aoa -oC:\ mingw64.7z ; rm mingw64.7z
+          (new-object System.Net.WebClient).DownloadFile('https://github.com/ninja-build/ninja/releases/download/v1.11.1/ninja-win.zip','ninja-win.zip')
+          7z x -aoa -oC:\ninja ninja-win.zip ; rm ninja-win.zip
+    #   - uses: ilammy/msvc-dev-cmd@v1
+    #     with:
+    #       arch: amd64
+    #       toolset: 14.3
+      - name: Build
+        run: |
+          cd C:\ ; git clone --depth=1 https://github.com/xianyi/OpenBLAS.git ; cd OpenBLAS
+          cmake -B build -GNinja -DBUILD_SHARED_LIBS=ON -DCMAKE_INSTALL_PREFIX=C:\OpenBLAS_install
+          ninja ; ninja install
+      - name: Package Directories
+        run: |
+          7z a OpenBLAS_MinGW64_Static.7z C:\OpenBLAS_install
+      - uses: actions/upload-artifact@v3
+        with:
+          name: OpenBLAS_MinGW64_Static
+          path: OpenBLAS_MinGW64_Static.7z
+      # - name: Update Cpr Release
+      #   uses: softprops/action-gh-release@v1
+      #   with:
+      #     tag_name: cpr-build
+      #     files: |
+      #       cpr_MinGW64_Static.7z
+
