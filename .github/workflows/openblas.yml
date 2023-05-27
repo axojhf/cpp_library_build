@@ -22,8 +22,8 @@ jobs:
       - name: Build
         run: |
           cd C:\ ; git clone --depth=1 https://github.com/xianyi/OpenBLAS.git ; cd OpenBLAS
-          cmake -B build -GNinja -DBUILD_SHARED_LIBS=ON -DCMAKE_INSTALL_PREFIX=C:\OpenBLAS_install
-          ninja ; ninja install
+          cmake -B build -GNinja -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=ON -DCMAKE_INSTALL_PREFIX=C:\OpenBLAS_install
+          cmake --build . ; cmake --build . --target install
       - name: Package Directories
         run: |
           7z a OpenBLAS_MinGW64_Static.7z C:\OpenBLAS_install
