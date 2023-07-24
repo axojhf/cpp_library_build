@@ -11,7 +11,7 @@ jobs:
     steps:
       - name: Build
         run: |
-          pwd
+          apt update && apt install -y libcurl4-openssl-dev
           curl -LO https://sourceware.org/elfutils/ftp/elfutils-latest.tar.bz2 && tar xjf elfutils-latest.tar.bz2 && cd elfutils-0.189
           ./configure && make
       - uses: actions/upload-artifact@v3
