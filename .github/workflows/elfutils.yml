@@ -11,8 +11,8 @@ jobs:
     steps:
       - name: Build
         run: |
-          pwd && git clone --depth=1 git://sourceware.org/git/elfutils.git && cd elfutils
-          ls
+          pwd
+          curl -LO https://sourceware.org/elfutils/ftp/elfutils-latest.tar.bz2 && tar xjf elfutils-latest.tar.bz2 && cd elfutils-latest
           ./configure && make
       - uses: actions/upload-artifact@v3
         with:
