@@ -12,6 +12,7 @@ jobs:
       - name: Build
         run: |
           pwd && git clone --depth=1 git://sourceware.org/git/elfutils.git && cd elfutils
+          ls
           ./configure && make
       - uses: actions/upload-artifact@v3
         with:
