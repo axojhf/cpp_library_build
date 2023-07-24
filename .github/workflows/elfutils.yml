@@ -1,0 +1,39 @@
+name: elfutils Build
+
+on:
+  push:
+    branches:
+      - elfutils
+jobs:
+  elfutils-build:
+    name: elfutils Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Build
+        run: |
+          pwd && git clone --depth=1 git://sourceware.org/git/elfutils.git && cd elfutils
+          ./configure && make
+      - uses: actions/upload-artifact@v3
+        with:
+          name: elfutils_build
+          path: elfutils
+    #   - uses: ilammy/msvc-dev-cmd@v1
+    #     with:
+    #       arch: amd64
+    #       toolset: 14.3
+      # - name: Package Directories
+      #   run: |
+      #     cp -r C:\curl_install\lib C:\cpr_install -Force
+      #     cp -r C:\curl_install\include C:\cpr_install -Force
+      #     7z a cpr_MinGW64_Static.7z C:\cpr_install
+      # - uses: actions/upload-artifact@v3
+      #   with:
+      #     name: cpr_MinGW64_Static
+      #     path: cpr_MinGW64_Static.7z
+      # - name: Update Cpr Release
+      #   uses: softprops/action-gh-release@v1
+      #   with:
+      #     tag_name: cpr-build
+      #     files: |
+      #       cpr_MinGW64_Static.7z
+
