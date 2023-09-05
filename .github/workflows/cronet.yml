@@ -23,7 +23,7 @@ jobs:
           $env:Path = "C:\depot_tools;$env:Path"
           $Env:DEPOT_TOOLS_WIN_TOOLCHAIN = 0
           cd C:\chromium ; gclient ; fetch --no-history chromium ; cd src ; gclient runhooks 
-          gn gen out/x64.Release --args='chrome_pgo_phase = 1 is_official_build=true is_component_build=false is_debug=false target_cpu=\"x64\"'
+          gn gen out/x64.Release --args='chrome_pgo_phase = 1 is_official_build=true is_component_build=false is_debug=false symbol_level=0 target_cpu=\"x64\"'
           gclient runhooks
           ninja -C out/x64.Release/ cronet_package
           ls out/x64.Release/
