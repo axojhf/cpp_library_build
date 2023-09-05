@@ -1,0 +1,41 @@
+name: cronet Build
+
+on:
+  push:
+    branches:
+      - cronet
+jobs:
+  cronet-latest-build:
+    name: cronet Latest Build
+    runs-on: windows-2022
+    steps:
+      - name: Prepare Env
+        run: |
+          curl.exe -o depot_tools.zip https://storage.googleapis.com/chrome-infra/depot_tools.zip
+          7z x -aoa -oC:\depot_tools depot_tools.zip ; rm depot_tools.zip
+          mkdir C:\chromium
+      - uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: amd64
+          toolset: 14.3
+      - name: Build
+        run: |
+          $env:Path = "C:\depot_tools;$env:Path"
+          $Env:DEPOT_TOOLS_WIN_TOOLCHAIN = 0
+          cd C:\chromium ; gclient ; fetch --no-history chromium ; cd src ; gclient runhooks 
+          gn gen out/x64.Release --args='chrome_pgo_phase = 1 is_official_build=true is_component_build=false is_debug=false target_cpu=\"x64\"'
+          gclient runhooks
+          ninja -C out/x64.Release/ cronet_package
+          ls out/x64.Release/
+          ls out/x64.Release/cronet
+      - name: Copy cronet library files
+        run: |
+          $version = (Get-ChildItem C:\chromium\src\out\x64.Release\ | Where-Object { $_.Name -like "cronet.*.dll" }).Name.split('.')[1,2,3,4] -join '.'
+          Copy-Item -Path C:\chromium\src\out\x64.Release\cronet.$version.dll.lib -Destination C:\chromium\src\out\x64.Release\cronet\ -Force
+      - name: Package Directories
+        run: |
+          7z a cronet_win32_x64_dll_lib.7z C:\chromium\src\out\x64.Release\cronet\
+      - uses: actions/upload-artifact@v3
+        with:
+          name: cronet_win32_x64_dll_lib
+          path: cronet_win32_x64_dll_lib.7z
