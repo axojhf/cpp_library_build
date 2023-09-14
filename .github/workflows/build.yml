@@ -119,6 +119,7 @@ jobs:
           autoreconf -i
           ./configure --enable-lib-only --with-wolfssl --prefix=/c/ngtcp2_install
           mingw32-make -j
+          mingw32-make install
           
       - name: Build
         run: |
