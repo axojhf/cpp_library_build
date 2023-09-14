@@ -103,7 +103,7 @@ jobs:
           cd /c/wolfssl
           autoreconf -fi
           ./configure -h
-          ./configure --prefix=/c/wolfssl_install --enable-quic --enable-session-ticket --enable-earlydata --enable-psk --enable-harden --enable-altcertchains --disable-examples --disable-crypttests --enable-all-crypto
+          ./configure --prefix=/c/wolfssl_install --enable-quic --enable-session-ticket --enable-earlydata --enable-psk --enable-harden --enable-altcertchains --disable-examples --disable-crypttests --enable-all-crypto --enable-static --disable-shared
           # mingw32-make -j
           mingw32-make install
       - name: Build
@@ -129,7 +129,7 @@ jobs:
           ninja ; ninja install
 
           cd C:\curl ; mkdir build ; cd build
-          cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_CURL_EXE=OFF -DBUILD_TESTING=OFF -DCURL_USE_WOLFSSL=ON -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=C:\curl_install -DCURL_USE_LIBSSH2=OFF -DCURL_BROTLI=ON -DUSE_NGHTTP2=ON -DUSE_WEBSOCKETS=ON -DUSE_NGTCP2=ON -DUSE_NGHTTP3=ON -DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake
+          cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_CURL_EXE=OFF -DBUILD_TESTING=OFF -DCURL_USE_WOLFSSL=ON -DBUILD_SHARED_LIBS=ON -DCMAKE_INSTALL_PREFIX=C:\curl_install -DCURL_USE_LIBSSH2=OFF -DCURL_BROTLI=ON -DUSE_NGHTTP2=ON -DUSE_WEBSOCKETS=ON -DUSE_NGTCP2=ON -DUSE_NGHTTP3=ON -DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake
           ninja ; ninja install
       - name: Package Directories
         run: |
