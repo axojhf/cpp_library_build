@@ -180,7 +180,7 @@ jobs:
           pacman -S --noconfirm mingw-w64-x86_64-autotools perl git
           export PATH="/c/mingw64/bin:$PATH"
           cd /c/openssl
-          ./config enable-tls1_3 --prefix= --prefix=/c/openssl_install
+          ./config enable-tls1_3 --prefix=/c/openssl_install
           mingw32-make -j
           mingw32-make install
       - name: Build
