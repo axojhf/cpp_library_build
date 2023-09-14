@@ -93,12 +93,23 @@ jobs:
           git clone --depth=1 --recursive https://github.com/ngtcp2/ngtcp2
           git clone --depth=1 https://github.com/curl/curl.git -b curl-8_3_0
           git clone --depth=1 https://github.com/google/brotli.git
+      - uses: msys2/setup-msys2@v2
+        with:
+          msystem: mingw64
+      - shell: msys2 {0}
+        run: |
+          pacman -S --noconfirm mingw-w64-x86_64-autotools
+          export PATH="/c/mingw64/bin:$PATH"
+          cd /c/wolfssl
+          ./configure --prefix=/c/wolfssl_install --enable-quic --enable-session-ticket --enable-earlydata --enable-psk --enable-harden --enable-altcertchains
+          mingw32-make -j
+          mingw32-make install
       - name: Build
         run: |
           $env:Path = "C:\mingw64\bin;C:\ninja;C:\nasm-2.16.01;$env:Path"
-          cd C:\wolfssl ; mkdir build ; cd build
-          cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=C:\wolfssl_install -DWOLFSSL_TLS13=ON -DWOLFSSL_SESSION_TICKET=ON -DWOLFSSL_PSK=ON -DWOLFSSL_CRYPT_TESTS=OFF -DWOLFSSL_EXAMPLES=OFF
-          ninja ; ninja install
+          # cd C:\wolfssl ; mkdir build ; cd build
+          # cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=C:\wolfssl_install -DWOLFSSL_QUIC=ON -DWOLFSSL_TLS13=ON -DWOLFSSL_SESSION_TICKET=ON -DWOLFSSL_PSK=ON -DWOLFSSL_CRYPT_TESTS=OFF -DWOLFSSL_EXAMPLES=OFF
+          # ninja ; ninja install
 
           cd C:\nghttp3 ; mkdir build ; cd build
           cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DENABLE_SHARED_LIB=OFF -DCMAKE_INSTALL_PREFIX=C:\nghttp3_install -DENABLE_LIB_ONLY=ON
