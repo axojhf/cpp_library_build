@@ -182,7 +182,7 @@ jobs:
           cd /c/openssl
           ./config enable-tls1_3 -static --prefix=/c/openssl_install
           mingw32-make -j
-          mingw32-make install
+          mingw32-make install_sw
       - name: Build
         run: |
           $env:Path = "C:\mingw64\bin;C:\ninja;C:\nasm-2.16.01;$env:Path"
