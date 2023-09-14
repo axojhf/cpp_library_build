@@ -41,7 +41,7 @@ jobs:
           $env:Path = "C:\wolfssl_install;C:\nghttp3_install;$env:Path"
           cd C:\ngtcp2 ; mkdir build ; cd build
           cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=C:\ngtcp2_install -DENABLE_WOLFSSL=ON
-          ninja ; ninja install
+          ninja check ; ninja install
 
           cd C:\vcpkg ; git pull ; ./bootstrap-vcpkg.bat ; vcpkg install zstd:x64-windows-static zlib:x64-windows-static nghttp2:x64-windows-static
 
