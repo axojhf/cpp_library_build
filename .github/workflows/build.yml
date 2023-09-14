@@ -11,11 +11,11 @@ jobs:
     steps:
       - name: Set Mingw64 Ninja
         run: |
-          curl.exe -o mingw64.7z https://github.com/cristianadam/mingw-builds/releases/download/v11.2.0-rev3/x86_64-11.2.0-release-posix-seh-rt_v9-rev3.7z
+          curl -o mingw64.7z https://github.com/cristianadam/mingw-builds/releases/download/v11.2.0-rev3/x86_64-11.2.0-release-posix-seh-rt_v9-rev3.7z
           7z x -aoa -oC:\ mingw64.7z ; rm mingw64.7z
-          curl.exe -o ninja-win.zip https://github.com/ninja-build/ninja/releases/download/v1.11.1/ninja-win.zip
+          curl -o ninja-win.zip https://github.com/ninja-build/ninja/releases/download/v1.11.1/ninja-win.zip
           7z x -aoa -oC:\ninja ninja-win.zip ; rm ninja-win.zip
-          curl.exe -o nasm.zip https://www.nasm.us/pub/nasm/releasebuilds/2.16.01/win64/nasm-2.16.01-win64.zip
+          curl -o nasm.zip https://www.nasm.us/pub/nasm/releasebuilds/2.16.01/win64/nasm-2.16.01-win64.zip
           7z x -aoa -oC:\ nasm.zip ; rm nasm.zip
           cd C:\ ; git clone --depth=1 --recursive https://github.com/cloudflare/quiche
       - name: Build
@@ -46,9 +46,9 @@ jobs:
     steps:
       - name: Set Ninja
         run: |
-          curl.exe -o ninja-win.zip https://github.com/ninja-build/ninja/releases/download/v1.11.1/ninja-win.zip
+          curl -o ninja-win.zip https://github.com/ninja-build/ninja/releases/download/v1.11.1/ninja-win.zip
           7z x -aoa -oC:\ninja ninja-win.zip ; rm ninja-win.zip
-          curl.exe -o nasm.zip https://www.nasm.us/pub/nasm/releasebuilds/2.16.01/win64/nasm-2.16.01-win64.zip
+          curl -o nasm.zip https://www.nasm.us/pub/nasm/releasebuilds/2.16.01/win64/nasm-2.16.01-win64.zip
           7z x -aoa -oC:\ nasm.zip ; rm nasm.zip
           cd C:\ ; git clone --depth=1 --recursive https://github.com/cloudflare/quiche
       - uses: ilammy/msvc-dev-cmd@v1
@@ -83,11 +83,11 @@ jobs:
     steps:
       - name: Set Mingw64 Ninja
         run: |
-          curl.exe -o mingw64.7z https://github.com/cristianadam/mingw-builds/releases/download/v11.2.0-rev3/x86_64-11.2.0-release-posix-seh-rt_v9-rev3.7z
+          curl -o mingw64.7z https://github.com/cristianadam/mingw-builds/releases/download/v11.2.0-rev3/x86_64-11.2.0-release-posix-seh-rt_v9-rev3.7z
           7z x -aoa -oC:\ mingw64.7z ; rm mingw64.7z
-          curl.exe -o ninja-win.zip https://github.com/ninja-build/ninja/releases/download/v1.11.1/ninja-win.zip
+          curl -o ninja-win.zip https://github.com/ninja-build/ninja/releases/download/v1.11.1/ninja-win.zip
           7z x -aoa -oC:\ninja ninja-win.zip ; rm ninja-win.zip
-          curl.exe -o nasm.zip https://www.nasm.us/pub/nasm/releasebuilds/2.16.01/win64/nasm-2.16.01-win64.zip
+          curl -o nasm.zip https://www.nasm.us/pub/nasm/releasebuilds/2.16.01/win64/nasm-2.16.01-win64.zip
           7z x -aoa -oC:\ nasm.zip ; rm nasm.zip
           cd C:\ ; git clone --depth=1 --recursive https://github.com/cloudflare/quiche
       - name: Build
@@ -111,6 +111,43 @@ jobs:
         with:
           name: quiche_MinGW64_shared
           path: quiche_MinGW64_shared.7z
+
+  quiche-vc143-shared-build:
+    name: quiche vc143 shared Build
+    runs-on: windows-2022
+    steps:
+      - name: Set Ninja
+        run: |
+          curl -o ninja-win.zip https://github.com/ninja-build/ninja/releases/download/v1.11.1/ninja-win.zip
+          7z x -aoa -oC:\ninja ninja-win.zip ; rm ninja-win.zip
+          curl -o nasm.zip https://www.nasm.us/pub/nasm/releasebuilds/2.16.01/win64/nasm-2.16.01-win64.zip
+          7z x -aoa -oC:\ nasm.zip ; rm nasm.zip
+          cd C:\ ; git clone --depth=1 --recursive https://github.com/cloudflare/quiche
+      - uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: amd64
+          toolset: 14.3
+      - name: Build
+        run: |
+          $env:Path = "C:\ninja;C:\nasm-2.16.01;$env:Path"
+          cd C:\quiche\quiche\deps
+          rm -r C:\quiche\quiche\deps\boringssl -Force
+          git clone --depth=1 https://github.com/google/boringssl
+          rustup target add x86_64-pc-windows-msvc
+          rustup default stable-msvc
+          cd C:\quiche
+          cargo build --package quiche --release --features ffi,pkg-config-meta,qlog
+          ls C:\quiche\quiche\deps\boringssl
+      - name: Package Directories
+        run: |
+          mkdir C:\quiche_install\lib
+          cp -r C:\quiche\target\release C:\quiche_install\lib -Force
+          cp -r C:\quiche\quiche\include C:\quiche_install -Force
+          7z a quiche_vc143_shared.7z C:\quiche_install
+      - uses: actions/upload-artifact@v3
+        with:
+          name: quiche_vc143_shared
+          path: quiche_vc143_shared.7z
   # curl-vc143-dyn-build:
   #   name: Curl vc143 Dyn Build
   #   runs-on: windows-2022
