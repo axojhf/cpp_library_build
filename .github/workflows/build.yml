@@ -101,6 +101,7 @@ jobs:
           pacman -S --noconfirm mingw-w64-x86_64-autotools
           export PATH="/c/mingw64/bin:$PATH"
           cd /c/wolfssl
+          autoreconf -fi
           ./configure --prefix=/c/wolfssl_install --enable-quic --enable-session-ticket --enable-earlydata --enable-psk --enable-harden --enable-altcertchains
           mingw32-make -j
           mingw32-make install
