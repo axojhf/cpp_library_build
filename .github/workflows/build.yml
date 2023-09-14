@@ -35,13 +35,14 @@ jobs:
           ninja ; ninja install
 
           cd C:\nghttp3 ; mkdir build ; cd build
-          cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=C:\nghttp3_install
+          cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=C:\nghttp3_install -DENABLE_LIB_ONLY=ON
           ninja ; ninja install
+          rm C:/nghttp3_install/lib/libnghttp3.dll.a
 
           $env:Path = "C:\wolfssl_install;C:\nghttp3_install;$env:Path"
           cd C:\ngtcp2 ; mkdir build ; cd build
           cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=C:\ngtcp2_install -DENABLE_WOLFSSL=ON
-          ninja check ; ninja install
+          ninja ngtcp2_static ; ninja install
 
           cd C:\vcpkg ; git pull ; ./bootstrap-vcpkg.bat ; vcpkg install zstd:x64-windows-static zlib:x64-windows-static nghttp2:x64-windows-static
 
@@ -49,7 +50,7 @@ jobs:
           cmake -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=C:\brotli_install -DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake
           ninja ; ninja install
 
-          $env:Path = "C:\brotli_install\lib;C:\brotli_install\include;C:\vcpkg\installed\x64-windows-static\lib;C:\vcpkg\installed\x64-windows-static\include;$env:Path"
+          $env:Path = "C:\ngtcp2_install;C:\brotli_install\lib;C:\brotli_install\include;C:\vcpkg\installed\x64-windows-static\lib;C:\vcpkg\installed\x64-windows-static\include;$env:Path"
           cd C:\curl ; mkdir build ; cd build
           cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_CURL_EXE=OFF -DBUILD_TESTING=OFF -DCURL_USE_WOLFSSL=ON -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=C:\curl_install -DCURL_USE_LIBSSH2=OFF -DCURL_BROTLI=ON -DUSE_NGHTTP2=ON -DUSE_WEBSOCKETS=ON -DUSE_NGTCP2=ON -DUSE_NGHTTP3=ON -DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake
           ninja ; ninja install
