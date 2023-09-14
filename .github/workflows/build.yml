@@ -117,7 +117,7 @@ jobs:
           export PATH="/c/mingw64/bin:/c/wolfssl_install:/c/nghttp3_install:$PATH"
           cd /c/ngtcp2
           autoreconf -i
-          ./configure --enable-lib-only --with-wolfssl --prefix=/c/ngtcp2_install
+          ./configure PKG_CONFIG_PATH=/c/wolfssl_install/lib/pkgconfig:/c/nghttp3_install/lib/pkgconfig LDFLAGS="-Wl,-rpath,/c/wolfssl_install/lib" --enable-lib-only --with-wolfssl --prefix=/c/ngtcp2_install
           mingw32-make -j
           mingw32-make install
           
