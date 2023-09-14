@@ -36,7 +36,7 @@ jobs:
 
           cd C:\nghttp3 ; mkdir build ; cd build
           cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=C:\nghttp3_install -DENABLE_LIB_ONLY=ON
-          ninja ; ninja install
+          ninja nghttp3_static ; ninja install
           rm C:/nghttp3_install/lib/libnghttp3.dll.a
 
           $env:Path = "C:\wolfssl_install;C:\nghttp3_install;$env:Path"
