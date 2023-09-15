@@ -179,7 +179,7 @@ jobs:
           pacman -S --noconfirm mingw-w64-x86_64-autotools perl git make
           export PATH="/c/mingw64/bin:$PATH"
           cd /c/openssl
-          ./config mingw64 enable-tls1_3 -static --prefix=/c/openssl_install
+          ./config mingw64 enable-tls1_3 -static --prefix=/c/openssl_install no-tests
           make -j
           make install_sw
       - name: Build
@@ -189,7 +189,7 @@ jobs:
           cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DENABLE_SHARED_LIB=OFF -DCMAKE_INSTALL_PREFIX=C:\nghttp3_install -DENABLE_LIB_ONLY=ON
           ninja ; ninja install
 
-          $env:Path = "C:\openssl_install;C:\nghttp3_install;$env:Path"
+          $env:Path = "C:\openssl_install;C:\openssl_install\lib64;C:\nghttp3_install;$env:Path"
           cd C:\ngtcp2 ; mkdir build ; cd build
           cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DENABLE_SHARED_LIB=OFF -DCMAKE_INSTALL_PREFIX=C:\ngtcp2_install -DENABLE_OPENSSL=ON
           ninja ngtcp2_static ; ninja install
