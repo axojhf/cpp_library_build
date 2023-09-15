@@ -103,7 +103,7 @@ jobs:
           cd /c/wolfssl
           autoreconf -fi
           ./configure -h
-          ./configure --prefix=/c/wolfssl_install --enable-quic --enable-session-ticket --enable-earlydata --enable-psk --enable-harden --enable-altcertchains --disable-examples --disable-crypttests --enable-all-crypto --enable-static --disable-shared
+          ./configure --prefix=/c/wolfssl_install --enable-quic --enable-session-ticket --enable-earlydata --enable-psk --enable-harden --enable-altcertchains --disable-examples --disable-crypttests --enable-all-crypto --enable-static --disable-shared --enable-all --disable-crl-monitor
           # mingw32-make -j
           mingw32-make install
       - name: Build
