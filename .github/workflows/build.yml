@@ -190,6 +190,8 @@ jobs:
 
           cd /c/ngtcp2 && autoreconf -i
           ./configure PKG_CONFIG_PATH=/c/openssl/lib64/pkgconfig:/c/nghttp3_install/lib/pkgconfig LDFLAGS="-Wl,-rpath,/c/openssl/lib64" --prefix=/c/ngtcp2_install --enable-lib-only
+          make
+          make install
       - name: Build
         run: |
           # $env:Path = "C:\mingw64\bin;C:\ninja;C:\nasm-2.16.01;$env:Path"
