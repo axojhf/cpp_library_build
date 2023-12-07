@@ -4,12 +4,12 @@ on:
   push:
     branches:
       - opencc
+  workflow_dispatch:
 jobs:
   opencc-custom-cpp20-mingw64-build:
     name: OpenCC Custom C++20 MinGW64 Static Build
-    runs-on: windows-2019
+    runs-on: windows-latest
     steps:
-      # - uses: actions/checkout@v3
       - name: Set Mingw64 Ninja
         run: |
           (new-object System.Net.WebClient).DownloadFile('https://github.com/cristianadam/mingw-builds/releases/download/v11.2.0-rev3/x86_64-11.2.0-release-posix-seh-rt_v9-rev3.7z','mingw64.7z')
@@ -33,9 +33,8 @@ jobs:
 
   opencc-custom-mingw64-build:
     name: OpenCC Custom MinGW64 Static Build
-    runs-on: windows-2019
+    runs-on: windows-latest
     steps:
-      # - uses: actions/checkout@v3
       - name: Set Mingw64 Ninja
         run: |
           (new-object System.Net.WebClient).DownloadFile('https://github.com/cristianadam/mingw-builds/releases/download/v11.2.0-rev3/x86_64-11.2.0-release-posix-seh-rt_v9-rev3.7z','mingw64.7z')
@@ -56,6 +55,52 @@ jobs:
         with:
           name: OpenCC_MinGW64_Static_Custom
           path: OpenCC_MinGW64_Static_Custom.7z
+
+  opencc-custom-vc143-build:
+    name: OpenCC Custom VC143 Static Build
+    runs-on: windows-latest
+    steps:
+      - name: Set Ninja
+        run: |
+          (new-object System.Net.WebClient).DownloadFile('https://github.com/ninja-build/ninja/releases/download/v1.11.1/ninja-win.zip','ninja-win.zip')
+          7z x -aoa -oC:\ninja ninja-win.zip ; rm ninja-win.zip
+          cd C:\ ; git clone --depth=1 https://github.com/axojhf/OpenCC.git
+      - name: Build
+        run: |
+          $env:Path = "C:\mingw64\bin;C:\ninja;$env:Path"
+          cd C:\OpenCC ; mkdir build ; cd build
+          cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=C:/opencc_install
+          ninja ; ninja install
+      - name: Package Directories
+        run: |
+          7z a OpenCC_VC143_Static_Custom.7z C:\opencc_install
+      - uses: actions/upload-artifact@v3
+        with:
+          name: OpenCC_VC143_Static_Custom
+          path: OpenCC_VC143_Static_Custom.7z
+          
+  opencc-custom-vc143-dyn-build:
+    name: OpenCC Custom VC143 Dyn Build
+    runs-on: windows-latest
+    steps:
+      - name: Set Ninja
+        run: |
+          (new-object System.Net.WebClient).DownloadFile('https://github.com/ninja-build/ninja/releases/download/v1.11.1/ninja-win.zip','ninja-win.zip')
+          7z x -aoa -oC:\ninja ninja-win.zip ; rm ninja-win.zip
+          cd C:\ ; git clone --depth=1 https://github.com/axojhf/OpenCC.git
+      - name: Build
+        run: |
+          $env:Path = "C:\mingw64\bin;C:\ninja;$env:Path"
+          cd C:\OpenCC ; mkdir build ; cd build
+          cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=ON -DCMAKE_INSTALL_PREFIX=C:/opencc_install
+          ninja ; ninja install
+      - name: Package Directories
+        run: |
+          7z a OpenCC_VC143_Dyn_Custom.7z C:\opencc_install
+      - uses: actions/upload-artifact@v3
+        with:
+          name: OpenCC_VC143_Dyn_Custom
+          path: OpenCC_VC143_Dyn_Custom.7z
   
   opencc-mingw64-build:
     name: OpenCC MinGW64 Static Build
