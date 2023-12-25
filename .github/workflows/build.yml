@@ -25,7 +25,7 @@ jobs:
           mkdir build ; cd build
           cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=C:\daScriptInstall -DDAS_TUTORIAL_DISABLED=ON
           ninja
-          ninja install
+          # ninja install
       - name: Package Directories
         run: |
           cp -r C:\daScript\bin\*.exe C:\daScriptInstall\bin -Force
