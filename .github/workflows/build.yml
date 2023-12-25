@@ -21,7 +21,7 @@ jobs:
           toolset: 14.3
       - name: Build
         run: |
-          git clone --depth=1 https://github.com/GaijinEntertainment/daScript
+          git clone --depth=1 https://github.com/GaijinEntertainment/daScript ; cd daScript
           mkdir build ; cd build
           cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release
           ninja
