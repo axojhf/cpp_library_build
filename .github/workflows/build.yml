@@ -21,21 +21,20 @@ jobs:
           toolset: 14.3
       - name: Build
         run: |
-          git clone --depth=1 https://github.com/GaijinEntertainment/daScript ; cd daScript
+          cd C:\ ; git clone --depth=1 https://github.com/GaijinEntertainment/daScript ; cd daScript
           mkdir build ; cd build
-          cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release
+          cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=C:\daScriptInstall -DDAS_TESTS_DISABLED=ON -DDAS_AOT_EXAMPLES_DISABLED=ON
           ninja
-          ls
           ninja install
-      # - name: Package Directories
-      #   run: |
-      #     cp -r C:\curl_install\lib C:\cpr_install -Force
-      #     cp -r C:\curl_install\include C:\cpr_install -Force
-      #     7z a cpr_MinGW64_Static.7z C:\cpr_install
-      # - uses: actions/upload-artifact@v3
-      #   with:
-      #     name: cpr_MinGW64_Static
-      #     path: cpr_MinGW64_Static.7z
+      - name: Package Directories
+        run: |
+          cp -r C:\daScript\bin C:\daScriptInstall -Force
+          # cp -r C:\curl_install\include C:\cpr_install -Force
+          7z a daScript_VC143.7z C:\daScriptInstall
+      - uses: actions/upload-artifact@v3
+        with:
+          name: daScript_VC143
+          path: daScript_VC143.7z
       # - name: Update Cpr Release
       #   uses: softprops/action-gh-release@v1
       #   with:
