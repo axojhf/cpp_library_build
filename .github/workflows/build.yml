@@ -23,7 +23,7 @@ jobs:
         run: |
           cd C:\ ; git clone --depth=1 https://github.com/GaijinEntertainment/daScript ; cd daScript
           mkdir build ; cd build
-          cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=C:\daScriptInstall -DDAS_TESTS_DISABLED=ON -DDAS_AOT_EXAMPLES_DISABLED=ON -DDAS_TUTORIAL_DISABLED=ON
+          cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=C:\daScriptInstall -DDAS_AOT_EXAMPLES_DISABLED=ON -DDAS_TUTORIAL_DISABLED=ON
           ninja
           ninja install
       - name: Package Directories
