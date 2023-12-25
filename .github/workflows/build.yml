@@ -28,8 +28,8 @@ jobs:
           ninja install
       - name: Package Directories
         run: |
-          cp -r C:\daScript\bin C:\daScriptInstall -Force
-          # cp -r C:\curl_install\include C:\cpr_install -Force
+          cp -r C:\daScript\bin\*.exe C:\daScriptInstall\bin -Force
+          cp -r C:\daScript\build\*.lib C:\daScriptInstall\lib -Force
           7z a daScript_VC143.7z C:\daScriptInstall
       - uses: actions/upload-artifact@v3
         with:
