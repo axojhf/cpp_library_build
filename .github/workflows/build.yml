@@ -28,10 +28,11 @@ jobs:
           ls
       - name: Package Directories
         run: |
-          mkdir librclone
-          cp C:\rclone\librclone\librclone.dll -Destination C:\librclone -Force
-          cp C:\rclone\librclone\librclone.h -Destination C:\librclone -Force
-          7z a librclone.7z C:\librclone
+          # mkdir librclone
+          # cp C:\rclone\librclone\librclone.dll -Destination C:\librclone -Force
+          # cp C:\rclone\librclone\librclone.h -Destination C:\librclone -Force
+          # 7z a librclone.7z C:\librclone
+          7z a librclone.7z C:\rclone\librclone\librclone.dll C:\rclone\librclone\librclone.h
       # - uses: actions/upload-artifact@v3
       #   with:
       #     name: cpr_MinGW64_Static
