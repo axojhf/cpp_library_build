@@ -26,19 +26,20 @@ jobs:
           cd rclone/librclone
           go build --buildmode=c-shared -o librclone.dll
           ls
-      # - name: Package Directories
-      #   run: |
-      #     cp -r C:\curl_install\lib C:\cpr_install -Force
-      #     cp -r C:\curl_install\include C:\cpr_install -Force
-      #     7z a cpr_MinGW64_Static.7z C:\cpr_install
+      - name: Package Directories
+        run: |
+          mkdir librclone
+          cp C:\rclone\librclone\librclone.dll C:\librclone -Force
+          cp C:\rclone\librclone\librclone.h C:\librclone -Force
+          7z a librclone.7z C:\librclone
       # - uses: actions/upload-artifact@v3
       #   with:
       #     name: cpr_MinGW64_Static
       #     path: cpr_MinGW64_Static.7z
-      # - name: Update Cpr Release
-      #   uses: softprops/action-gh-release@v1
-      #   with:
-      #     tag_name: cpr-build
-      #     files: |
-      #       cpr_MinGW64_Static.7z
+      - name: Update librclone Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: librclone-build
+          files: |
+            librclone.7z
 
