@@ -23,7 +23,8 @@ jobs:
           export PATH="/c/ninja:$PATH"
           cd /c/
           git clone --depth=1 https://github.com/rclone/rclone
-          go build --buildmode=c-shared -o librclone.dll github.com/rclone/rclone/librclone
+          cd rclone/librclone
+          go build --buildmode=c-shared -o librclone.dll
           ls
       # - name: Package Directories
       #   run: |
