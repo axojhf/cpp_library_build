@@ -16,10 +16,11 @@ jobs:
       - uses: msys2/setup-msys2@v2
         with:
           msystem: mingw64
+          path-type: inherit
       - shell: msys2 {0}
         run: |
-          pacman -S --noconfirm mingw-w64-x86_64-gcc git ninja
-          export PATH="/c/mingw64/bin:$PATH"
+          pacman -S --noconfirm mingw-w64-x86_64-gcc
+          export PATH="/c/ninja:$PATH"
           cd /c/
           # git clone --depth=1 
           go build --buildmode=c-shared -o librclone.dll github.com/rclone/rclone/librclone
