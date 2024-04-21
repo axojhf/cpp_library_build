@@ -29,8 +29,8 @@ jobs:
       - name: Package Directories
         run: |
           mkdir librclone
-          cp C:\rclone\librclone\librclone.dll C:\librclone -Force
-          cp C:\rclone\librclone\librclone.h C:\librclone -Force
+          cp C:\rclone\librclone\librclone.dll -Destination C:\librclone -Force
+          cp C:\rclone\librclone\librclone.h -Destination C:\librclone -Force
           7z a librclone.7z C:\librclone
       # - uses: actions/upload-artifact@v3
       #   with:
