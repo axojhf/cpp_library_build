@@ -22,7 +22,7 @@ jobs:
           pacman -S --noconfirm mingw-w64-x86_64-gcc
           export PATH="/c/ninja:$PATH"
           cd /c/
-          # git clone --depth=1 
+          git clone --depth=1 https://github.com/rclone/rclone
           go build --buildmode=c-shared -o librclone.dll github.com/rclone/rclone/librclone
           ls
       # - name: Package Directories
