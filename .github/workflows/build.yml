@@ -9,10 +9,10 @@ jobs:
     name: librclone Build
     runs-on: windows-latest
     steps:
-      - name: Set Mingw64 Ninja
-        run: |
-          (new-object System.Net.WebClient).DownloadFile('https://github.com/ninja-build/ninja/releases/download/v1.12.0/ninja-win.zip','ninja-win.zip')
-          7z x -aoa -oC:\ninja ninja-win.zip ; rm ninja-win.zip
+      # - name: Set Mingw64 Ninja
+      #   run: |
+      #     (new-object System.Net.WebClient).DownloadFile('https://github.com/ninja-build/ninja/releases/download/v1.12.0/ninja-win.zip','ninja-win.zip')
+      #     7z x -aoa -oC:\ninja ninja-win.zip ; rm ninja-win.zip
       - uses: msys2/setup-msys2@v2
         with:
           msystem: mingw64
@@ -29,8 +29,8 @@ jobs:
       - name: Package Directories
         run: |
           mkdir librclone
-          cp C:\rclone\librclone\librclone.dll C:\librclone\librclone.dll -Force
-          cp C:\rclone\librclone\librclone.h C:\librclone\librclone.h -Force
+          cp C:\rclone\librclone\librclone.dll C:\librclone -Force
+          cp C:\rclone\librclone\librclone.h C:\librclone -Force
           7z a librclone.7z C:\librclone
       # - uses: actions/upload-artifact@v3
       #   with:
