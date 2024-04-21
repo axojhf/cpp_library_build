@@ -44,3 +44,27 @@ jobs:
           files: |
             librclone.7z
 
+  librclone-mini-build:
+    name: librclone Build
+    runs-on: windows-latest
+    steps:
+      - uses: msys2/setup-msys2@v2
+        with:
+          msystem: mingw64
+          path-type: inherit
+      - shell: msys2 {0}
+        run: |
+          pacman -S --noconfirm mingw-w64-x86_64-gcc
+          cd /c/
+          git clone --depth=1 https://github.com/rclone/rclone
+          cd rclone/librclone
+          go build -ldflags -s --buildmode=c-shared -o librclone.dll
+      - name: Package Directories
+        run: |
+          7z a librclone_mini.7z C:\rclone\librclone\librclone.dll C:\rclone\librclone\librclone.h
+      - name: Update librclone Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: librclone-build
+          files: |
+            librclone_mini.7z
