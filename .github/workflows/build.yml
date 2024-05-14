@@ -7,6 +7,7 @@ on:
   workflow_dispatch:
 env:
   SLINT_BINARY_FEATURES: "-DSLINT_FEATURE_BACKEND_WINIT=ON -DSLINT_FEATURE_RENDERER_FEMTOVG=ON -DSLINT_FEATURE_RENDERER_SKIA=ON -DSLINT_FEATURE_RENDERER_SKIA_OPENGL=ON"
+  SLINT_BINARY_FEATURES_WITH_VULKAN: "-DSLINT_FEATURE_BACKEND_WINIT=ON -DSLINT_FEATURE_RENDERER_FEMTOVG=ON -DSLINT_FEATURE_RENDERER_SKIA=ON -DSLINT_FEATURE_RENDERER_SKIA_OPENGL=ON -DSLINT_FEATURE_RENDERER_SKIA_VULKAN=ON"
   LATEST_RELEASE: "v1.6.0"
 jobs:
   slint-build:
@@ -27,13 +28,15 @@ jobs:
         uses: KyleMayes/install-llvm-action@v2
         with:
           version: "18"
-      - name: Package Directories
+      - name: Build
+        env:
+          SKIA_BINARIES_URL: "https://github.com/axojhf/cpp_library_build/releases/download/rust-skia/rust-skia-d3d-gl-textlayout-vulkan-slint-compatible-release.tar.gz"
         run: |
           $env:Path = "C:\ninja;$env:Path"
           git config --global core.longpaths true
           cd C:\ ; git clone --depth=1 https://github.com/slint-ui/slint -b ${{ env.LATEST_RELEASE }} ; cd slint
           mkdir build ; cd build
-          cmake .. -G Ninja -DCMAKE_BUILD_TYPE=RelWithDebInfo ${{ env.SLINT_BINARY_FEATURES }} -DCMAKE_INSTALL_PREFIX=C:\slint_install -DBUILD_SHARED_LIBS=ON
+          cmake .. -G Ninja -DCMAKE_BUILD_TYPE=RelWithDebInfo ${{ env.SLINT_BINARY_FEATURES_WITH_VULKAN }} -DCMAKE_INSTALL_PREFIX=C:\slint_install -DBUILD_SHARED_LIBS=ON
           ninja ; ninja install
       - name: Package Directories
         run: |
