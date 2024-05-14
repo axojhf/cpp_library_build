@@ -29,6 +29,7 @@ jobs:
           version: "18"
       - name: Package Directories
         run: |
+          $env:Path = "C:\ninja;$env:Path"
           git config --global core.longpaths true
           cd C:\ ; git clone --depth=1 https://github.com/slint-ui/slint -b ${{ env.LATEST_RELEASE }} ; cd slint
           mkdir build ; cd build
