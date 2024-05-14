@@ -45,7 +45,7 @@ jobs:
           command: c
           cwd: C:\rust-skia-build
           files: |
-            ./skia-binaries
+            skia-binaries
           outPath: C:\rust-skia-d3d-gl-textlayout-vulkan-release.tar.gz
       - uses: actions/upload-artifact@v4
         with:
@@ -96,7 +96,7 @@ jobs:
           command: c
           cwd: C:\rust-skia-build
           files: |
-            ./skia-binaries
+            skia-binaries
           outPath: C:\rust-skia-d3d-gl-textlayout-vulkan-slint-compatible-release.tar.gz
       - uses: actions/upload-artifact@v4
         with:
