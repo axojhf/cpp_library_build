@@ -77,6 +77,15 @@ jobs:
       - name: Package Directories
         run: |
           7z a rust-skia-d3d-gl-vulkan-textlayout-slint-compatible-release.7z C:\rust-skia-build
+      - name: Compress action step
+        uses: a7ul/tar-action@v1.1.0
+        id: compress
+        with:
+          command: c
+          cwd: C:\
+          files: |
+            ./rust-skia-build
+          outPath: rust-skia-d3d-gl-vulkan-textlayout-slint-compatible-release.tar.gz
       - uses: actions/upload-artifact@v4
         with:
           name: rust-skia-d3d-gl-vulkan-textlayout-slint-compatible-release
