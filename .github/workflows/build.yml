@@ -43,7 +43,6 @@ jobs:
         id: compress
         with:
           command: c
-          cwd: C:\
           files: |
             ./rust-skia-build/skia-binaries
           outPath: rust-skia-d3d-gl-textlayout-vulkan-release.tar.gz
@@ -93,7 +92,6 @@ jobs:
         id: compress
         with:
           command: c
-          cwd: C:\
           files: |
             ./rust-skia-build/skia-binaries
           outPath: rust-skia-d3d-gl-textlayout-vulkan-slint-compatible-release.tar.gz
