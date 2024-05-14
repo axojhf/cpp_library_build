@@ -24,12 +24,12 @@ jobs:
       #     cp -r C:\curl_install\lib C:\cpr_install -Force
       #     cp -r C:\curl_install\include C:\cpr_install -Force
       #     7z a cpr_MinGW64_Static.7z C:\cpr_install
-      # - uses: actions/upload-artifact@v3
+      # - uses: actions/upload-artifact@v4
       #   with:
       #     name: cpr_MinGW64_Static
       #     path: cpr_MinGW64_Static.7z
       # - name: Update Cpr Release
-      #   uses: softprops/action-gh-release@v1
+      #   uses: softprops/action-gh-release@v2
       #   with:
       #     tag_name: cpr-build
       #     files: |
