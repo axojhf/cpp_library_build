@@ -1,16 +1,14 @@
-name: slint Build
+name: rust-skia Build
 
 on:
   push:
     branches:
-      - slint
+      - rust-skia
   workflow_dispatch:
-env:
-  SLINT_BINARY_FEATURES: "-DSLINT_FEATURE_BACKEND_WINIT=ON -DSLINT_FEATURE_RENDERER_FEMTOVG=ON -DSLINT_FEATURE_RENDERER_SKIA=ON -DSLINT_FEATURE_RENDERER_SKIA_OPENGL=ON"
-  LATEST_RELEASE: "v1.6.0"
+# env:
 jobs:
-  slint-build:
-    name: slint Build
+  rust-skia-build:
+    name: rust-skia Build
     runs-on: windows-2022
     steps:
       - name: Set Mingw64 Ninja
@@ -28,20 +26,21 @@ jobs:
         with:
           version: "18"
       - name: Package Directories
+        env:
+          BUILD_ARTIFACTSTAGINGDIRECTORY: C:\rust-skia-build
         run: |
           $env:Path = "C:\ninja;$env:Path"
           git config --global core.longpaths true
-          cd C:\ ; git clone --depth=1 https://github.com/slint-ui/slint -b ${{ env.LATEST_RELEASE }} ; cd slint
+          cd C:\ ; git clone --depth=1 https://github.com/rust-skia/rust-skia ; cd rust-skia
           mkdir build ; cd build
-          cmake .. -G Ninja -DCMAKE_BUILD_TYPE=RelWithDebInfo ${{ env.SLINT_BINARY_FEATURES }} -DCMAKE_INSTALL_PREFIX=C:\slint_install -DBUILD_SHARED_LIBS=ON
-          ninja ; ninja install
+          cargo build -p skia-safe --release --features "d3d,gl,vulkan,textlayout" --target x86_64-pc-windows-msvc
       - name: Package Directories
         run: |
-          7z a slint_shared_latest_release.7z C:\slint_install
+          7z a rust-skia-d3d-gl-vulkan-textlayout-release.7z C:\rust-skia-build
       - uses: actions/upload-artifact@v4
         with:
-          name: slint_shared_latest_release
-          path: slint_shared_latest_release.7z
+          name: rust-skia-d3d-gl-vulkan-textlayout-release
+          path: rust-skia-d3d-gl-vulkan-textlayout-release.7z
       # - name: Update Cpr Release
       #   uses: softprops/action-gh-release@v2
       #   with:
