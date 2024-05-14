@@ -5,9 +5,10 @@ on:
     branches:
       - rust-skia
   workflow_dispatch:
-# env:
+env:
+  SLINT_COMPATIBLE: "0.72.0"
 jobs:
-  rust-skia-build:
+  rust-skia-master-build:
     name: rust-skia Build
     runs-on: windows-2022
     steps:
@@ -25,7 +26,7 @@ jobs:
         uses: KyleMayes/install-llvm-action@v2
         with:
           version: "18"
-      - name: Package Directories
+      - name: Build
         env:
           BUILD_ARTIFACTSTAGINGDIRECTORY: C:\rust-skia-build
         run: |
@@ -41,10 +42,48 @@ jobs:
         with:
           name: rust-skia-d3d-gl-vulkan-textlayout-release
           path: rust-skia-d3d-gl-vulkan-textlayout-release.7z
-      # - name: Update Cpr Release
-      #   uses: softprops/action-gh-release@v2
-      #   with:
-      #     tag_name: cpr-build
-      #     files: |
-      #       cpr_MinGW64_Static.7z
+      - name: Update rust-skia Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: rust-skia
+          files: |
+            rust-skia-d3d-gl-vulkan-textlayout-release.7z
 
+  rust-skia-slint-compatible-build:
+    name: rust-skia slint compatible Build
+    runs-on: windows-2022
+    steps:
+      - name: Set Mingw64 Ninja
+        run: |
+          (new-object System.Net.WebClient).DownloadFile('https://github.com/ninja-build/ninja/releases/download/v1.12.1/ninja-win.zip','ninja-win.zip')
+          7z x -aoa -oC:\ninja ninja-win.zip ; rm ninja-win.zip
+      - uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: amd64
+          toolset: 14.3
+      - name: Install LLVM and Clang
+        uses: KyleMayes/install-llvm-action@v2
+        with:
+          version: "18"
+      - name: Build
+        env:
+          BUILD_ARTIFACTSTAGINGDIRECTORY: C:\rust-skia-build
+        run: |
+          $env:Path = "C:\ninja;$env:Path"
+          git config --global core.longpaths true
+          cd C:\ ; git clone --depth=1 https://github.com/rust-skia/rust-skia -b ${{ env.SLINT_COMPATIBLE }} ; cd rust-skia
+          mkdir build ; cd build
+          cargo build -p skia-safe --release --features "d3d,gl,vulkan,textlayout" --target x86_64-pc-windows-msvc
+      - name: Package Directories
+        run: |
+          7z a rust-skia-d3d-gl-vulkan-textlayout-slint-compatible-release.7z C:\rust-skia-build
+      - uses: actions/upload-artifact@v4
+        with:
+          name: rust-skia-d3d-gl-vulkan-textlayout-slint-compatible-release
+          path: rust-skia-d3d-gl-vulkan-textlayout-slint-compatible-release.7z
+      - name: Update rust-skia Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: rust-skia
+          files: |
+            rust-skia-d3d-gl-vulkan-textlayout-slint-compatible-release.7z
