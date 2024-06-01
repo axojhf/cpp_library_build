@@ -1,24 +1,31 @@
-name: Demo Build
+name: v8 Build
 
 on:
   push:
     branches:
-      - main
+      - google-v8
 jobs:
-  demo-build:
-    name: Demo Build
+  v8-build:
+    name: v8 Build
     runs-on: windows-2022
     steps:
-      - name: Set Mingw64 Ninja
+      - name: Prepare Env
         run: |
-          (new-object System.Net.WebClient).DownloadFile('https://github.com/axojhf/cpp_library_build/releases/download/deps-toolchains/llvm-mingw1706_64.7z','mingw64.7z')
-          7z x -aoa -oC:\llvm-mingw1706_64 mingw64.7z ; rm mingw64.7z
+          curl.exe -o depot_tools.zip https://storage.googleapis.com/chrome-infra/depot_tools.zip
+          7z x -aoa -oC:\depot_tools depot_tools.zip ; rm depot_tools.zip
           (new-object System.Net.WebClient).DownloadFile('https://github.com/ninja-build/ninja/releases/download/v1.12.1/ninja-win.zip','ninja-win.zip')
           7z x -aoa -oC:\ninja ninja-win.zip ; rm ninja-win.zip
       - uses: ilammy/msvc-dev-cmd@v1
         with:
           arch: amd64
           toolset: 14.3
+      - name: Build
+        run: |
+          $env:Path = "C:\ninja;C:\depot_tools;$env:Path"
+          $Env:DEPOT_TOOLS_WIN_TOOLCHAIN = 0
+          mkdir C:\v8 ; cd C:\v8 ; gclient ; fetch --no-history v8; gclient sync
+          python tools/dev/gm.py x64.release
+          ls
       # - name: Package Directories
       #   run: |
       #     cp -r C:\curl_install\lib C:\cpr_install -Force
