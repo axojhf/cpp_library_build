@@ -24,6 +24,7 @@ jobs:
           $env:Path = "C:\ninja;C:\depot_tools;$env:Path"
           $Env:DEPOT_TOOLS_WIN_TOOLCHAIN = 0
           mkdir C:\v8 ; cd C:\v8 ; gclient ; fetch --no-history v8; gclient sync
+          cd v8
           python tools/dev/gm.py x64.release
           ls
       # - name: Package Directories
