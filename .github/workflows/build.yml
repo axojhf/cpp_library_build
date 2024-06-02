@@ -26,7 +26,7 @@ jobs:
           mkdir C:\v8 ; cd C:\v8 ; gclient ; fetch --no-history v8; gclient sync
           cd v8
           python tools/dev/gm.py x64.release
-          ls
+          ls build ; ls out ; ls out\x64.release
       # - name: Package Directories
       #   run: |
       #     cp -r C:\curl_install\lib C:\cpr_install -Force
